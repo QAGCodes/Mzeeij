@@ -6,7 +6,7 @@ import DashContent from "@/components/dashboardComps/DashContent";
 
 const AnalyticsPage = () => {
   return (
-    <main className="flex flex-col h-screen w-full">
+    <main className="flex flex-col flex-grow h-screen w-full overflow-auto pb-4">
       <DashHeader></DashHeader>
       <DashContent></DashContent>
     </main>

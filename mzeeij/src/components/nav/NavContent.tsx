@@ -15,6 +15,9 @@ export default function NavContent() {
         <Link href={"/analytics"}>
           <Button variant={"ghost"}>Dashboard</Button>
         </Link>
+        <Link href={"/inventory"}>
+          <Button variant={"ghost"}>Inventory</Button>
+        </Link>
         <Link href={"/invoices"}>
           <Button variant={"ghost"}>Invoices</Button>
         </Link>

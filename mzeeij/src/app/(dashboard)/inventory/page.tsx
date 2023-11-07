@@ -10,7 +10,7 @@ async function getData(): Promise<Item[]> {
   return data;
 }
 
-export default async function InvoicesPage() {
+export default async function DemoPage() {
   const data = await getData();
 
   return (

@@ -1,16 +1,27 @@
 import React from "react";
-import SimpleStatisticsCard from "./DashboardWidgets/SimpleStatisticsCard";
+import SimpleStatisticsCard from "./DashboardWidgets/client/SimpleStatisticsCard";
+import OrderByRegion from "./DashboardWidgets/client/OrderByRegion";
+import BestSeller from "./DashboardWidgets/client/BestSeller";
+import LineGraph from "./DashboardWidgets/client/LineGraph";
 
 const DashContent = () => {
   return (
-    <div className="flex-grow grid grid-cols-3 grid-rows-5 gap-2 overflow-scroll">
-      <div className="min-h-[3px] bg-red-500 row-span-2"></div>
-      <div className="min-h-[3px] bg-green-500"></div>
-      <div className="min-h-[3px] bg-blue-500"></div>
-      <div className="min-h-[3px] bg-gray-500 col-span-2"></div>
-      <div className="min-h-[3px] bg-orange-500"></div>
-      <div className="min-h-[3px] bg-amber-900 col-span-2"></div>
-      <div className="bg-black col-span-3 row-span-2"></div>
+    <div className="grid dashboard-grid gap-2 overflow-auto justify-around mx-3">
+      <div className="flex row-span-4">
+        <SimpleStatisticsCard></SimpleStatisticsCard>
+      </div>
+      <div className="flex row-span-4">
+        <OrderByRegion></OrderByRegion>
+      </div>
+      <div className="flex row-span-4">
+        <BestSeller></BestSeller>
+      </div>
+      <div className="flex row-span-6 col-span-3">
+        <LineGraph></LineGraph>
+      </div>
+      {/* <div className="flex bg-orange-500 row-span-3 col-span-3">
+        <LineGraph></LineGraph>
+      </div> */}
     </div>
   );
 };
