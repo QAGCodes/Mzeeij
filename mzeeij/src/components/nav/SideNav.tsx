@@ -9,7 +9,7 @@ import { Separator } from "@/components/ui/separator";
 
 const SideNav = () => {
   return (
-    <div className=" text-white flex flex-col">
+    <div className=" text-white flex flex-col w-2/12">
       <NavContent></NavContent>
       <NavFooter></NavFooter>
     </div>

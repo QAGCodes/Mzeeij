@@ -4,6 +4,7 @@ import { ExitIcon, GearIcon } from "@radix-ui/react-icons";
 import { Separator } from "../ui/separator";
 
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function NavFooter() {
   const router = useRouter(); // Call useRouter at the top level of your component
@@ -14,26 +15,32 @@ export default function NavFooter() {
 
   return (
     <div className="flex flex-col justify-end flex-grow">
-      <div className="justify-start m-4">
-        <Button>
-          <GearIcon />
-          settings
-        </Button>
-        <Separator className="bg-gray-600"></Separator>
+      <div className="justify-start">
+        <Link href="/settings">
+          <Button className="gap-4">
+            <GearIcon />
+            Settings
+          </Button>
+        </Link>
       </div>
-      <div className="flex flex-row gap-3 justify-evenly">
+      <Separator className="bg-gray-600 w-full justify-start"></Separator>
+      <div className="flex flex-row gap-3 justify-evenly m-3">
         <Avatar>
           <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
           <AvatarFallback>QG</AvatarFallback>
         </Avatar>
-        <div className="flex flex-col">
-          <div>Qusai</div>
-          <div>Admin</div>
+        <div className="flex flex-col justify-center gap-1 overflow-hidden">
+          <text className="text-sm font-semibold">Qusai</text>
+          <text className="text-sm font-normal text-gray-400">Admin</text>
         </div>
         <div>
-          <Button variant={"destructive"} onClick={handleLogout}>
+          <Button
+            variant="outline"
+            size="icon"
+            className="bg-red-600"
+            onClick={handleLogout}
+          >
             <ExitIcon />
-            logout
           </Button>
         </div>
       </div>

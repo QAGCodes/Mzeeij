@@ -8,7 +8,7 @@ export default function DashboardLayout({
   return (
     <div className="flex flex-row flex-grow">
       <SideNav></SideNav>
-      <div className="flex-grow h-screen rounded-lg bg-white text-black">
+      <div className="w-screen h-screen rounded-lg bg-white text-black">
         {children}
       </div>
     </div>
