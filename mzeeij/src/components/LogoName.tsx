@@ -7,7 +7,7 @@ interface SideNavProps {
 export default function LogoName({ additionalClasses = "" }: SideNavProps) {
   return (
     <div
-      className={`flex flex-row items-center justify-start gap-2 m-4 ${additionalClasses}`}
+      className={`flex flex-row items-center justify-start gap-1 ${additionalClasses}`}
     >
       <Image
         src={"/mzeeij_logo.webp"}
@@ -15,7 +15,7 @@ export default function LogoName({ additionalClasses = "" }: SideNavProps) {
         width={"48"}
         height={"48"}
       />
-      <h1>Mzeeij</h1>
+      <h1>One8</h1>
     </div>
   );
 }
