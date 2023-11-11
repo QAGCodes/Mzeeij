@@ -7,24 +7,31 @@ import { Separator } from "@/components/ui/separator";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
+//TODO: Style the buttons
+
 export default function NavContent() {
   return (
-    <div className="flex-grow flex flex-col items-start">
-      <LogoName />
-      <div className="m-4 flex flex-col">
-        <Link href={"/analytics"}>
-          <Button variant={"ghost"}>Dashboard</Button>
-        </Link>
-        <Link href={"/inventory"}>
-          <Button variant={"ghost"}>Inventory</Button>
-        </Link>
-        <Link href={"/invoices"}>
-          <Button variant={"ghost"}>Invoices</Button>
-        </Link>
-        <Link href={"/dataInsertion"}>
-          <Button variant={"ghost"}>Data Insertion</Button>
-        </Link>
-      </div>
+    <div className="flex flex-col items-start text-center">
+      <Link href={"/analytics"} className="w-full">
+        <Button variant={"ghost"} className="w-full p-0 text-start">
+          Dashboard
+        </Button>
+      </Link>
+      <Link href={"/inventory"} className="w-full">
+        <Button variant={"ghost"} className="w-full p-0 text-start">
+          Inventory
+        </Button>
+      </Link>
+      <Link href={"/invoices"} className="w-full">
+        <Button variant={"ghost"} className="w-full p-0 text-start">
+          Invoices
+        </Button>
+      </Link>
+      <Link href={"/dataInsertion"} className="w-full">
+        <Button variant={"ghost"} className="w-full p-0 text-start">
+          Data Insertion
+        </Button>
+      </Link>
     </div>
   );
 }

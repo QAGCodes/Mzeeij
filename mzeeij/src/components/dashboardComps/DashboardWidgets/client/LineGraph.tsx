@@ -35,14 +35,10 @@ const valueFormatter = (number: number) =>
 
 const LineGraph = () => {
   return (
-    <Card
-      className="h-full w-full flex-col flex overflow-auto"
-      decoration="top"
-      decorationColor="indigo"
-    >
+    <div className="flex-col flex overflow-auto">
       <Title>Export/Import Growth Rates (1970 to 2021)</Title>
       <LineChart
-        className="mt-6"
+        className="flex-grow"
         data={chartdata}
         index="year"
         categories={["Export Growth Rate", "Import Growth Rate"]}
@@ -50,7 +46,7 @@ const LineGraph = () => {
         valueFormatter={valueFormatter}
         yAxisWidth={60}
       />
-    </Card>
+    </div>
   );
 };
 

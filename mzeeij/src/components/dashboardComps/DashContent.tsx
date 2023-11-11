@@ -3,6 +3,7 @@ import SimpleStatisticsCard from "./DashboardWidgets/client/SimpleStatisticsCard
 import OrderByRegion from "./DashboardWidgets/client/OrderByRegion";
 import BestSeller from "./DashboardWidgets/client/BestSeller";
 import LineGraph from "./DashboardWidgets/client/LineGraph";
+import MyTabs from "../MyTabs";
 
 const DashContent = () => {
   return (
@@ -17,11 +18,9 @@ const DashContent = () => {
         <BestSeller></BestSeller>
       </div>
       <div className="flex row-span-6 col-span-3">
-        <LineGraph></LineGraph>
+        {/* <LineGraph></LineGraph> */}
+        <MyTabs></MyTabs>
       </div>
-      {/* <div className="flex bg-orange-500 row-span-3 col-span-3">
-        <LineGraph></LineGraph>
-      </div> */}
     </div>
   );
 };

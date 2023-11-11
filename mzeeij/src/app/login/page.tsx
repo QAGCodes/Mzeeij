@@ -63,6 +63,7 @@ const Login = () => {
                   id="password"
                   placeholder="Your Password"
                   onChange={handleChange}
+                  type="password"
                 />
               </div>
             </div>

@@ -17,29 +17,24 @@ export default function NavFooter() {
     <div className="flex flex-col justify-end flex-grow">
       <div className="justify-start">
         <Link href="/settings">
-          <Button className="gap-4">
+          <Button className="gap-4 text-white" variant={"link"}>
             <GearIcon />
             Settings
           </Button>
         </Link>
       </div>
       <Separator className="bg-gray-600 w-full justify-start"></Separator>
-      <div className="flex flex-row gap-3 justify-evenly m-3">
+      <div className="flex flex-row justify-around my-3">
         <Avatar>
           <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
           <AvatarFallback>QG</AvatarFallback>
         </Avatar>
         <div className="flex flex-col justify-center gap-1 overflow-hidden">
-          <text className="text-sm font-semibold">Qusai</text>
-          <text className="text-sm font-normal text-gray-400">Admin</text>
+          <text className="text-xs font-semibold">Qusai</text>
+          <text className="text-xs font-normal text-gray-400">Admin</text>
         </div>
         <div>
-          <Button
-            variant="outline"
-            size="icon"
-            className="bg-red-600"
-            onClick={handleLogout}
-          >
+          <Button variant="destructive" size="icon" onClick={handleLogout}>
             <ExitIcon />
           </Button>
         </div>

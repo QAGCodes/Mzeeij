@@ -15,7 +15,7 @@ export default function LogoName({ additionalClasses = "" }: SideNavProps) {
         width={"48"}
         height={"48"}
       />
-      <h1>One8</h1>
+      <text className="font-bold">One8</text>
     </div>
   );
 }
