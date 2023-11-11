@@ -7,9 +7,9 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-row">
+    <div className="flex flex-row w-screen h-screen">
       <SideNav></SideNav>
-      <div className="w-screen h-screen rounded-3xl bg-white text-black overflow-y-scroll">
+      <div className="rounded-l-3xl bg-white text-black overflow-scroll w-[85vw]">
         {children}
       </div>
     </div>
