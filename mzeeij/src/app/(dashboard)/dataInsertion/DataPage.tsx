@@ -1,3 +1,4 @@
+import DashHeader from "@/components/dashboardComps/DashHeader";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -13,12 +14,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export function DataPage() {
   return (
-    (
-      <div>
-        <DashH />
-      </div>
-    ),
-    (
+    <>
+      <DashHeader />
       <Tabs defaultValue="account" className="w-[400px]">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="account">Account</TabsTrigger>
@@ -71,6 +68,7 @@ export function DataPage() {
           </Card>
         </TabsContent>
       </Tabs>
-    )
+      ;
+    </>
   );
 }
