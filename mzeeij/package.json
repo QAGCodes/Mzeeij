@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "seed": "node -r dotenv/config ./script/seed.js"
   },
   "dependencies": {
     "@heroicons/react": "^1.0.6",
@@ -21,9 +22,12 @@
     "@radix-ui/react-toggle": "^1.0.3",
     "@tanstack/react-table": "^8.10.7",
     "@tremor/react": "^3.11.0",
+    "@vercel/postgres": "^0.5.1",
     "antd": "^5.11.0",
+    "bcrypt": "^5.1.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
+    "dotenv": "^16.3.1",
     "lucide-react": "^0.292.0",
     "next": "14.0.1",
     "react": "^18",
