@@ -4,7 +4,7 @@ import DashHeader from "@/components/dashboardComps/DashHeader";
 
 async function getData(): Promise<Item[]> {
   // Fetch data from your API here.
-  const response = await fetch("http://localhost:3000/MOCK_DATA.json");
+  const response = await fetch("/MOCK_DATA.json");
   const data = await response.json();
 
   return data;
