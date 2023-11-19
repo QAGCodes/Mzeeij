@@ -12,12 +12,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export function DataPage() {
-  return (
-    (
-      <div>
-        <DashH />
-      </div>
-    ),
+  return 
     (
       <Tabs defaultValue="account" className="w-[400px]">
         <TabsList className="grid w-full grid-cols-2">
@@ -72,5 +67,4 @@ export function DataPage() {
         </TabsContent>
       </Tabs>
     )
-  );
 }
