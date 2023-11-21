@@ -1,8 +1,8 @@
 const { db } = require('@vercel/postgres');
 const pgp = require('pg-promise')();
 const fs = require('fs');
-const path = require('../src/lib/inventory.sql');
-const faker = require('faker');
+const path = require('path');
+//const faker = require('faker');
 const getPlaceholderData = require('../src/lib/placeholder-data');
 
 // Function to read the SQL file
@@ -19,14 +19,14 @@ function readSqlFile(file) {
 // Function to execute the SQL file
 async function executeSqlFile(db, file) {
   const data = await readSqlFile(file);
-  return db.none(data);
+  return db.query(data);
 }
 
 // Function to seed the database
 async function seedDatabase() {
 
   try {
-    await executeSqlFile(db, 'inventory.sql');
+    await executeSqlFile(db, '../src/lib/inventory.sql');
     console.log('Database seeded!');
   } catch (err) {
     console.error('Error seeding database', err);
@@ -37,15 +37,18 @@ async function seedDatabase() {
 
 async function seedfakeData() {
   const data = getPlaceholderData();
+  console.log('Data generated!');
   const client = await db.connect();
 
   try {
     await client.query('BEGIN');
+    console.log('beign transaction');
     await Promise.all(
       Object.keys(data).map((table) => {
         const rows = data[table];
         const columns = Object.keys(rows[0]);
         const query = pgp.helpers.insert(rows, columns, table);
+        console.log('Fake data inserted!');
         return client.query(query);
       }),
     );
@@ -63,7 +66,7 @@ async function seedfakeData() {
 async function main() {
   const client = await db.connect();
 
-  await seedDatabase(client);
+  //await seedDatabase(client);
   await seedfakeData(client);
   await client.end();
 }

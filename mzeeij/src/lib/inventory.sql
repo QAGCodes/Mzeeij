@@ -1,4 +1,10 @@
-CREATE TABLE user (
+
+CREATE TABLE role (
+  id SERIAL PRIMARY KEY,
+  name TEXT NOT NULL
+);
+
+CREATE TABLE users (
   id SERIAL PRIMARY KEY,
   roleId INTEGER NOT NULL,
   firstName TEXT,
@@ -11,16 +17,30 @@ CREATE TABLE user (
   FOREIGN KEY (roleId) REFERENCES role (id)
 );
 
-CREATE TABLE role (
-  id SERIAL PRIMARY KEY,
-  name TEXT NOT NULL
-);
+
 
 CREATE TABLE supplier (
   id SERIAL PRIMARY KEY,
   name TEXT NOT NULL,
   contact TEXT,
   address TEXT
+);
+
+CREATE TABLE orders (
+  id SERIAL PRIMARY KEY,
+  userId INTEGER NOT NULL,
+  type INTEGER NOT NULL DEFAULT 0,
+  status INTEGER NOT NULL DEFAULT 0,
+  subTotal REAL NOT NULL DEFAULT 0,
+  MetaProductDiscount REAL NOT NULL DEFAULT 0,
+  tax REAL NOT NULL DEFAULT 0,
+  shipping REAL NOT NULL DEFAULT 0,
+  total REAL NOT NULL DEFAULT 0,
+  promo TEXT,
+  discount REAL NOT NULL DEFAULT 0,
+  grandTotal REAL NOT NULL DEFAULT 0,
+  createdAt TIMESTAMP NOT NULL,
+  FOREIGN KEY (userId) REFERENCES users (id)
 );
 
 CREATE TABLE product (
@@ -38,22 +58,7 @@ CREATE TABLE product (
   FOREIGN KEY (orderId) REFERENCES orders (id)
 );
 
-CREATE TABLE orders (
-  id SERIAL PRIMARY KEY,
-  userId INTEGER NOT NULL,
-  type INTEGER NOT NULL DEFAULT 0,
-  status INTEGER NOT NULL DEFAULT 0,
-  subTotal REAL NOT NULL DEFAULT 0,
-  MetaProductDiscount REAL NOT NULL DEFAULT 0,
-  tax REAL NOT NULL DEFAULT 0,
-  shipping REAL NOT NULL DEFAULT 0,
-  total REAL NOT NULL DEFAULT 0,
-  promo TEXT,
-  discount REAL NOT NULL DEFAULT 0,
-  grandTotal REAL NOT NULL DEFAULT 0,
-  createdAt TIMESTAMP NOT NULL,
-  FOREIGN KEY (userId) REFERENCES user (id)
-);
+
 
 CREATE TABLE inventory (
   id SERIAL PRIMARY KEY,
@@ -85,5 +90,5 @@ CREATE TABLE admin (
   id SERIAL PRIMARY KEY,
   userId INTEGER NOT NULL,
   accessLevel INTEGER NOT NULL,
-  FOREIGN KEY (userId) REFERENCES user (id)
+  FOREIGN KEY (userId) REFERENCES users (id)
 );
