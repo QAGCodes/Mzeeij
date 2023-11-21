@@ -24,8 +24,9 @@ import {
 } from "@heroicons/react/solid";
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
+import { BestSeller } from "@/lib/definitions";
 
-const BestSeller = () => {
+const BestSeller = ({data}: {data?: BestSeller[][]}) => {
   const repeatCount = 10;
   return (
     <Card
@@ -36,9 +37,9 @@ const BestSeller = () => {
       <Title>Best Sellers</Title>
       <TabGroup>
         <TabList className="mt-8">
-          <Tab icon={TrendingUpIcon}>High</Tab>
-          <Tab icon={ArrowRightIcon}>Medium</Tab>
           <Tab icon={TrendingDownIcon}>Low</Tab>
+          <Tab icon={ArrowRightIcon}>Medium</Tab>
+          <Tab icon={TrendingUpIcon}>High</Tab>
         </TabList>
         <TabPanels>
           <TabPanel>

@@ -5,7 +5,9 @@ import React from "react";
 import { Card, Text, Metric, Title } from "@tremor/react";
 import { Separator } from "@/components/ui/separator";
 
-const SimpleStatisticsCard = () => {
+import { SimpleStats } from "@/lib/definitions";
+
+const SimpleStatisticsCard = ({data}: {data: SimpleStats}) => {
   return (
     <Card
       className="h-full w-full flex-col flex justify-evenly gap-1"
@@ -14,13 +16,13 @@ const SimpleStatisticsCard = () => {
     >
       <Title>Statistics</Title>
       <Text>Item Count</Text>
-      <Metric>34,743</Metric>
+      <Metric>{data.itemNum}</Metric>
       <Separator></Separator>
       <Text>Number of Orders</Text>
-      <Metric>2085</Metric>
+      <Metric>{data.orderNum}</Metric>
       <Separator></Separator>
       <Text>Number of Returns</Text>
-      <Metric>400</Metric>
+      <Metric>{data.returnNum}</Metric>
     </Card>
   );
 };
