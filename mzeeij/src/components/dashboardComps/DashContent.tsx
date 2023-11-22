@@ -13,7 +13,6 @@ import {
 const DashContent = async () => {
   const simpleStatsData = await fetchSimpleStats();
   const orderByRegionData = await fetchOrderByRegion();
-  console.log(simpleStatsData);
   // const bestSellersData = await fetchBestSellers()
 
   return (
