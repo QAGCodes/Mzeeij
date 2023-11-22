@@ -17,6 +17,7 @@ import LogoName from "@/components/LogoName";
 import React from "react";
 import { useState, ChangeEvent } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 interface Credentials {
   id: string;
@@ -46,7 +47,12 @@ const Login = () => {
       <Card className="bg-white">
         <CardHeader className="text-center p-4">
           <CardTitle>
-            <LogoName />
+            <Image
+              src={"/One8_logo.svg"}
+              width={100}
+              height={100}
+              alt="hi"
+            ></Image>
           </CardTitle>
           <CardDescription>Log in into your Mzeeij Services</CardDescription>
         </CardHeader>

@@ -4,11 +4,16 @@ import OrderByRegion from "./DashboardWidgets/client/OrderByRegion";
 import BestSeller from "./DashboardWidgets/client/BestSeller";
 import LineGraph from "./DashboardWidgets/client/LineGraph";
 import MyTabs from "../MyTabs";
-import { fetchSimpleStats, fetchOrderByRegion, fetchBestSellers } from "@/lib/data";
+import {
+  fetchSimpleStats,
+  fetchOrderByRegion,
+  fetchBestSellers,
+} from "@/lib/data";
 
 const DashContent = async () => {
-  const simpleStatsData = await fetchSimpleStats()
-  const orderByRegionData = await fetchOrderByRegion()
+  const simpleStatsData = await fetchSimpleStats();
+  const orderByRegionData = await fetchOrderByRegion();
+  console.log(simpleStatsData);
   // const bestSellersData = await fetchBestSellers()
 
   return (

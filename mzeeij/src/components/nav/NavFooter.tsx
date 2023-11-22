@@ -15,14 +15,14 @@ export default function NavFooter() {
 
   return (
     <div className="flex flex-col justify-end flex-grow">
-      <div className="justify-start">
+      {/* <div className="justify-start">
         <Link href="/settings">
           <Button className="gap-4 text-white" variant={"link"}>
             <GearIcon />
             Settings
           </Button>
         </Link>
-      </div>
+      </div> */}
       <Separator className="bg-gray-600 w-full justify-start"></Separator>
       <div className="flex flex-row justify-around my-3">
         <Avatar>

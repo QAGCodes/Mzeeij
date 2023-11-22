@@ -1,6 +1,6 @@
-import { sql } from '@vercel/postgres';
-import { SimpleStats, Counts, Revenue, BestSeller } from './definitions';
-import { unstable_noStore as noStore } from 'next/cache';
+import { sql } from "@vercel/postgres";
+import { SimpleStats, Counts, Revenue, BestSeller } from "./definitions";
+import { unstable_noStore as noStore } from "next/cache";
 
 // export async function fetchRevenue() {
 //   // Add noStore() here prevent the response from being cached.
@@ -20,57 +20,71 @@ import { unstable_noStore as noStore } from 'next/cache';
 // }
 
 export async function fetchSimpleStats() {
-  noStore()
+  noStore();
   try {
-
     // IMPORTANT: Counts is a data type defined in src/lib/definitions.ts that defines the structure
     // of the data returned
-    const orderNum = await sql<Counts>`SELECT COUNT(*) FROM revenue`;
-    const returnNum = await sql<Counts>`SELECT COUNT(*) FROM users`;
-    const itemNum = await sql<Counts>`SELECT COUNT(*) FROM invoices`;
+    const orderNum = await sql<Counts>`SELECT COUNT(*) AS count
+FROM orders
+WHERE userId = 51`;
+    const returnNum = await sql<Counts>`SELECT COUNT(*) AS count
+FROM orders
+WHERE userId = 51
+  AND status = 1;`;
+    const itemNum =
+      await sql<Counts>`SELECT SUM(quantity) AS count FROM inventory`;
 
     const data: SimpleStats = {
       orderNum: orderNum.rows[0].count,
       returnNum: returnNum.rows[0].count,
-      itemNum: itemNum.rows[0].count
-    }
+      itemNum: itemNum.rows[0].count,
+    };
 
     return data;
   } catch (error) {
-    console.error('Database Error:', error);
-    throw new Error('Failed to fetch revenue data.');
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch simple stats data.");
   }
 }
 
 export async function fetchOrderByRegion() {
-  noStore()
+  noStore();
   try {
-
-    const data = await sql<Revenue>`SELECT * FROM revenue`;
+    const data =
+      await sql<Revenue>`SELECT u.username AS label, SUM(o.subTotal) AS quantity
+FROM orders o
+JOIN users u ON o.userId = u.id
+group by u.username
+limit 5
+`;
 
     return data.rows;
   } catch (error) {
-    console.error('Database Error:', error);
-    throw new Error('Failed to fetch revenue data.');
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch order by region data.");
   }
 }
 
-
 export async function fetchBestSellers() {
-  noStore()
+  noStore();
   try {
+    //TODO: data should contain a data
+    const low = (
+      await sql<BestSeller>`SELECT imgUrl FROM items where orders less than 200`
+    ).rows;
+    const med = (
+      await sql<BestSeller>`SELECT imgUrl FROM item where orders between 200 and 300`
+    ).rows;
+    const high = (
+      await sql<BestSeller>`SELECT imgUrl FROM item where orders greater than 300`
+    ).rows;
 
-    //TODO: data should contain a data 
-    const low = (await sql<BestSeller>`SELECT imgUrl FROM items where orders less than 200`).rows; 
-    const med = (await sql<BestSeller>`SELECT imgUrl FROM item where orders between 200 and 300`).rows; 
-    const high = (await sql<BestSeller>`SELECT imgUrl FROM item where orders greater than 300`).rows; 
-
-    const data : BestSeller[][] = [low, med, high]
+    const data: BestSeller[][] = [low, med, high];
 
     return data;
   } catch (error) {
-    console.error('Database Error:', error);
-    throw new Error('Failed to fetch revenue data.');
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch revenue data.");
   }
 }
 
