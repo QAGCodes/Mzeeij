@@ -1,14 +1,12 @@
-
-
 export type SimpleStats = {
-    orderNum: number;
-    returnNum: number;
-    itemNum: number;
-  };
+  orderNum: number;
+  returnNum: number;
+  itemNum: number;
+};
 
 export type Counts = {
-  count: number
-}
+  count: number;
+};
 
 export type Revenue = {
   month: string;
@@ -16,5 +14,11 @@ export type Revenue = {
 };
 
 export type BestSeller = {
-  image: string
-}
+  image: string;
+};
+
+export type AdminRow = {
+  id: string;
+  userId: string;
+  accessLevel: string;
+};

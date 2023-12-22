@@ -1,4 +1,3 @@
-// dashboard/index.tsx
 import React from "react";
 import DashboardLayout from "../layout";
 import DashHeader from "@/components/dashboardComps/DashHeader";
