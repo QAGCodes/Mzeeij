@@ -2,21 +2,20 @@ import { sql } from "@vercel/postgres";
 import { SimpleStats, Counts, Revenue, BestSeller } from "./definitions";
 import { unstable_noStore as noStore } from "next/cache";
 
-// export async function fetchRevenue() {
-//   // Add noStore() here prevent the response from being cached.
-//   // This is equivalent to in fetch(..., {cache: 'no-store'}).
+export async function fetchRevenue() {
+  // Add noStore() here prevent the response from being cached.
+  // This is equivalent to in fetch(..., {cache: 'no-store'}).
 
-//   try {
+  try {
+    const data = await sql<Revenue>`SELECT * FROM revenue`;
 
-//     const data = await sql<Revenue>`SELECT * FROM revenue`;
-
-//     // console.log('Data fetch complete after 3 seconds.');
-//     return data.rows;
-//   } catch (error) {
-//     console.error('Database Error:', error);
-//     throw new Error('Failed to fetch revenue data.');
-//   }
-// }
+    // console.log('Data fetch complete after 3 seconds.');
+    return data.rows;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch revenue data.");
+  }
+}
 
 export async function fetchSimpleStats() {
   noStore();

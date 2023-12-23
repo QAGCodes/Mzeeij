@@ -15,25 +15,61 @@ import {
   UserAddIcon,
   UserRemoveIcon,
 } from "@heroicons/react/solid";
-import { AdminRow } from "@/lib/definitions";
+import { AdminRow, User } from "@/lib/definitions";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 const AdminPage = () => {
-  const [currUser, setCurrUser] = useState<AdminRow>({
-    accessLevel: "",
-    userId: "",
-    id: "",
+  const [addUser, setAddUser] = useState({
+    id: -1,
+    roleid: -1,
+    firstname: "",
+    lastname: "",
+    username: "",
+    mobile: "",
+    email: "",
+    passwordhash: "",
+    registeredat: "",
   });
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    // Perform user creation logic here
+    try {
+      const response = await fetch("/api/users/createUser", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          data: addUser,
+        }),
+      });
 
-    // Reset form fields
-    setCurrUser({ accessLevel: "", userId: "", id: "" });
+      if (response.ok) {
+        // Handle success
+        const result = await response.json();
+        console.log("Data posted successfully:", result);
+      } else {
+        // Handle errors
+        console.error("Failed to post data:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error posting data:", error);
+    }
+
+    setAddUser({
+      id: -1,
+      roleid: -1,
+      firstname: "",
+      lastname: "",
+      username: "",
+      mobile: "",
+      email: "",
+      passwordhash: "",
+      registeredat: "",
+    });
   };
 
   return (
@@ -56,23 +92,96 @@ const AdminPage = () => {
               className="text-black flex flex-col items-start"
             >
               <label>
-                Username:
+                ID:
                 <Input
-                  className=""
-                  type="text"
-                  value={currUser?.userId}
+                  type="number"
                   onChange={(e) =>
-                    setCurrUser({ ...currUser, userId: e.target.value })
+                    setAddUser({
+                      ...addUser,
+                      id: e.target.value ? parseInt(e.target.value) : -1,
+                    })
                   }
                 />
               </label>
               <label>
-                Access Level:
+                Role ID:
+                <Input
+                  type="number"
+                  onChange={(e) =>
+                    setAddUser({
+                      ...addUser,
+                      roleid: e.target.value ? parseInt(e.target.value) : -1,
+                    })
+                  }
+                />
+              </label>
+              <label>
+                First Name:
                 <Input
                   type="text"
-                  value={currUser?.accessLevel}
+                  value={addUser?.firstname || ""}
                   onChange={(e) =>
-                    setCurrUser({ ...currUser, accessLevel: e.target.value })
+                    setAddUser({ ...addUser, firstname: e.target.value })
+                  }
+                />
+              </label>
+              <label>
+                Last Name:
+                <Input
+                  type="text"
+                  value={addUser?.lastname || ""}
+                  onChange={(e) =>
+                    setAddUser({ ...addUser, lastname: e.target.value })
+                  }
+                />
+              </label>
+              <label>
+                Username:
+                <Input
+                  type="text"
+                  value={addUser?.username || ""}
+                  onChange={(e) =>
+                    setAddUser({ ...addUser, username: e.target.value })
+                  }
+                />
+              </label>
+              <label>
+                Mobile:
+                <Input
+                  type="text"
+                  value={addUser?.mobile || ""}
+                  onChange={(e) =>
+                    setAddUser({ ...addUser, mobile: e.target.value })
+                  }
+                />
+              </label>
+              <label>
+                Email:
+                <Input
+                  type="text"
+                  value={addUser?.email || ""}
+                  onChange={(e) =>
+                    setAddUser({ ...addUser, email: e.target.value })
+                  }
+                />
+              </label>
+              <label>
+                Password Hash:
+                <Input
+                  type="text"
+                  value={addUser?.passwordhash || ""}
+                  onChange={(e) =>
+                    setAddUser({ ...addUser, passwordhash: e.target.value })
+                  }
+                />
+              </label>
+              <label>
+                Registered At:
+                <Input
+                  type="text"
+                  value={addUser?.registeredat || ""}
+                  onChange={(e) =>
+                    setAddUser({ ...addUser, registeredat: e.target.value })
                   }
                 />
               </label>
@@ -80,10 +189,126 @@ const AdminPage = () => {
             </form>
           </TabPanel>
           <TabPanel>
-            <h1>hi</h1>
+            <form
+              onSubmit={handleSubmit}
+              className="text-black flex flex-col items-start"
+            >
+              <label>
+                ID:
+                <Input
+                  type="number"
+                  onChange={(e) =>
+                    setAddUser({
+                      ...addUser,
+                      id: e.target.value ? parseInt(e.target.value) : -1,
+                    })
+                  }
+                />
+              </label>
+              <label>
+                Role ID:
+                <Input
+                  type="number"
+                  onChange={(e) =>
+                    setAddUser({
+                      ...addUser,
+                      roleid: e.target.value ? parseInt(e.target.value) : -1,
+                    })
+                  }
+                />
+              </label>
+              <label>
+                First Name:
+                <Input
+                  type="text"
+                  value={addUser?.firstname || ""}
+                  onChange={(e) =>
+                    setAddUser({ ...addUser, firstname: e.target.value })
+                  }
+                />
+              </label>
+              <label>
+                Last Name:
+                <Input
+                  type="text"
+                  value={addUser?.lastname || ""}
+                  onChange={(e) =>
+                    setAddUser({ ...addUser, lastname: e.target.value })
+                  }
+                />
+              </label>
+              <label>
+                Username:
+                <Input
+                  type="text"
+                  value={addUser?.username || ""}
+                  onChange={(e) =>
+                    setAddUser({ ...addUser, username: e.target.value })
+                  }
+                />
+              </label>
+              <label>
+                Mobile:
+                <Input
+                  type="text"
+                  value={addUser?.mobile || ""}
+                  onChange={(e) =>
+                    setAddUser({ ...addUser, mobile: e.target.value })
+                  }
+                />
+              </label>
+              <label>
+                Email:
+                <Input
+                  type="text"
+                  value={addUser?.email || ""}
+                  onChange={(e) =>
+                    setAddUser({ ...addUser, email: e.target.value })
+                  }
+                />
+              </label>
+              <label>
+                Password Hash:
+                <Input
+                  type="text"
+                  value={addUser?.passwordhash || ""}
+                  onChange={(e) =>
+                    setAddUser({ ...addUser, passwordhash: e.target.value })
+                  }
+                />
+              </label>
+              <label>
+                Registered At:
+                <Input
+                  type="text"
+                  value={addUser?.registeredat || ""}
+                  onChange={(e) =>
+                    setAddUser({ ...addUser, registeredat: e.target.value })
+                  }
+                />
+              </label>
+              <Button type="submit">Edit User</Button>
+            </form>
           </TabPanel>
           <TabPanel>
-            <h1>hello</h1>
+            <form
+              onSubmit={handleSubmit}
+              className="text-black flex flex-col items-start"
+            >
+              <label>
+                ID:
+                <Input
+                  type="number"
+                  onChange={(e) =>
+                    setAddUser({
+                      ...addUser,
+                      id: e.target.value ? parseInt(e.target.value) : -1,
+                    })
+                  }
+                />
+              </label>
+              <Button type="submit">Delete User</Button>
+            </form>
           </TabPanel>
         </TabPanels>
       </TabGroup>

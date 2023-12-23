@@ -6,6 +6,7 @@ import { MoreHorizontal, ArrowUpDown } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,7 +25,31 @@ export type Item = {
   amount: number;
   unitprice: number;
   retailprice: number;
-  status: "Out of Stock" | "Needs Restock" | "Available";
+  status: "Paid" | "Unpaid" | "Pending";
+};
+
+export const StatusCellBadge = ({ value }: any) => {
+  const condition = value % 3;
+
+  if (condition === 0) {
+    return (
+      <Badge className="bg-red-200 text-red-800 hover:bg-red-200/80">
+        Unpaid
+      </Badge>
+    );
+  } else if (condition === 1) {
+    return (
+      <Badge className="bg-yellow-200 text-yellow-800 hover:bg-yellow-200/80">
+        Pending
+      </Badge>
+    );
+  } else if (condition === 2) {
+    return (
+      <Badge className="bg-green-200 text-green-800 hover:bg-green-200/80">
+        Paid
+      </Badge>
+    );
+  }
 };
 
 export const columns: ColumnDef<Item>[] = [
@@ -151,6 +176,9 @@ export const columns: ColumnDef<Item>[] = [
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
+    },
+    cell: ({ row }) => {
+      return <StatusCellBadge value={row.getValue("status")} />;
     },
   },
   {

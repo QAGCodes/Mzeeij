@@ -1,3 +1,5 @@
+import { AnyARecord } from "dns";
+
 export type SimpleStats = {
   orderNum: number;
   returnNum: number;
@@ -21,4 +23,19 @@ export type AdminRow = {
   id: string;
   userId: string;
   accessLevel: string;
+};
+
+export type User = {
+  id: number | null;
+  roleid: number | null;
+  firstname: String | undefined;
+  lastname: String | undefined;
+  username: String | undefined;
+  mobile: String | undefined;
+  email: String | undefined;
+  passwordhash: String | undefined;
+  registeredat: string | undefined;
+  admin: any | undefined;
+  orders: any | undefined;
+  role: any | undefined;
 };

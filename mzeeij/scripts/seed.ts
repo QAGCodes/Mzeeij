@@ -1,5 +1,5 @@
 const { db } = require("@vercel/postgres");
-const data = require("../src/lib/placeholder-data")();
+const data = require("@/lib/seedData")();
 const bcrypt = require("bcrypt");
 
 async function createTables(client: any) {
