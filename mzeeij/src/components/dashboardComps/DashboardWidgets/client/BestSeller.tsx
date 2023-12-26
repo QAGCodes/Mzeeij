@@ -55,8 +55,8 @@ const BestSeller = ({ data }: { data?: BestSeller[][] }) => {
               ))}
             </div>
           </TabPanel>
-          <TabPanel>
-            <div className="mt-10 flex flex-row overflow-auto pb-6 gap-3">
+          <TabPanel className="h-full">
+            <div className="flex flex-row overflow-auto h-full">
               {[...Array(repeatCount)].map((_, index) => (
                 <Image
                   key={index} // Providing a unique key for each child
@@ -68,12 +68,12 @@ const BestSeller = ({ data }: { data?: BestSeller[][] }) => {
               ))}
             </div>
           </TabPanel>
-          <TabPanel>
-            <div className="mt-10 flex flex-row overflow-auto pb-6 gap-3">
+          <TabPanel className="h-full">
+            <div className="flex flex-row overflow-auto h-full">
               {[...Array(repeatCount)].map((_, index) => (
                 <Image
                   key={index} // Providing a unique key for each child
-                  src="/mzeeij_logo.webp"
+                  src="/next.svg"
                   alt="item"
                   height={75}
                   width={75}
