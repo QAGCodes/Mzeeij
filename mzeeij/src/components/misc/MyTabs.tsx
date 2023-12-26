@@ -24,7 +24,7 @@ import {
 } from "@heroicons/react/solid";
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
-import LineGraph from "@/components/dashboardComps/DashboardWidgets/client/LineGraph";
+import LineGraph from "@/components/dashboardComps/LineGraph";
 
 const MyTabs = () => {
   const repeatCount = 10;
