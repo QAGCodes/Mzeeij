@@ -1,8 +1,8 @@
 import React from "react";
 import DashHeader from "@/components/dashboardComps/DashHeader";
-import SimpleStatisticsCard from "@/components/dashboardComps/DashboardWidgets/client/SimpleStatisticsCard";
-import OrderByRegion from "@/components/dashboardComps/DashboardWidgets/client/OrderByRegion";
-import BestSeller from "@/components/dashboardComps/DashboardWidgets/client/BestSeller";
+import SimpleStatisticsCard from "@/components/dashboardComps/SimpleStatisticsCard";
+import OrderByRegion from "@/components/dashboardComps/OrderByRegion";
+import BestSeller from "@/components/dashboardComps/BestSeller";
 import MyTabs from "@/components/misc/MyTabs";
 import {
   fetchSimpleStats,
