@@ -15,23 +15,23 @@ const AnalyticsPage = async () => {
   const orderByRegionData = await fetchOrderByRegion();
 
   return (
-    <>
-      <DashHeader></DashHeader>
-      <div className="grid dashboard-grid gap-2 overflow-auto justify-around mx-3 h-full">
-        <div className="flex row-span-4">
-          <SimpleStatisticsCard data={simpleStatsData}></SimpleStatisticsCard>
-        </div>
-        <div className="flex row-span-4">
-          <OrderByRegion data={orderByRegionData}></OrderByRegion>
-        </div>
-        <div className="flex row-span-4 h-full">
-          <BestSeller></BestSeller>
-        </div>
-        <div className="flex row-span-6 col-span-3">
-          <MyTabs></MyTabs>
-        </div>
+    <div className="grid dashboard-grid gap-2 justify-around mx-3 h-full">
+      <div className="col-span-3">
+        <DashHeader />
       </div>
-    </>
+      <div className="flex row-span-3">
+        <SimpleStatisticsCard data={simpleStatsData} />
+      </div>
+      <div className="flex row-span-3">
+        <OrderByRegion data={orderByRegionData} />
+      </div>
+      <div className="flex row-span-3">
+        <BestSeller />
+      </div>
+      <div className="flex row-span-5 col-span-3">
+        <MyTabs />
+      </div>
+    </div>
   );
 };
 

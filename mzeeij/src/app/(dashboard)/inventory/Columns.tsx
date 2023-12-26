@@ -14,6 +14,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Badge } from "@/components/ui/badge";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -25,6 +26,31 @@ export type Item = {
   unitprice: number;
   retailprice: number;
   status: "Out of Stock" | "Needs Restock" | "Available";
+};
+
+const StatusCellBadge = ({ value }: any) => {
+  const condition = value % 3;
+  console.log("hello");
+
+  if (condition === 0) {
+    return (
+      <Badge className="bg-red-200 text-red-800 hover:bg-red-200/80">
+        Out of Stock
+      </Badge>
+    );
+  } else if (condition === 1) {
+    return (
+      <Badge className="bg-yellow-200 text-yellow-800 hover:bg-yellow-200/80">
+        Restock Soon
+      </Badge>
+    );
+  } else if (condition === 2) {
+    return (
+      <Badge className="bg-green-200 text-green-800 hover:bg-green-200/80">
+        Available
+      </Badge>
+    );
+  }
 };
 
 export const columns: ColumnDef<Item>[] = [
@@ -151,6 +177,9 @@ export const columns: ColumnDef<Item>[] = [
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
+    },
+    cell: ({ row }) => {
+      return <StatusCellBadge value={row.getValue("status")} />;
     },
   },
   {

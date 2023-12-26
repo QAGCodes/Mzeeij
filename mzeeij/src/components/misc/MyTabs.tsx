@@ -30,7 +30,7 @@ const MyTabs = () => {
   const repeatCount = 10;
   return (
     <Card
-      className="w-full flex-col flex overflow-auto pt-1 pb-2"
+      className="w-full flex-col flex overflow-auto pt-1 pb-0 h-full"
       decoration="top"
       decorationColor="indigo"
     >
