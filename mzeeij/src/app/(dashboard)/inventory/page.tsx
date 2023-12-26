@@ -1,10 +1,12 @@
 import { Item, columns } from "./Columns";
-import { InvTable } from "../../../components/dashboardComps/InventoryComps/InvTable";
+import { InvTable } from "../../../components/InventoryComps/InvTable";
 import DashHeader from "@/components/dashboardComps/DashHeader";
 
 async function getData(): Promise<Item[]> {
   // Fetch data from your API here.
-  const response = await fetch("https://654a4aefe182221f8d52e825.mockapi.io/items");
+  const response = await fetch(
+    "https://654a4aefe182221f8d52e825.mockapi.io/items"
+  );
   const data = await response.json();
 
   return data;

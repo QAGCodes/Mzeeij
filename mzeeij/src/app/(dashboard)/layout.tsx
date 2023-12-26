@@ -9,7 +9,7 @@ export default function DashboardLayout({
   return (
     <div className="flex flex-row w-screen h-screen">
       <SideNav />
-      <div className="rounded-l-3xl bg-white text-black overflow-scroll w-[85vw]">
+      <div className="rounded-l-3xl bg-white text-black overflow-y-scroll w-[85vw] h-full">
         {children}
       </div>
     </div>

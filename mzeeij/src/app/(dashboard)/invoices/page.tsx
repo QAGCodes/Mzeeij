@@ -1,5 +1,5 @@
 import { Item, columns } from "./Columns";
-import { InvTable } from "../../../components/dashboardComps/InventoryComps/InvTable";
+import { InvTable } from "../../../components/InventoryComps/InvTable";
 import DashHeader from "@/components/dashboardComps/DashHeader";
 import { unstable_noStore as noStore } from "next/cache";
 

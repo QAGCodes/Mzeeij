@@ -24,7 +24,7 @@ import {
 } from "@heroicons/react/solid";
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
-import LineGraph from "./dashboardComps/DashboardWidgets/client/LineGraph";
+import LineGraph from "@/components/dashboardComps/DashboardWidgets/client/LineGraph";
 
 const MyTabs = () => {
   const repeatCount = 10;
@@ -36,7 +36,7 @@ const MyTabs = () => {
     >
       <TabGroup className="">
         <TabList className="">
-          <Tab >Sales Predicition</Tab>
+          <Tab>Sales Predicition</Tab>
           <Tab>Restock Point</Tab>
           <Tab>Predictive Analysis</Tab>
         </TabList>

@@ -2,7 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "../ui/button";
 
 import { ExitIcon, GearIcon } from "@radix-ui/react-icons";
-import LogoName from "../LogoName";
+import LogoName from "../misc/LogoName";
 import { Separator } from "@/components/ui/separator";
 import { useRouter } from "next/navigation";
 import Link from "next/link";

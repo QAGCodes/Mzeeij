@@ -79,3 +79,7 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
   grid-template-rows: repeat(10, minmax(0, 1fr));
 }
+
+.red-outline {
+  outline: 1px solid red;
+}

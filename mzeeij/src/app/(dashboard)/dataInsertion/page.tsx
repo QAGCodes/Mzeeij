@@ -1,6 +1,6 @@
 "use client";
 import DashHeader from "@/components/dashboardComps/DashHeader";
-import UploadZone from "@/components/dashboardComps/InventoryComps/UploadZone";
+import UploadZone from "@/components/InventoryComps/UploadZone";
 import { Button } from "@/components/ui/button";
 import {
   Card,

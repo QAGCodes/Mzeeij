@@ -1,7 +1,7 @@
 // components/SideNav.tsx
 "use client";
 
-import LogoName from "../LogoName";
+import LogoName from "../misc/LogoName";
 import { Button } from "../ui/button";
 import NavContent from "./NavContent";
 import NavFooter from "./NavFooter";

@@ -1,6 +1,6 @@
 import React from "react";
 
-import LogoName from "../LogoName";
+import LogoName from "../misc/LogoName";
 
 import Image from "next/image";
 
