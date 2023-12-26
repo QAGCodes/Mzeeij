@@ -12,13 +12,13 @@ const OrderByRegion = ({ data }: { data: Revenue[] }) => {
 
   return (
     <Card
-      className="max-w-xs mx-auto h-full w-full flex-col flex justify-evenly gap-1"
+      className="h-full w-full flex-col flex  gap-1"
       decoration="top"
       decorationColor="indigo"
     >
       <Title>Sales</Title>
       <DonutChart
-        className="mt-6"
+        className="mt-6 h-full"
         data={data}
         category={quantity}
         index={label}

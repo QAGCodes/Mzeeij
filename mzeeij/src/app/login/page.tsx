@@ -12,7 +12,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import LogoName from "@/components/LogoName";
 
 import React from "react";
 import { useState, ChangeEvent } from "react";
@@ -75,7 +74,7 @@ const Login = () => {
             </div>
           </form>
         </CardContent>
-        <CardFooter className="flex flex-row justify-around">
+        <CardFooter className="flex flex-row justify-around gap-2">
           <Button variant="destructive" asChild>
             <Link href={"/"}>Cancel</Link>
           </Button>
@@ -86,6 +85,14 @@ const Login = () => {
             asChild
           >
             <Link href={"/analytics"}>Sign In</Link>
+          </Button>
+          <Button
+            onClick={() => {
+              console.log(crednetials);
+            }}
+            asChild
+          >
+            <Link href={"/admin"}>Admin</Link>
           </Button>
         </CardFooter>
       </Card>

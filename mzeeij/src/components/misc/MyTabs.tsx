@@ -24,19 +24,19 @@ import {
 } from "@heroicons/react/solid";
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
-import LineGraph from "./dashboardComps/DashboardWidgets/client/LineGraph";
+import LineGraph from "@/components/dashboardComps/DashboardWidgets/client/LineGraph";
 
 const MyTabs = () => {
   const repeatCount = 10;
   return (
     <Card
-      className="w-full flex-col flex overflow-auto pt-1 pb-2"
+      className="w-full flex-col flex overflow-auto pt-1 pb-0 h-full"
       decoration="top"
       decorationColor="indigo"
     >
       <TabGroup className="">
         <TabList className="">
-          <Tab >Sales Predicition</Tab>
+          <Tab>Sales Predicition</Tab>
           <Tab>Restock Point</Tab>
           <Tab>Predictive Analysis</Tab>
         </TabList>

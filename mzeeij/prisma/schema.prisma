@@ -1,0 +1,107 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model admin {
+  id          Int   @id @default(autoincrement())
+  userid      Int
+  accesslevel Int
+  users       users @relation(fields: [userid], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model category {
+  id        Int      @id @default(autoincrement())
+  productid Int?
+  title     String
+  metatitle String?
+  slug      String
+  content   String?
+  product   product? @relation(fields: [productid], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model inventory {
+  id        Int     @id @default(autoincrement())
+  productid Int
+  quantity  Int
+  product   product @relation(fields: [productid], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model orderitem {
+  id        Int     @id @default(autoincrement())
+  orderid   Int
+  productid Int
+  quantity  Int
+  orders    orders  @relation(fields: [orderid], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  product   product @relation(fields: [productid], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model orders {
+  id                  Int         @id @default(autoincrement())
+  userid              Int
+  type                Int         @default(0)
+  status              Int         @default(0)
+  subtotal            Float       @default(0) @db.Real
+  metaproductdiscount Float       @default(0) @db.Real
+  tax                 Float       @default(0) @db.Real
+  shipping            Float       @default(0) @db.Real
+  total               Float       @default(0) @db.Real
+  promo               String?
+  discount            Float       @default(0) @db.Real
+  grandtotal          Float       @default(0) @db.Real
+  createdat           DateTime    @db.Timestamp(6)
+  orderitem           orderitem[]
+  users               users       @relation(fields: [userid], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  product             product[]
+}
+
+model product {
+  id         Int         @id @default(autoincrement())
+  supplierid Int
+  orderid    Int?
+  title      String
+  summary    String?
+  type       Int         @default(0)
+  sku        String
+  createdat  DateTime    @db.Timestamp(6)
+  updatedat  DateTime?   @db.Timestamp(6)
+  content    String?
+  category   category[]
+  inventory  inventory[]
+  orderitem  orderitem[]
+  orders     orders?     @relation(fields: [orderid], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  supplier   supplier    @relation(fields: [supplierid], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model role {
+  id    Int     @id @default(autoincrement())
+  name  String
+  users users[]
+}
+
+model supplier {
+  id      Int       @id @default(autoincrement())
+  name    String
+  contact String?
+  address String?
+  product product[]
+}
+
+model users {
+  id           Int      @id @default(autoincrement())
+  roleid       Int
+  firstname    String?
+  lastname     String?
+  username     String?  @unique
+  mobile       String?  @unique
+  email        String?  @unique
+  passwordhash String
+  registeredat DateTime @db.Timestamp(6)
+  admin        admin[]
+  orders       orders[]
+  role         role     @relation(fields: [roleid], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}

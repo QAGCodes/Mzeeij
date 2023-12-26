@@ -1,15 +1,37 @@
-// dashboard/index.tsx
 import React from "react";
-import DashboardLayout from "../layout";
 import DashHeader from "@/components/dashboardComps/DashHeader";
-import DashContent from "@/components/dashboardComps/DashContent";
+import SimpleStatisticsCard from "@/components/dashboardComps/DashboardWidgets/client/SimpleStatisticsCard";
+import OrderByRegion from "@/components/dashboardComps/DashboardWidgets/client/OrderByRegion";
+import BestSeller from "@/components/dashboardComps/DashboardWidgets/client/BestSeller";
+import MyTabs from "@/components/misc/MyTabs";
+import {
+  fetchSimpleStats,
+  fetchOrderByRegion,
+  fetchBestSellers,
+} from "@/lib/data";
 
-const AnalyticsPage = () => {
+const AnalyticsPage = async () => {
+  const simpleStatsData = await fetchSimpleStats();
+  const orderByRegionData = await fetchOrderByRegion();
+
   return (
-    <main className="flex flex-col flex-grow h-screen w-full overflow-auto pb-4">
-      <DashHeader></DashHeader>
-      <DashContent></DashContent>
-    </main>
+    <div className="grid dashboard-grid gap-2 justify-around mx-3 h-full">
+      <div className="col-span-3">
+        <DashHeader />
+      </div>
+      <div className="flex row-span-3">
+        <SimpleStatisticsCard data={simpleStatsData} />
+      </div>
+      <div className="flex row-span-3">
+        <OrderByRegion data={orderByRegionData} />
+      </div>
+      <div className="flex row-span-3">
+        <BestSeller />
+      </div>
+      <div className="flex row-span-5 col-span-3">
+        <MyTabs />
+      </div>
+    </div>
   );
 };
 

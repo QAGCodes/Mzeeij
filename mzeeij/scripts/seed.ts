@@ -1,8 +1,8 @@
 const { db } = require("@vercel/postgres");
-const data = require("../src/lib/placeholder-data")();
+const data = require("@/lib/seedData")();
 const bcrypt = require("bcrypt");
 
-async function createTables(client) {
+async function createTables(client: any) {
   try {
     await client.sql`drop table if exists role, users, supplier, orders, product, inventory, orderItem, category, admin cascade`;
 
@@ -122,13 +122,13 @@ CREATE TABLE admin (
   }
 }
 
-async function seedRole(client) {
+async function seedRole(client: any) {
   try {
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
     // Insert data into the "role" table
     const insertedRole = await Promise.all(
       data.role.map(
-        (role) => client.sql`
+        (role: any) => client.sql`
             INSERT INTO role (name)
             VALUES (${role.name});
         `
@@ -142,13 +142,13 @@ async function seedRole(client) {
   }
 }
 
-async function seedUsers(client) {
+async function seedUsers(client: any) {
   try {
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
     // Insert data into the "users" table
     const insertedUsers = await Promise.all(
       data.users.map(
-        (user) => client.sql`
+        (user: any) => client.sql`
                 INSERT INTO users (roleId, firstName, lastName, username, mobile, email, passwordHash, registeredAt)
                 VALUES (${user.roleId}, ${user.firstName}, ${user.lastName}, ${user.username}, ${user.mobile}, ${user.email}, ${user.passwordHash}, ${user.registeredAt});
             `
@@ -162,13 +162,13 @@ async function seedUsers(client) {
   }
 }
 
-async function seedSupplier(client) {
+async function seedSupplier(client: any) {
   try {
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
     // Insert data into the "supplier" table
     const insertedSupplier = await Promise.all(
       data.supplier.map(
-        (supplier) => client.sql`
+        (supplier: any) => client.sql`
                 INSERT INTO supplier (name, contact, address)
                 VALUES (${supplier.name}, ${supplier.contact}, ${supplier.address});
             `
@@ -182,13 +182,13 @@ async function seedSupplier(client) {
   }
 }
 
-async function seedOrders(client) {
+async function seedOrders(client: any) {
   try {
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
     // Insert data into the "orders" table
     const insertedOrders = await Promise.all(
       data.orders.map(
-        (order) => client.sql`
+        (order: any) => client.sql`
                     INSERT INTO orders (userId, type, status, subTotal, MetaProductDiscount, tax, shipping, total, promo, discount, grandTotal, createdAt)
                     VALUES (${order.userId}, ${order.type}, ${order.status}, ${order.subTotal}, ${order.MetaProductDiscount}, ${order.tax}, ${order.shipping}, ${order.total}, ${order.promo}, ${order.discount}, ${order.grandTotal}, ${order.createdAt});
                 `
@@ -202,13 +202,13 @@ async function seedOrders(client) {
   }
 }
 
-async function seedProduct(client) {
+async function seedProduct(client: any) {
   try {
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
     // Insert data into the "product" table
     const insertedProduct = await Promise.all(
       data.product.map(
-        (product) => client.sql`
+        (product: any) => client.sql`
                     INSERT INTO product (supplierId, orderId, title, summary, type, sku, createdAt, updatedAt, content)
                     VALUES (${product.supplierId}, ${product.orderId}, ${product.title}, ${product.summary}, ${product.type}, ${product.sku}, ${product.createdAt}, ${product.updatedAt}, ${product.content});
                 `
@@ -222,13 +222,13 @@ async function seedProduct(client) {
   }
 }
 
-async function seedInventory(client) {
+async function seedInventory(client: any) {
   try {
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
     // Insert data into the "inventory" table
     const insertedInventory = await Promise.all(
       data.inventory.map(
-        (inventory) => client.sql`
+        (inventory: any) => client.sql`
                     INSERT INTO inventory (productId, quantity)
                     VALUES (${inventory.productId}, ${inventory.quantity});
                 `
@@ -242,13 +242,13 @@ async function seedInventory(client) {
   }
 }
 
-async function seedOrderItem(client) {
+async function seedOrderItem(client: any) {
   try {
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
     // Insert data into the "orderItem" table
     const insertedOrderItem = await Promise.all(
       data.orderItem.map(
-        (orderItem) => client.sql`
+        (orderItem: any) => client.sql`
                     INSERT INTO orderItem (orderId, productId, quantity)
                     VALUES (${orderItem.orderId}, ${orderItem.productId}, ${orderItem.quantity});
                 `
@@ -262,13 +262,13 @@ async function seedOrderItem(client) {
   }
 }
 
-async function seedCategory(client) {
+async function seedCategory(client: any) {
   try {
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
     // Insert data into the "category" table
     const insertedCategory = await Promise.all(
       data.category.map(
-        (category) => client.sql`
+        (category: any) => client.sql`
                     INSERT INTO category (productId, title, metaTitle, slug, content)
                     VALUES (${category.productId}, ${category.title}, ${category.metaTitle}, ${category.slug}, ${category.content});
                 `
@@ -282,13 +282,13 @@ async function seedCategory(client) {
   }
 }
 
-async function seedAdmin(client) {
+async function seedAdmin(client: any) {
   try {
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
     // Insert data into the "admin" table
     const insertedAdmin = await Promise.all(
       data.admin.map(
-        (admin) => client.sql`
+        (admin: any) => client.sql`
                     INSERT INTO admin (userId, accessLevel)
                     VALUES (${admin.userId}, ${admin.accessLevel});
                 `
