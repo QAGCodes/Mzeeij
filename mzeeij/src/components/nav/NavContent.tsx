@@ -12,22 +12,22 @@ import Link from "next/link";
 export default function NavContent() {
   return (
     <div className="flex flex-col items-start text-center">
-      <Link href={"/analytics"} className="w-full">
+      <Link href={"/dashboard/analytics"} className="w-full">
         <Button variant={"ghost"} className="w-full p-0 text-start">
           Dashboard
         </Button>
       </Link>
-      <Link href={"/inventory"} className="w-full">
+      <Link href={"/dashboard/inventory"} className="w-full">
         <Button variant={"ghost"} className="w-full p-0 text-start">
           Inventory
         </Button>
       </Link>
-      <Link href={"/invoices"} className="w-full">
+      <Link href={"/dashboard/invoices"} className="w-full">
         <Button variant={"ghost"} className="w-full p-0 text-start">
           Invoices
         </Button>
       </Link>
-      <Link href={"/dataInsertion"} className="w-full">
+      <Link href={"/dashboard/dataInsertion"} className="w-full">
         <Button variant={"ghost"} className="w-full p-0 text-start">
           Data Insertion
         </Button>

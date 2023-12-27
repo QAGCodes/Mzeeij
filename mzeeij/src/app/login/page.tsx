@@ -84,7 +84,7 @@ const Login = () => {
             }}
             asChild
           >
-            <Link href={"/analytics"}>Sign In</Link>
+            <Link href={"/dashboard/analytics"}>Sign In</Link>
           </Button>
           <Button
             onClick={() => {
