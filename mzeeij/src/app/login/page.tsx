@@ -13,32 +13,41 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-import React from "react";
-import { useState, ChangeEvent } from "react";
+import React, { useState, ChangeEvent, MouseEventHandler } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
-interface Credentials {
-  id: string;
-  password: string;
-}
+import { signIn } from "next-auth/react";
 
 const Login = () => {
-  const [crednetials, setCredentials] = useState<Credentials>({
-    id: "",
+  const [formData, setFormData] = useState({
+    username: "",
     password: "",
   });
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { id, value } = event.target;
-    setCredentials(
-      (prevCredentials) =>
-        ({
-          ...prevCredentials,
-          [id]: value,
-        } as Pick<Credentials, keyof Credentials>)
-    ); // Type assertion
+    setFormData({ ...formData, [id]: value });
     console.log(`${id} input changed to ${value}`);
+  };
+
+  const handleSubmit = async () => {
+    const { username, password } = formData;
+    try {
+      const result = await signIn("credentials", {
+        ...formData,
+        callbackUrl: "http://localhost:3000/dashboard/analytics",
+      }).then((callback) => {
+        console.log(callback);
+        if (callback?.ok) {
+          alert("success signing in");
+        } else {
+          alert("error signing in");
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -59,8 +68,12 @@ const Login = () => {
           <form>
             <div className="grid w-full items-center gap-4">
               <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="id">ID</Label>
-                <Input id="id" placeholder="Your ID" onChange={handleChange} />
+                <Label htmlFor="username">username</Label>
+                <Input
+                  id="username"
+                  placeholder="Your username"
+                  onChange={handleChange}
+                />
               </div>
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="password">Password</Label>
@@ -78,17 +91,10 @@ const Login = () => {
           <Button variant="destructive" asChild>
             <Link href={"/"}>Cancel</Link>
           </Button>
+          <Button onClick={handleSubmit}>Sign In</Button>
           <Button
             onClick={() => {
-              console.log(crednetials);
-            }}
-            asChild
-          >
-            <Link href={"/dashboard/analytics"}>Sign In</Link>
-          </Button>
-          <Button
-            onClick={() => {
-              console.log(crednetials);
+              console.log(formData);
             }}
             asChild
           >

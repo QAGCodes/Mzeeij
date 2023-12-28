@@ -14,6 +14,7 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
+        console.log("credentials:", credentials);
         if (!credentials || !credentials.username || !credentials.password) {
           return null;
         }
@@ -28,6 +29,7 @@ export const authOptions: NextAuthOptions = {
         if (!bcrypt.compareSync(credentials.password, user.passwordhash))
           return null;
 
+        console.log("credentials:", credentials);
         return { ...user, id: user.id.toString() };
       },
     }),
@@ -35,6 +37,9 @@ export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",
+  },
+  pages: {
+    signIn: "/login",
   },
   debug: process.env.NODE_ENV === "development",
 };
