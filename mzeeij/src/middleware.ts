@@ -5,5 +5,3 @@ export default withAuth({
     signIn: "/login",
   },
 });
-
-export const config = { matcher: ["/dashboard"] };
