@@ -16,6 +16,7 @@ import { Label } from "@/components/ui/label";
 import React, { useState, ChangeEvent, MouseEventHandler } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import One8Logo from "../../../public/One8_logo.svg";
 
 import { signIn } from "next-auth/react";
 
@@ -55,12 +56,7 @@ const Login = () => {
       <Card className="bg-white">
         <CardHeader className="text-center p-4">
           <CardTitle>
-            <Image
-              src={"/One8_logo.svg"}
-              width={100}
-              height={100}
-              alt="hi"
-            ></Image>
+            <Image src={One8Logo} width={100} height={100} alt="hi"></Image>
           </CardTitle>
           <CardDescription>Log in into your Mzeeij Services</CardDescription>
         </CardHeader>
