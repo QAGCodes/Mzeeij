@@ -1,5 +1,5 @@
 const { db } = require("@vercel/postgres");
-const bcrypt = require("bcryptjs");
+const bcrypt = require("bcrypt");
 
 async function createUser(client) {
   try {
@@ -7,10 +7,10 @@ async function createUser(client) {
       roleId: 1,
       firstName: "test",
       lastName: "test",
-      username: "test1",
+      username: "test",
       mobile: "test",
       email: "test@test.com",
-      passwordHash: await bcrypt.hash("test", 10),
+      passwordHash: bcrypt.hashSync("test", 10),
       registeredAt: new Date(),
     };
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;

@@ -42,7 +42,7 @@
     "lodash": "^4.17.21",
     "lucide-react": "^0.292.0",
     "next": "^14.0.1",
-    "next-auth": "^5.0.0-beta.4",
+    "next-auth": "^4.24.5",
     "pg-promise": "^11.5.4",
     "prisma": "^5.7.1",
     "react": "^18",
