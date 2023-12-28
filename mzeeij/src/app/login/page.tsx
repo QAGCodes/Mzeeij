@@ -18,9 +18,12 @@ import Link from "next/link";
 import Image from "next/image";
 import One8Logo from "../../../public/One8_logo.svg";
 
-import { signIn } from "next-auth/react";
+import { SignInResponse, signIn } from "next-auth/react";
+
+import { useRouter } from "next/navigation";
 
 const Login = () => {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -37,11 +40,12 @@ const Login = () => {
     try {
       const result = await signIn("credentials", {
         ...formData,
-        callbackUrl: "http://localhost:3000/dashboard/analytics",
+        redirect: false,
       }).then((callback) => {
-        console.log(callback);
-        if (callback?.ok) {
+        console.log("hi", callback);
+        if (callback?.ok && callback?.status === 200) {
           alert("success signing in");
+          router.push("/dashboard/analytics");
         } else {
           alert("error signing in");
         }
