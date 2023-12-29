@@ -18,7 +18,7 @@ export default async function DemoPage() {
   const data = await getData();
 
   return (
-    <div className="container mx-auto py-10">
+    <div className="flex flex-col h-full">
       <DashHeader></DashHeader>
       <InvTable columns={columns} data={data} />
     </div>
