@@ -73,8 +73,8 @@ export function InvTable<TData, TValue>({
   });
 
   return (
-    <div>
-      <div className="flex items-center py-4">
+    <div className="box-border overflow-y-scroll mx-4">
+      <div className="flex items-center mb-3">
         <Input
           placeholder="Filter status..."
           value={(table.getColumn("status")?.getFilterValue() as string) ?? ""}

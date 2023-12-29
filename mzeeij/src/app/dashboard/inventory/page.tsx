@@ -1,10 +1,10 @@
 import { Item, columns } from "./Columns";
 import { InvTable } from "../../../components/InventoryComps/InvTable";
 import DashHeader from "@/components/dashboardComps/DashHeader";
-import { unstable_noStore as noStore } from "next/cache";
+import { unstable_noStore } from "next/cache";
 
 async function getData(): Promise<Item[]> {
-  noStore();
+  unstable_noStore();
   // Fetch data from your API here.
   const response = await fetch(
     "https://654a4aefe182221f8d52e825.mockapi.io/items"
@@ -14,11 +14,11 @@ async function getData(): Promise<Item[]> {
   return data;
 }
 
-export default async function InvoicesPage() {
+export default async function DemoPage() {
   const data = await getData();
 
   return (
-    <div className="container mx-auto py-10">
+    <div className="flex flex-col h-full">
       <DashHeader></DashHeader>
       <InvTable columns={columns} data={data} />
     </div>

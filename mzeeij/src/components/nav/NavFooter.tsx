@@ -5,12 +5,13 @@ import { Separator } from "../ui/separator";
 
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { signOut } from "next-auth/react";
 
 export default function NavFooter() {
   const router = useRouter(); // Call useRouter at the top level of your component
 
   const handleLogout = () => {
-    router.push("/login"); // Use the router from the top level in your event handler
+    signOut({ callbackUrl: "http://localhost:3000/login" }); // Use the router from the top level in your event handler
   };
 
   return (
