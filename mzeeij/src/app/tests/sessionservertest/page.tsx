@@ -1,6 +1,6 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../api/auth/[...nextauth]/options";
-import UserSession from "@/components/tests/userSession";
+import UserSession from "@/components/tests/UserSession";
 
 const sessionServerTest = async () => {
   const session = await getServerSession(authOptions);

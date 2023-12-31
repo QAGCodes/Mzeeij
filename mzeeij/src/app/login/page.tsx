@@ -13,7 +13,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-import React, { useState, ChangeEvent, MouseEventHandler } from "react";
+import React, {
+  useState,
+  ChangeEvent,
+  MouseEventHandler,
+  useEffect,
+} from "react";
 import Link from "next/link";
 import Image from "next/image";
 import One8Logo from "../../../public/One8_logo.svg";
@@ -22,8 +27,19 @@ import { SignInResponse, signIn } from "next-auth/react";
 
 import { useRouter } from "next/navigation";
 
+import { useSession } from "next-auth/react";
+
 const Login = () => {
   const router = useRouter();
+
+  const { data: session } = useSession();
+
+  useEffect(() => {
+    if (session?.user) {
+      router.push("/dashboard/analytics");
+    }
+  }, [session]);
+
   const [formData, setFormData] = useState({
     username: "",
     password: "",

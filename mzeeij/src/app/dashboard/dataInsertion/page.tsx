@@ -35,9 +35,6 @@ export default function DataPage() {
             <CardContent className="space-y-2">
               <UploadZone />
             </CardContent>
-            <CardFooter>
-              <Button>Upload</Button>
-            </CardFooter>
           </Card>
         </TabsContent>
         <TabsContent value="manual">
