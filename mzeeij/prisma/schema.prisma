@@ -11,89 +11,12 @@ model admin {
   id          Int   @id @default(autoincrement())
   userid      Int
   accesslevel Int
-  users       users @relation(fields: [userid], references: [id], onDelete: NoAction, onUpdate: NoAction)
-}
-
-model category {
-  id        Int      @id @default(autoincrement())
-  productid Int?
-  title     String
-  metatitle String?
-  slug      String
-  content   String?
-  product   product? @relation(fields: [productid], references: [id], onDelete: NoAction, onUpdate: NoAction)
-}
-
-model inventory {
-  id        Int     @id @default(autoincrement())
-  productid Int
-  quantity  Int
-  product   product @relation(fields: [productid], references: [id], onDelete: NoAction, onUpdate: NoAction)
-}
-
-model orderitem {
-  id        Int     @id @default(autoincrement())
-  orderid   Int
-  productid Int
-  quantity  Int
-  orders    orders  @relation(fields: [orderid], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  product   product @relation(fields: [productid], references: [id], onDelete: NoAction, onUpdate: NoAction)
-}
-
-model orders {
-  id                  Int         @id @default(autoincrement())
-  userid              Int
-  type                Int         @default(0)
-  status              Int         @default(0)
-  subtotal            Float       @default(0) @db.Real
-  metaproductdiscount Float       @default(0) @db.Real
-  tax                 Float       @default(0) @db.Real
-  shipping            Float       @default(0) @db.Real
-  total               Float       @default(0) @db.Real
-  promo               String?
-  discount            Float       @default(0) @db.Real
-  grandtotal          Float       @default(0) @db.Real
-  createdat           DateTime    @db.Timestamp(6)
-  orderitem           orderitem[]
-  users               users       @relation(fields: [userid], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  product             product[]
-}
-
-model product {
-  id         Int         @id @default(autoincrement())
-  supplierid Int
-  orderid    Int?
-  title      String
-  summary    String?
-  type       Int         @default(0)
-  sku        String
-  createdat  DateTime    @db.Timestamp(6)
-  updatedat  DateTime?   @db.Timestamp(6)
-  content    String?
-  category   category[]
-  inventory  inventory[]
-  orderitem  orderitem[]
-  orders     orders?     @relation(fields: [orderid], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  supplier   supplier    @relation(fields: [supplierid], references: [id], onDelete: NoAction, onUpdate: NoAction)
-}
-
-model role {
-  id    Int     @id @default(autoincrement())
-  name  String
-  users users[]
-}
-
-model supplier {
-  id      Int       @id @default(autoincrement())
-  name    String
-  contact String?
-  address String?
-  product product[]
+ // users       users @relation(fields: [userid], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model users {
   id           Int      @id @default(autoincrement())
-  roleid       Int
+  CompanyName  String
   firstname    String?
   lastname     String?
   username     String?  @unique
@@ -101,7 +24,108 @@ model users {
   email        String?  @unique
   passwordhash String
   registeredat DateTime @db.Timestamp(6)
-  admin        admin[]
+  role         String?
+  company      company @relation(fields: [CompanyName], references: [CompanyName], onDelete: NoAction, onUpdate: NoAction)
   orders       orders[]
-  role         role     @relation(fields: [roleid], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
+
+model company {
+  CompanyName String  @id
+  CRnum String @unique
+  registeredat DateTime @db.Timestamp(6)
+  users        users[]
+  orders       orders[]
+  //admin        admin[]
+  supplierCompanies SupplierCompany[]
+  Meta_product  Meta_product[]
+}
+
+model Meta_product {
+  id         Int         @id @default(autoincrement())
+  CompanyName    String
+  company      company @relation(fields: [CompanyName], references: [CompanyName], onDelete: NoAction, onUpdate: NoAction)
+  supplierid  Int?
+  supplier      supplier? @relation(fields: [supplierid], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  title      String
+  summary    String?
+  sku        String? //not universal compnay specific
+  upc        String? //universal product code
+  price      Float
+  createdat  DateTime    @db.Timestamp(6)
+  updatedat  DateTime?   @db.Timestamp(6)
+  estimatedExp  DateTime? //shelf time
+  item       item[]
+}
+
+model item {
+  id        Int     @id @default(autoincrement())
+  Metaid    Int
+  Meta_product      Meta_product @relation(fields: [Metaid], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  orderid   Int?
+  insertedat  DateTime    @db.Timestamp(6)
+  removedat  DateTime?   @db.Timestamp(6)
+  location   String
+  Expiredate  DateTime?
+  orders     orders? @relation(fields: [orderid], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model supplier {
+  id      Int       @id @default(autoincrement())
+  name    String
+  phonenumber String?
+  address String?
+  email   String?
+  Meta_product  Meta_product[]
+  supplierCompanies SupplierCompany[]
+}
+
+model SupplierCompany {
+  supplierId Int
+  supplier   supplier @relation(fields: [supplierId], references: [id])
+  companyName String
+  company    company @relation(fields: [companyName], references: [CompanyName])
+  @@id([supplierId, companyName])
+}
+
+enum OutgoingStatus {
+  OUTGOING
+  INCOMING
+  RETURN
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  UNPAID
+  COMPLETE
+}
+model orders {
+  id                  Int         @id @default(autoincrement())
+  CompanyName         String
+  company      company @relation(fields: [CompanyName], references: [CompanyName], onDelete: NoAction, onUpdate: NoAction)
+  userid              Int
+  users       users @relation(fields: [userid], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  item  item[] 
+  type                OutgoingStatus // TRUE FALSE RETURN
+  status              OrderStatus         @default(PENDING)           
+  createdat           DateTime    @db.Timestamp(6)
+  invoice            invoice?
+}
+
+model invoice {
+  id                  Int         @id @default(autoincrement())
+  orderid              Int       @unique
+  orders  orders @relation(fields: [orderid], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  subtotal            Float       @default(0) @db.Real
+  metaproductdiscount Float?       @default(0) @db.Real
+  tax                 Float       @default(0) @db.Real //VAT
+  shipping            Float       @default(0) @db.Real
+  total               Float       @default(0) @db.Real
+  promo               String?
+  discount            Float       @default(0) @db.Real
+  grandtotal          Float       @default(0) @db.Real
+  createdat           DateTime    @db.Timestamp(6)
+}
+
+
+
