@@ -16,7 +16,7 @@ model admin {
 
 model users {
   id           Int      @id @default(autoincrement())
-  CompanyName  String
+  companyname  String
   firstname    String?
   lastname     String?
   username     String?  @unique
@@ -25,19 +25,19 @@ model users {
   passwordhash String
   registeredat DateTime @db.Timestamp(6)
   role         String?
-  company      company @relation(fields: [CompanyName], references: [CompanyName], onDelete: NoAction, onUpdate: NoAction)
+  company      company @relation(fields: [companyname], references: [companyname], onDelete: NoAction, onUpdate: NoAction)
   orders       orders[]
 }
 
 model company {
-  CompanyName String  @id
-  CRnum String @unique
+  companyname String  @id
+  crnum String @unique
   registeredat DateTime @db.Timestamp(6)
   users        users[]
   orders       orders[]
   //admin        admin[]
-  supplierCompanies SupplierCompany[]
-  Meta_product  Meta_product[]
+  supplierCompanies suppliercompany[]
+  meta_product  meta_product[]
 }
 enum StockStatus {
   IN_STOCK
@@ -46,10 +46,10 @@ enum StockStatus {
   COMING_SOON
   DISCONTINUED
 }
-model Meta_product {
+model meta_product {
   id         Int         @id @default(autoincrement())
-  CompanyName    String
-  company      company @relation(fields: [CompanyName], references: [CompanyName], onDelete: NoAction, onUpdate: NoAction)
+  companyname    String
+  company      company @relation(fields: [companyname], references: [companyname], onDelete: NoAction, onUpdate: NoAction)
   supplierid  Int?
   supplier      supplier? @relation(fields: [supplierid], references: [id], onDelete: NoAction, onUpdate: NoAction)
   title      String
@@ -66,8 +66,8 @@ model Meta_product {
 
 model item {
   id        Int     @id @default(autoincrement())
-  Metaid    Int
-  Meta_product      Meta_product @relation(fields: [Metaid], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  metaid    Int
+  meta_product      meta_product @relation(fields: [metaid], references: [id], onDelete: NoAction, onUpdate: NoAction)
   orderid   Int?
   insertedat  DateTime    @db.Timestamp(6)
   removedat  DateTime?   @db.Timestamp(6)
@@ -82,16 +82,16 @@ model supplier {
   phonenumber String?
   address String?
   email   String?
-  Meta_product  Meta_product[]
-  supplierCompanies SupplierCompany[]
+  meta_product  meta_product[]
+  supplierCompanies suppliercompany[]
 }
 
-model SupplierCompany {
+model suppliercompany {
   supplierId Int
   supplier   supplier @relation(fields: [supplierId], references: [id])
-  companyName String
-  company    company @relation(fields: [companyName], references: [CompanyName])
-  @@id([supplierId, companyName])
+  companyname String
+  company    company @relation(fields: [companyname], references: [companyname])
+  @@id([supplierId, companyname])
 }
 
 enum OutgoingStatus {
@@ -108,8 +108,8 @@ enum OrderStatus {
 }
 model orders {
   id                  Int         @id @default(autoincrement())
-  CompanyName         String
-  company      company @relation(fields: [CompanyName], references: [CompanyName], onDelete: NoAction, onUpdate: NoAction)
+  companyname         String
+  company      company @relation(fields: [companyname], references: [companyname], onDelete: NoAction, onUpdate: NoAction)
   userid              Int
   users       users @relation(fields: [userid], references: [id], onDelete: NoAction, onUpdate: NoAction)
   item  item[] 
