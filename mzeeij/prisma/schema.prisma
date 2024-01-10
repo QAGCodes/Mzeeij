@@ -39,7 +39,13 @@ model company {
   supplierCompanies SupplierCompany[]
   Meta_product  Meta_product[]
 }
-
+enum StockStatus {
+  IN_STOCK
+  OUT_OF_STOCK
+  RESTOCK_SOON
+  COMING_SOON
+  DISCONTINUED
+}
 model Meta_product {
   id         Int         @id @default(autoincrement())
   CompanyName    String
@@ -54,6 +60,7 @@ model Meta_product {
   createdat  DateTime    @db.Timestamp(6)
   updatedat  DateTime?   @db.Timestamp(6)
   estimatedExp  DateTime? //shelf time
+  StockStatus   StockStatus @default(IN_STOCK)
   item       item[]
 }
 
