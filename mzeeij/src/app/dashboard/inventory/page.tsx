@@ -11,6 +11,8 @@ async function getData(): Promise<Item[]> {
   );
   const data = await response.json();
 
+  console.log(data);
+
   return data;
 }
 

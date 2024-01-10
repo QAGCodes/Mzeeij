@@ -11,8 +11,42 @@ import {
 } from "@/lib/data";
 
 const AnalyticsPage = async () => {
-  const simpleStatsData = await fetchSimpleStats();
-  const orderByRegionData = await fetchOrderByRegion();
+  // Check for a session
+  // If there is a session, then we will have an object containg the user data.
+  // const simpleStatsData = await fetchSimpleStats();
+  // const orderByRegionData = await fetchOrderByRegion();
+  const simpleStatsData = {
+    orderNum: 303,
+    returnNum: 505,
+    itemNum: 10000,
+  };
+  const orderByRegionData = [
+    {
+      name: "New York",
+      sales: 9800,
+    },
+    {
+      name: "London",
+      sales: 4567,
+    },
+    {
+      name: "Hong Kong",
+      sales: 3908,
+    },
+    {
+      name: "San Francisco",
+      sales: 2400,
+    },
+    {
+      name: "Singapore",
+      sales: 1908,
+    },
+    {
+      name: "Zurich",
+      sales: 1398,
+    },
+  ];
+  // If there is no session, then we will redirect to the login page.
 
   return (
     <div className="grid dashboard-grid gap-2 justify-around mx-3 h-full">

@@ -2,12 +2,205 @@ import { sql } from "@vercel/postgres";
 import { SimpleStats, Counts, Revenue, BestSeller } from "./definitions";
 import { unstable_noStore as noStore } from "next/cache";
 
+// start new data-fetching functions
+
+/*
+  const user = {
+    userId: number,
+    companyName: string,
+  }
+*/
+
+export async function fetchStatisticsCardData(user: any) {
+  const dummyUser = {
+    userId: 51,
+    companyName: "test",
+  };
+  // This function should return an object with the following structure:
+  /*
+    {
+      itemCount: number, // The total number of items in the inventory
+      orderNum: number, // The total number of orders
+      returnNum: number // The total number of returns
+    }
+  */
+}
+
+export async function fetchSalesByRegion(user: any) {
+  // This function should return an array of objects with the following structure:
+  /*
+    [
+      {
+        regionName: string, // The total number of items in the inventory
+        Sales: number, // The total number of orders
+        returnNum: number // The total number of returns
+      },
+      .
+      .
+      .
+    ]
+  */
+}
+
+export async function fetchBestSellersData(user: any) {
+  // This function should return 3 arrays of objects with the following structure:
+  /*
+    [
+      {
+        imgUrl: string, // The total number of items in the inventory
+        name: string, // The total number of orders
+      },
+      .
+      .
+      .
+    ]
+
+    The three arrays should be returned as follows:
+    the first array should return the items that had [0-100) sales
+    the second should return the items that had [100-500) sales
+    the third should return the items that had sales >= 500
+  */
+}
+
+export async function fetchSalesPrediction(user: any) {
+  /*
+   Should return an array of objects in the following format:
+      [
+        {
+          date: "Jan 22",
+          predicitions: 2890,
+          actual: 2338,
+        },
+        {
+          date: "Feb 22",
+          SemiAnalysis: 2756,
+          actual: 2103,
+        },
+        {
+          date: "Mar 22",
+          SemiAnalysis: 3322,
+          actual: 2194,
+        },
+        {
+          date: "Apr 22",
+          SemiAnalysis: 3470,
+          actual: 2108,
+        },
+        {
+          date: "May 22",
+          SemiAnalysis: 3475,
+          actual: 1812,
+        },
+        {
+          date: "Jun 22",
+          SemiAnalysis: 3129,
+          actual: 1726,
+        },
+      ];
+   */
+}
+
+export async function fetchRestockPoints(user: any) {
+  /*
+   Should return an array of objects in the following format:
+      [
+        {
+          date: "Jan 23",
+          "Distance Running": 167,
+          "Road Cycling": 145,
+          "Open Water Swimming": 135,
+          "Hatha Yoga": 115,
+          "Street Basketball": 150,
+          ... // each item except for date will represent a line on the graph
+        },
+      ];
+   */
+}
+
+export async function fetchPredictiveAnalysis(user: any) {
+  /*
+   Should return an array of objects in the following format:
+      [
+          {
+            name: "Amphibians",
+            "Number of threatened species": 2488,
+          },
+          {
+            name: "Birds",
+            "Number of threatened species": 1445,
+          },
+          {
+            name: "Crustaceans",
+            "Number of threatened species": 743,
+          },
+          {
+            name: "Ferns",
+            "Number of threatened species": 281,
+          },
+          {
+            name: "Arachnids",
+            "Number of threatened species": 251,
+          },
+          {
+            name: "Corals",
+            "Number of threatened species": 232,
+          },
+          {
+            name: "Algae",
+            "Number of threatened species": 98,
+          },
+        ];
+   */
+}
+
+export async function fetchInventoryTableData(user: any) {
+  /*
+   Should return an array of objects in the following format:
+      [
+        {
+          Id
+          Expiry Date
+          Company / Manufacturer Name
+          Supplier Name
+          Product Name
+          Product Description
+          SKU
+          UPC
+          Item Price
+          Item Quantity
+        },
+       ...
+      ];
+   */
+}
+
+export async function fetchInvoicesTableData(user: any) {
+  /*
+   Should return an array of objects in the following format:
+      [
+        {
+          Id
+          All money stuff (tax, subtotal, etc…)
+          Created at
+          Company Name sold to / bought from 
+          Order status
+          Created At
+        },
+       ...
+      ];
+   */
+}
+
+// end new data-fetching functions
+
 export async function fetchRevenue() {
   // Add noStore() here prevent the response from being cached.
   // This is equivalent to in fetch(..., {cache: 'no-store'}).
 
+  const user = {};
+
   try {
-    const data = await sql<Revenue>`SELECT * FROM revenue`;
+    const data = await sql`SELECT * FROM revenue`;
 
     // console.log('Data fetch complete after 3 seconds.');
     return data.rows;
