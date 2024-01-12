@@ -21,25 +21,25 @@ const StatusCellBadge = ({ value }: any) => {
   if (value === OrderStatus.UNPAID) {
     return (
       <Badge className="bg-red-200 text-red-900 hover:bg-red-200/70">
-        Out of Stock
+        Unpaid
       </Badge>
     );
   } else if (value === OrderStatus.PENDING) {
     return (
       <Badge className="bg-yellow-200 text-yellow-900 hover:bg-yellow-200/70">
-        Restock Soon
+        Pending
       </Badge>
     );
   } else if (value === OrderStatus.PAID) {
     return (
       <Badge className="bg-green-200 text-green-900 hover:bg-green-200/70">
-        In Stock
+        Paid
       </Badge>
     );
   } else if (value === OrderStatus.COMPLETE) {
     return (
       <Badge className="bg-gray-200 text-gray-500 hover:bg-gray-200/70">
-        Discontinued
+        Complete
       </Badge>
     );
   }
