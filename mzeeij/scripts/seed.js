@@ -166,6 +166,14 @@ async function main() {
   const client = await db.connect();
 
   try {
+    await client.sql`delete from users;`;
+    await client.sql`delete from company;`;
+    await client.sql`delete from supplier;`;
+    await client.sql`delete from SupplierCompany;`;
+    await client.sql`delete from orders;`;
+    await client.sql`delete from invoice;`;
+    await client.sql`delete from item;`;
+    await client.sql`delete from Meta_product;`;
     await client.sql`BEGIN TRANSACTION;`;
 
     await seedCompany(client);
@@ -180,6 +188,7 @@ async function main() {
     await client.sql`COMMIT;`;
   } catch (error) {
     await client.sql`ROLLBACK;`;
+    console.log("Error rolling back transaction:", error);
     throw error;
   } finally {
     client.release();
