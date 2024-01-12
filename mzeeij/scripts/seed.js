@@ -166,15 +166,27 @@ async function main() {
   const client = await db.connect();
 
   try {
-    await client.sql`delete from users;`;
-    await client.sql`delete from company;`;
-    await client.sql`delete from supplier;`;
-    await client.sql`delete from SupplierCompany;`;
-    await client.sql`delete from orders;`;
-    await client.sql`delete from invoice;`;
-    await client.sql`delete from item;`;
-    await client.sql`delete from Meta_product;`;
-    await client.sql`BEGIN TRANSACTION;`;
+    // await client.sql`DELETE FROM users CASCADE;`;
+    // await client.sql`DELETE FROM company CASCADE;`;
+    // await client.sql`DELETE FROM supplier CASCADE;`;
+    // await client.sql`DELETE FROM SupplierCompany CASCADE;`;
+    // await client.sql`DELETE FROM orders CASCADE;`;
+    // await client.sql`DELETE FROM invoice CASCADE;`;
+    // await client.sql`DELETE FROM item CASCADE;`;
+    // await client.sql`DELETE FROM Meta_product CASCADE;`;
+
+    // await client.sql`DROP TABLE IF EXISTS users CASCADE;`;
+    // await client.sql`DROP TABLE IF EXISTS company CASCADE;`;
+    // await client.sql`DROP TABLE IF EXISTS supplier CASCADE;`;
+    // await client.sql`DROP TABLE IF EXISTS SupplierCompany CASCADE;`;
+    // await client.sql`DROP TABLE IF EXISTS orders CASCADE;`;
+    // await client.sql`DROP TABLE IF EXISTS invoice CASCADE;`;
+    // await client.sql`DROP TABLE IF EXISTS item CASCADE;`;
+    // await client.sql`DROP TABLE IF EXISTS Meta_product CASCADE;`;
+    // await client.sql`DROP TABLE IF EXISTS admin CASCADE;`;
+    // return;
+
+    await client.sql`BEGIN;`;
 
     await seedCompany(client);
     await seedSupplier(client);
@@ -188,7 +200,7 @@ async function main() {
     await client.sql`COMMIT;`;
   } catch (error) {
     await client.sql`ROLLBACK;`;
-    console.log("Error rolling back transaction:", error);
+    console.log("\n\n\nError rolling back transaction\n\n\n");
     throw error;
   } finally {
     client.release();

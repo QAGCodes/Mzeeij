@@ -14,17 +14,23 @@ function generateFakeData() {
     invoice: [],
   };
 
-  for (let i = 0; i < 3; i++) {
-    data.company.push({
-      CompanyName: faker.helpers.arrayElement([
-        "Mzeeijco",
-        "Alphaco",
-        "Betaco",
-      ]),
-      CRnum: faker.string.uuid(),
-      registeredat: faker.date.past(),
-    });
-  }
+  data.company.push({
+    CompanyName: "Mzeeijco",
+    CRnum: faker.string.uuid(),
+    registeredat: faker.date.past(),
+  });
+
+  data.company.push({
+    CompanyName: "Alphaco",
+    CRnum: faker.string.uuid(),
+    registeredat: faker.date.past(),
+  });
+
+  data.company.push({
+    CompanyName: "Betaco",
+    CRnum: faker.string.uuid(),
+    registeredat: faker.date.past(),
+  });
 
   for (let i = 0; i < 5; i++) {
     data.users.push({
@@ -72,7 +78,7 @@ function generateFakeData() {
     });
   }
 
-  for (let i = 0; i < 3000; i++) {
+  for (let i = 0; i < 1000; i++) {
     data.item.push({
       Metaid: faker.number.int({ min: 1, max: 10 }),
       orderid: faker.datatype.boolean()
@@ -85,7 +91,7 @@ function generateFakeData() {
     });
   }
 
-  for (let i = 0; i < 7; i++) {
+  for (let i = 0; i < 10; i++) {
     data.supplier.push({
       name: faker.company.name(),
       phonenumber: faker.phone.number(),
@@ -126,7 +132,7 @@ function generateFakeData() {
 
   for (let i = 0; i < 100; i++) {
     data.invoice.push({
-      orderid: faker.number.int({ min: 1, max: 500 }),
+      orderid: i + 1,
       subtotal: faker.commerce.price(),
       metaproductdiscount: faker.commerce.price(),
       tax: faker.commerce.price(),
