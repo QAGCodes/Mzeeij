@@ -36,7 +36,7 @@ function generateFakeData() {
       firstname: faker.person.firstName(),
       lastname: faker.person.lastName(),
       username: faker.internet.userName(),
-      mobile: faker.phone.phoneNumber(),
+      mobile: faker.phone.number(),
       email: faker.internet.email(),
       passwordhash: faker.internet.password(),
       registeredat: faker.date.past(),
@@ -53,7 +53,7 @@ function generateFakeData() {
       ]),
       supplierid: faker.datatype.boolean()
         ? faker.number.int({ min: 1, max: 7 })
-        : undefined,
+        : null,
       title: faker.commerce.productName(),
       summary: faker.commerce.productDescription(),
       sku: faker.string.uuid(),
@@ -87,8 +87,8 @@ function generateFakeData() {
 
   for (let i = 0; i < 7; i++) {
     data.supplier.push({
-      name: faker.company.companyName(),
-      phonenumber: faker.phone.phoneNumber(),
+      name: faker.company.name(),
+      phonenumber: faker.phone.number(),
       address: faker.location.streetAddress(),
       email: faker.internet.email(),
     });

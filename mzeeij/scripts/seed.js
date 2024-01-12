@@ -168,13 +168,13 @@ async function main() {
   try {
     await client.sql`BEGIN TRANSACTION;`;
 
-    await seedUsers(client);
+    await seedCompany(client);
     await seedSupplier(client);
-    await seedOrders(client);
+    await seedUsers(client);
     await seedMetaProduct(client);
+    await seedOrders(client);
     await seedItem(client);
     await seedInvoice(client);
-    await seedCompany(client);
     await seedSupplierCompany(client);
 
     await client.sql`COMMIT;`;
