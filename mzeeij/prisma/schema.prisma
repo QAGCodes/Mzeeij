@@ -39,6 +39,7 @@ model company {
   supplierCompanies suppliercompany[]
   meta_product  meta_product[]
 }
+
 enum StockStatus {
   IN_STOCK
   OUT_OF_STOCK
@@ -46,6 +47,7 @@ enum StockStatus {
   COMING_SOON
   DISCONTINUED
 }
+
 model meta_product {
   id         Int         @id @default(autoincrement())
   companyname    String
@@ -60,7 +62,7 @@ model meta_product {
   createdat  DateTime    @db.Timestamp(6)
   updatedat  DateTime?   @db.Timestamp(6)
   estimatedExp  DateTime? //shelf time
-  StockStatus   StockStatus @default(IN_STOCK)
+  stockstatus   StockStatus @default(IN_STOCK)
   item       item[]
 }
 
@@ -72,7 +74,7 @@ model item {
   insertedat  DateTime    @db.Timestamp(6)
   removedat  DateTime?   @db.Timestamp(6)
   location   String
-  Expiredate  DateTime?
+  expiredate  DateTime?
   orders     orders? @relation(fields: [orderid], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
