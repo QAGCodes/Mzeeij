@@ -36,7 +36,7 @@ model company {
   users        users[]
   orders       orders[]
   //admin        admin[]
-  supplierCompanies suppliercompany[]
+  suppliercompanies suppliercompany[]
   meta_product  meta_product[]
 }
 
@@ -61,7 +61,7 @@ model meta_product {
   price      Float
   createdat  DateTime    @db.Timestamp(6)
   updatedat  DateTime?   @db.Timestamp(6)
-  estimatedExp  DateTime? //shelf time
+  estimatedexp  DateTime? //shelf time
   stockstatus   StockStatus @default(IN_STOCK)
   item       item[]
 }
@@ -85,15 +85,15 @@ model supplier {
   address String?
   email   String?
   meta_product  meta_product[]
-  supplierCompanies suppliercompany[]
+  suppliercompanies suppliercompany[]
 }
 
 model suppliercompany {
-  supplierId Int
-  supplier   supplier @relation(fields: [supplierId], references: [id])
+  supplierid Int
+  supplier   supplier @relation(fields: [supplierid], references: [id])
   companyname String
   company    company @relation(fields: [companyname], references: [companyname])
-  @@id([supplierId, companyname])
+  @@id([supplierid, companyname])
 }
 
 enum OutgoingStatus {
