@@ -1,5 +1,5 @@
 "use client";
-import { Card, LineChart, Title } from "@tremor/react";
+import { LineChart, Title } from "@tremor/react";
 
 const chartdata = [
   {
@@ -27,22 +27,20 @@ const chartdata = [
     "Export Growth Rate": 1.88,
     "Import Growth Rate": 1.67,
   },
-  //...
 ];
 
 const valueFormatter = (number: number) =>
-  `$ ${new Intl.NumberFormat("us").format(number).toString()}`;
+  `$${new Intl.NumberFormat("us").format(number).toString()}`;
 
-const LineGraph = () => {
+const SalesPredicition = ({ data }: { data: Array<Object> }) => {
   return (
     <div className="flex-col flex overflow-auto">
-      <Title>Export/Import Growth Rates (1970 to 2021)</Title>
       <LineChart
         className="flex-grow"
-        data={chartdata}
-        index="year"
-        categories={["Export Growth Rate", "Import Growth Rate"]}
-        colors={["emerald", "gray"]}
+        data={data}
+        index="date" // date
+        categories={["actual", "predicitions"]} // {["Sale Predictions", "Actual Sales"]}
+        colors={["emerald", "red"]}
         valueFormatter={valueFormatter}
         yAxisWidth={60}
       />
@@ -50,4 +48,4 @@ const LineGraph = () => {
   );
 };
 
-export default LineGraph;
+export default SalesPredicition;

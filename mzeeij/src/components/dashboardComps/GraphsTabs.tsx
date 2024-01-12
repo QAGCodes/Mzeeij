@@ -4,30 +4,18 @@ import React from "react";
 
 import {
   Card,
-  Flex,
-  Metric,
-  ProgressBar,
   Tab,
   TabGroup,
   TabList,
   TabPanel,
   TabPanels,
-  Text,
-  Title,
 } from "@tremor/react";
-import {
-  UserGroupIcon,
-  UserIcon,
-  TrendingUpIcon,
-  TrendingDownIcon,
-  ArrowRightIcon,
-} from "@heroicons/react/solid";
-import { Separator } from "@/components/ui/separator";
-import Image from "next/image";
-import LineGraph from "@/components/dashboardComps/LineGraph";
 
-const MyTabs = () => {
-  const repeatCount = 10;
+import SalesPredicition from "@/components/dashboardComps/SalesPrediction";
+import RestockPoint from "@/components/dashboardComps/RestockPoint";
+import PredictiveAnalysis from "@/components/dashboardComps/PredictiveAnalysis";
+
+const GraphsTabs = ({ data }: { data?: any }) => {
   return (
     <Card
       className="w-full flex-col flex overflow-auto pt-1 pb-0 h-full"
@@ -42,13 +30,13 @@ const MyTabs = () => {
         </TabList>
         <TabPanels className="">
           <TabPanel className="">
-            <LineGraph></LineGraph>
+            <SalesPredicition data={data[0]} />
           </TabPanel>
           <TabPanel className="">
-            <LineGraph></LineGraph>
+            <RestockPoint data={data[1]} />
           </TabPanel>
           <TabPanel className="">
-            <LineGraph></LineGraph>
+            <PredictiveAnalysis data={data[2]} />
           </TabPanel>
         </TabPanels>
       </TabGroup>
@@ -56,4 +44,4 @@ const MyTabs = () => {
   );
 };
 
-export default MyTabs;
+export default GraphsTabs;

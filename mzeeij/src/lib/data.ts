@@ -159,15 +159,15 @@ export async function fetchInventoryTableData(user: any) {
       [
         {
           Id
-          Expiry Date
+          Product Name
           Company / Manufacturer Name
           Supplier Name
-          Product Name
-          Product Description
           SKU
           UPC
           Item Price
           Item Quantity
+          Stock Status
+          Expiry Date
         },
        ...
       ];

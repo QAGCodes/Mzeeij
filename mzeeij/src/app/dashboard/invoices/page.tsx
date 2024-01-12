@@ -1,21 +1,53 @@
-import { Item, columns } from "./Columns";
+import { columns } from "./Columns";
 import { InvTable } from "../../../components/InventoryComps/InvTable";
 import DashHeader from "@/components/dashboardComps/DashHeader";
 import { unstable_noStore as noStore } from "next/cache";
 
-async function getData(): Promise<Item[]> {
-  noStore();
-  // Fetch data from your API here.
-  const response = await fetch(
-    "https://654a4aefe182221f8d52e825.mockapi.io/items"
-  );
-  const data = await response.json();
-
-  return data;
-}
+import { OutgoingStatus, OrderStatus } from "@prisma/client";
 
 export default async function InvoicesPage() {
-  const data = await getData();
+  const data = [
+    {
+      id: 1,
+      createdat: new Date(),
+      companyname: "test",
+      total: 10,
+      orderstatus: OrderStatus.COMPLETE,
+      type: OutgoingStatus.INCOMING,
+    },
+    {
+      id: 2,
+      createdat: new Date(),
+      companyname: "test",
+      total: 10,
+      orderstatus: OrderStatus.PAID,
+      type: OutgoingStatus.INCOMING,
+    },
+    {
+      id: 3,
+      createdat: new Date(),
+      companyname: "test",
+      total: 10,
+      orderstatus: OrderStatus.PENDING,
+      type: OutgoingStatus.OUTGOING,
+    },
+    {
+      id: 4,
+      createdat: new Date(),
+      companyname: "test",
+      total: 10,
+      orderstatus: OrderStatus.UNPAID,
+      type: OutgoingStatus.OUTGOING,
+    },
+    {
+      id: 5,
+      createdat: new Date(),
+      companyname: "test",
+      total: 10,
+      orderstatus: OrderStatus.COMPLETE,
+      type: OutgoingStatus.RETURN,
+    },
+  ];
 
   return (
     <div className="flex flex-col h-full">

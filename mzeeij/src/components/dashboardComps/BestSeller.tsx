@@ -4,30 +4,21 @@ import React from "react";
 
 import {
   Card,
-  Flex,
-  Metric,
-  ProgressBar,
   Tab,
   TabGroup,
   TabList,
   TabPanel,
   TabPanels,
-  Text,
   Title,
 } from "@tremor/react";
 import {
-  UserGroupIcon,
-  UserIcon,
   TrendingUpIcon,
   TrendingDownIcon,
   ArrowRightIcon,
 } from "@heroicons/react/solid";
-import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
-import { BestSeller } from "@/lib/definitions";
 
-const BestSeller = ({ data }: { data?: BestSeller[][] }) => {
-  const repeatCount = 10;
+const BestSeller = ({ data }: { data?: any }) => {
   return (
     <Card
       className="h-full w-full flex-col flex overflow-auto"
@@ -44,39 +35,39 @@ const BestSeller = ({ data }: { data?: BestSeller[][] }) => {
         <TabPanels className="box-border h-full">
           <TabPanel className="h-full">
             <div className="flex flex-row overflow-auto h-full">
-              {[...Array(repeatCount)].map((_, index) => (
+              {data[0].map((item: any, index: any) => (
                 <Image
-                  key={index} // Providing a unique key for each child
-                  src="/next.svg"
-                  alt="item"
-                  height={75}
-                  width={75}
+                  key={item.name} // Prefer using a unique identifier from your data
+                  src={item.imgUrl}
+                  alt={item.name}
+                  height={100}
+                  width={100}
                 />
               ))}
             </div>
           </TabPanel>
           <TabPanel className="h-full">
             <div className="flex flex-row overflow-auto h-full">
-              {[...Array(repeatCount)].map((_, index) => (
+              {data[1].map((item: any, index: any) => (
                 <Image
-                  key={index} // Providing a unique key for each child
-                  src="/vercel.svg"
-                  alt="item"
-                  height={75}
-                  width={75}
+                  key={item.name} // Prefer using a unique identifier from your data
+                  src={item.imgUrl}
+                  alt={item.name}
+                  height={100}
+                  width={100}
                 />
               ))}
             </div>
           </TabPanel>
           <TabPanel className="h-full">
             <div className="flex flex-row overflow-auto h-full">
-              {[...Array(repeatCount)].map((_, index) => (
+              {data[2].map((item: any, index: any) => (
                 <Image
-                  key={index} // Providing a unique key for each child
-                  src="/next.svg"
-                  alt="item"
-                  height={75}
-                  width={75}
+                  key={item.name} // Prefer using a unique identifier from your data
+                  src={item.imgUrl}
+                  alt={item.name}
+                  height={100}
+                  width={100}
                 />
               ))}
             </div>

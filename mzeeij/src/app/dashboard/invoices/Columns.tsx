@@ -15,63 +15,37 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { OutgoingStatus, OrderStatus } from "@prisma/client";
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
-export type Item = {
-  id: string;
-  name: string;
-  brand: string;
-  amount: number;
-  unitprice: number;
-  retailprice: number;
-  status: "Paid" | "Unpaid" | "Pending";
-};
-
-export const StatusCellBadge = ({ value }: any) => {
-  const condition = value % 3;
-
-  if (condition === 0) {
+const StatusCellBadge = ({ value }: any) => {
+  if (value === OrderStatus.UNPAID) {
     return (
-      <Badge className="bg-red-200 text-red-800 hover:bg-red-200/80">
-        Unpaid
+      <Badge className="bg-red-200 text-red-900 hover:bg-red-200/70">
+        Out of Stock
       </Badge>
     );
-  } else if (condition === 1) {
+  } else if (value === OrderStatus.PENDING) {
     return (
-      <Badge className="bg-yellow-200 text-yellow-800 hover:bg-yellow-200/80">
-        Pending
+      <Badge className="bg-yellow-200 text-yellow-900 hover:bg-yellow-200/70">
+        Restock Soon
       </Badge>
     );
-  } else if (condition === 2) {
+  } else if (value === OrderStatus.PAID) {
     return (
-      <Badge className="bg-green-200 text-green-800 hover:bg-green-200/80">
-        Paid
+      <Badge className="bg-green-200 text-green-900 hover:bg-green-200/70">
+        In Stock
+      </Badge>
+    );
+  } else if (value === OrderStatus.COMPLETE) {
+    return (
+      <Badge className="bg-gray-200 text-gray-500 hover:bg-gray-200/70">
+        Discontinued
       </Badge>
     );
   }
 };
 
-export const columns: ColumnDef<Item>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected()}
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
+export const columns: ColumnDef<any>[] = [
   {
     accessorKey: "id",
     header: ({ column }) => {
@@ -80,92 +54,64 @@ export const columns: ColumnDef<Item>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          id
+          ID
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
   },
   {
-    accessorKey: "name",
+    accessorKey: "createdat",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Name
+          Created At
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
   },
   {
-    accessorKey: "brand",
+    accessorKey: "companyname",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Brand
+          Company Name
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
   },
   {
-    accessorKey: "amount",
+    accessorKey: "total",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Amount
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-  },
-  {
-    accessorKey: "unitprice",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Unit Price
+          Total Amount
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
     cell: ({ row }) => {
-      const unitprice = parseFloat(row.getValue("unitprice"));
+      const unitprice = parseFloat(row.getValue("total"));
       const formatted = new Intl.NumberFormat("de-DE", {
         style: "currency",
         currency: "SAR",
       }).format(unitprice);
-      return <div className="text-right font-medium">{formatted}</div>;
+      return <div className="text-center">{formatted}</div>;
     },
   },
   {
-    accessorKey: "retailprice",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Retail Price
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-  },
-  {
-    accessorKey: "status",
+    accessorKey: "orderstatus",
     header: ({ column }) => {
       return (
         <Button
@@ -178,34 +124,20 @@ export const columns: ColumnDef<Item>[] = [
       );
     },
     cell: ({ row }) => {
-      return <StatusCellBadge value={row.getValue("status")} />;
+      return <StatusCellBadge value={row.getValue("orderstatus")} />;
     },
   },
   {
-    id: "actions",
-    cell: ({ row }) => {
-      const item = row.original;
-
+    accessorKey: "type",
+    header: ({ column }) => {
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(item.id)}
-            >
-              Copy item ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Type
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
       );
     },
   },
