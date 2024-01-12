@@ -67,7 +67,7 @@ async function seedSupplierCompany(client) {
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
     // Insert data into the "SupplierCompany" table
     const insertedSupplierCompany = await Promise.all(
-      data.supplierCompanies.map(
+      data.SupplierCompany.map(
         (supplierCompany) => client.sql`
                 INSERT INTO SupplierCompany (supplierId, companyName)
                 VALUES (${supplierCompany.supplierId}, ${supplierCompany.companyName});

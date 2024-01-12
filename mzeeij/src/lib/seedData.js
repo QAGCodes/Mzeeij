@@ -83,7 +83,7 @@ function generateFakeData() {
       Metaid: faker.number.int({ min: 1, max: 10 }),
       orderid: faker.datatype.boolean()
         ? faker.number.int({ min: 1, max: 500 })
-        : undefined,
+        : null,
       insertedat: faker.date.past(),
       removedat: faker.date.future(),
       location: faker.location.streetAddress(),
