@@ -19,18 +19,29 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
-        const user = await prisma.users.findUnique({
-          where: {
-            username: String(credentials.username),
-          },
-        });
-        if (!user) return null;
+        // const user = await prisma.users.findUnique({
+        //   where: {
+        //     username: String(credentials.username),
+        //   },
+        // });
+        // if (!user) return null;
 
-        if (!bcrypt.compareSync(credentials.password, user.passwordhash))
-          return null;
+        // if (!bcrypt.compareSync(credentials.password, user.passwordhash))
+        //   return null;
 
-        console.log("credentials:", credentials);
-        return { ...user, id: user.id.toString() };
+        // console.log("credentials:", credentials);
+        // return { ...user, id: user.id.toString() };
+
+        const user = {
+          id: "12345",
+          name: "Qusai Ghabrah",
+          email: "qusai@example.com",
+          image: "https://example.com/profiles/qusai.jpg",
+          role: "student",
+          department: "Computer Science",
+        };
+
+        return user;
       },
     }),
   ],
