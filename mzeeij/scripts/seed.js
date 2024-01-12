@@ -1,5 +1,5 @@
 const { db } = require("@vercel/postgres");
-const data = require("@/lib/seedData")();
+const data = require("../src/lib/seedData.js")();
 const bcrypt = require("bcrypt");
 
 async function seedCompany(client) {
@@ -165,14 +165,25 @@ async function seedInvoice(client) {
 async function main() {
   const client = await db.connect();
 
-  await seedUsers(client);
-  await seedSupplier(client);
-  await seedOrders(client);
-  await seedMetaProduct(client);
-  await seedItem(client);
-  await seedInvoice(client);
-  await seedCompany(client);
-  await seedSupplierCompany(client);
+  try {
+    await client.sql`BEGIN TRANSACTION;`;
+
+    await seedUsers(client);
+    await seedSupplier(client);
+    await seedOrders(client);
+    await seedMetaProduct(client);
+    await seedItem(client);
+    await seedInvoice(client);
+    await seedCompany(client);
+    await seedSupplierCompany(client);
+
+    await client.sql`COMMIT;`;
+  } catch (error) {
+    await client.sql`ROLLBACK;`;
+    throw error;
+  } finally {
+    client.release();
+  }
 
   await client.end();
 }
