@@ -65,10 +65,11 @@ export async function fetchSalesByRegion(user: any) {
   */
 
     try {
-      const data = await sql`SELECT i.location, COUNT(*) 
-      FROM orders as o, item as i 
-      WHERE o.companyname = ${dummyUser.companyname} AND o.id = i.orderid 
-      GROUP BY i.location; `;
+      const data = await sql`SELECT o.region, COUNT(*) 
+      FROM orders as o
+      WHERE o.companyname = ${dummyUser.companyname} AND o.type = OUTGOING
+      GROUP BY o.region
+      ORDER BY o.region`;
       // console.log('Data fetch complete after 3 seconds.');
       return data.rows;
     } catch (error) {
@@ -95,6 +96,18 @@ export async function fetchBestSellersData(user: any) {
     the second should return the items that had [100-500) sales
     the third should return the items that had sales >= 500
   */
+
+    try {
+      const low = await sql`SELECT m.title FROM item as i, meta_product as m, orders as o WHERE o.companyname = ${user.companyname} AND o.type = OUTGOING AND o.id = i.orderid AND m.id = i.metaid GROUP BY m.title HAVING COUNT(i.id) < 10`;
+      const med = await sql`SELECT m.title FROM item as i, meta_product as m, orders as o WHERE o.companyname = ${user.companyname} AND o.type = OUTGOING AND o.id = i.orderid AND m.id = i.metaid GROUP BY m.title HAVING COUNT(i.id)>= 10 AND COUNT(i.id) < 50`;
+      const high = await sql`SELECT m.title FROM item as i, meta_product as m, orders as o WHERE o.companyname = ${user.companyname} AND o.type = OUTGOING AND o.id = i.orderid AND m.id = i.metaid GROUP BY m.title HAVING COUNT(i.id) >= 50`;
+      // console.log('Data fetch complete after 3 seconds.');
+      const fetcheddata = [low.rows, med.rows, high.rows];
+      return fetcheddata;
+    } catch (error) {
+      console.error("Database Error:", error);
+      throw new Error("Failed to fetch best sellers data.");
+    }
 }
 
 export async function fetchSalesPrediction(user: any) {

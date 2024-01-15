@@ -117,7 +117,7 @@ model orders {
   users       users @relation(fields: [userid], references: [id], onDelete: NoAction, onUpdate: NoAction)
   item  item[]
   destinationcompany  String 
-  Region              String
+  region              String
   address             String
   type                OutgoingStatus // TRUE FALSE RETURN
   status              OrderStatus         @default(PENDING)           
