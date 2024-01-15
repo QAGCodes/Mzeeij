@@ -9,7 +9,7 @@ async function seedCompany(client) {
     const insertedCompany = await Promise.all(
       data.company.map(
         (company) => client.sql`
-                INSERT INTO company (CompanyName, CRnum, registeredat)
+                INSERT INTO company (companyName, crnum, registeredat)
                 VALUES (${company.CompanyName}, ${company.CRnum}, ${company.registeredat});
             `
       )
@@ -29,7 +29,7 @@ async function seedUsers(client) {
     const insertedUsers = await Promise.all(
       data.users.map(
         (user) => client.sql`
-                INSERT INTO users (CompanyName, firstname, lastname, username, mobile, email, passwordhash, registeredat, role)
+                INSERT INTO users (companyname, firstname, lastname, username, mobile, email, passwordhash, registeredat, role)
                 VALUES (${user.CompanyName}, ${user.firstname}, ${user.lastname}, ${user.username}, ${user.mobile}, ${user.email}, ${user.passwordhash}, ${user.registeredat}, ${user.role});
             `
       )
