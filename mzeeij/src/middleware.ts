@@ -1,7 +1,14 @@
-import { withAuth } from "next-auth/middleware";
+import authConfig from "@/auth.config";
+import NextAuth from "next-auth";
 
-export default withAuth({
-  pages: {
-    signIn: "/login",
-  },
+const { auth } = NextAuth(authConfig);
+
+export default auth((req) => {
+  const isLoggedIn = !!req.auth;
+  console.log("ROUTE: ", req.nextUrl.pathname);
+  console.log("ISLOGGEDIN: ", isLoggedIn);
 });
+
+export const config = {
+  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
+};
