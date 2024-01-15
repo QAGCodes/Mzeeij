@@ -78,15 +78,15 @@ function generateFakeData() {
     });
   }
 
-  for (let i = 0; i < 1000; i++) {
+  for (let i = 0; i < 500; i++) {
     data.item.push({
       Metaid: faker.number.int({ min: 1, max: 10 }),
       orderid: faker.datatype.boolean()
-        ? faker.number.int({ min: 1, max: 500 })
+        ? faker.number.int({ min: 1, max: 100 })
         : null,
       insertedat: faker.date.past(),
       removedat: faker.date.future(),
-      location: faker.location.streetAddress(),
+      location: faker.helpers.arrayElement(["Jeddah", "Riyadh", "Dammam"]),
       Expiredate: faker.date.future(),
     });
   }
@@ -111,7 +111,7 @@ function generateFakeData() {
     });
   }
 
-  for (let i = 0; i < 500; i++) {
+  for (let i = 0; i < 100; i++) {
     data.orders.push({
       CompanyName: faker.helpers.arrayElement([
         "Mzeeijco",
@@ -127,6 +127,9 @@ function generateFakeData() {
         "COMPLETE",
       ]),
       createdat: faker.date.past(),
+      region: faker.helpers.arrayElement(["Jeddah", "Riyadh", "Dammam"]),
+      destinationcompany: faker.company.name(),
+      address: faker.location.streetAddress(),
     });
   }
 
