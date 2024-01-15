@@ -89,8 +89,8 @@ async function seedOrders(client) {
     const insertedOrders = await Promise.all(
       data.orders.map(
         (order) => client.sql`
-                    INSERT INTO orders (CompanyName, userid, type, status, createdat)
-                    VALUES (${order.CompanyName}, ${order.userid}, ${order.type}, ${order.status}, ${order.createdat});
+                    INSERT INTO orders (CompanyName, userid, destinationcompany, region, address, type, status, createdat)
+                    VALUES (${order.CompanyName}, ${order.userid}, ${order.destinationcompany}, ${order.region}, ${order.address} ,${order.type}, ${order.status}, ${order.createdat});
                 `
       )
     );
