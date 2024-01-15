@@ -14,8 +14,10 @@ import { unstable_noStore as noStore } from "next/cache";
 export async function fetchStatisticsCardData(user: any) {
   const dummyUser = {
     userId: 51,
-    companyName: "test",
+    companyname: "test",
   };
+
+
   // This function should return an object with the following structure:
   /*
     {
@@ -24,22 +26,55 @@ export async function fetchStatisticsCardData(user: any) {
       returnNum: number // The total number of returns
     }
   */
+
+    try {
+      const itemCount= await sql`SELECT COUNT(*) FROM item as i, meta_product as m WHERE m.companyname = ${dummyUser.companyname} AND m.id = i.metaid `;
+      const orderNum = await sql`SELECT COUNT(*) FROM orders as o WHERE o.companyname = ${dummyUser.companyname} AND o.type = OUTGOING OR o.type = INCOMING`;
+      const returnNum = await sql`SELECT COUNT(*) FROM orders as o WHERE o.companyname = ${dummyUser.companyname} AND o.type = RETURN`;
+      // console.log('Data fetch complete after 3 seconds.');
+      const fetcheddata = {
+        itemCount: itemCount.rows[0],
+        orderNum: orderNum.rows[0],
+        returnNum: returnNum.rows[0],
+      };
+      return fetcheddata;
+    } catch (error) {
+      console.error("Database Error:", error);
+      throw new Error("Failed to fetch statistical card data.");
+    }
 }
 
 export async function fetchSalesByRegion(user: any) {
+
+  const dummyUser = {
+    userId: 51,
+    companyname: "test",
+  };
   // This function should return an array of objects with the following structure:
   /*
     [
       {
-        regionName: string, // The total number of items in the inventory
-        Sales: number, // The total number of orders
-        returnNum: number // The total number of returns
+        regionName: string, // region name
+        Sales: number, // The total number of orders of the region
+        returnNum: number // The total number of returns of the region
       },
       .
       .
       .
     ]
   */
+
+    try {
+      const data = await sql`SELECT i.location, COUNT(*) 
+      FROM orders as o, item as i 
+      WHERE o.companyname = ${dummyUser.companyname} AND o.id = i.orderid 
+      GROUP BY i.location; `;
+      // console.log('Data fetch complete after 3 seconds.');
+      return data.rows;
+    } catch (error) {
+      console.error("Database Error:", error);
+      throw new Error("Failed to fetch sales by region data.");
+    }
 }
 
 export async function fetchBestSellersData(user: any) {

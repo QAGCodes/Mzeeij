@@ -33,6 +33,7 @@ model company {
   companyname String  @id
   crnum String @unique
   registeredat DateTime @db.Timestamp(6)
+  address String?
   users        users[]
   orders       orders[]
   //admin        admin[]
@@ -73,7 +74,7 @@ model item {
   orderid   Int?
   insertedat  DateTime    @db.Timestamp(6)
   removedat  DateTime?   @db.Timestamp(6)
-  location   String
+  location   String   //what whherhouse it is at
   expiredate  DateTime?
   orders     orders? @relation(fields: [orderid], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
@@ -114,7 +115,10 @@ model orders {
   company      company @relation(fields: [companyname], references: [companyname], onDelete: NoAction, onUpdate: NoAction)
   userid              Int
   users       users @relation(fields: [userid], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  item  item[] 
+  item  item[]
+  destinationcompany  String 
+  Region              String
+  address             String
   type                OutgoingStatus // TRUE FALSE RETURN
   status              OrderStatus         @default(PENDING)           
   createdat           DateTime    @db.Timestamp(6)
