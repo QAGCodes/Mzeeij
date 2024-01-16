@@ -1,7 +1,7 @@
 import { sql } from "@vercel/postgres";
 import { SimpleStats, Counts, Revenue, BestSeller } from "./definitions";
 import { unstable_noStore as noStore } from "next/cache";
-
+import { spawn } from 'child_process';
 // start new data-fetching functions
 
 /*
@@ -49,7 +49,7 @@ export async function fetchStatisticsCardData(user: any) {
 export async function fetchSalesByRegion(user: any) {
   const dummyUser = {
     userId: 51,
-    companyname: "test",
+    companyname: "Mzeeijco",
   };
   // This function should return an array of objects with the following structure:
   /*
@@ -68,7 +68,7 @@ export async function fetchSalesByRegion(user: any) {
     try {
       const data = await sql`SELECT o.region, COUNT(*) 
       FROM orders as o
-      WHERE o.companyname = ${dummyUser.companyname} AND o.type = OUTGOING
+      WHERE o.companyname = ${dummyUser.companyname} AND o.type = 'OUTGOING'
       GROUP BY o.region
       ORDER BY o.region`;
       // console.log('Data fetch complete after 3 seconds.');
@@ -80,6 +80,10 @@ export async function fetchSalesByRegion(user: any) {
 }
 
 export async function fetchBestSellersData(user: any) {
+  const dummyUser = {
+    userId: 51,
+    companyname: "Mzeeijco",
+  };
   // This function should return 3 arrays of objects with the following structure:
   /*
     [
@@ -99,9 +103,9 @@ export async function fetchBestSellersData(user: any) {
   */
 
     try {
-      const low = await sql`SELECT m.title FROM item as i, meta_product as m, orders as o WHERE o.companyname = ${user.companyname} AND o.type = OUTGOING AND o.id = i.orderid AND m.id = i.metaid GROUP BY m.title HAVING COUNT(i.id) < 10`;
-      const med = await sql`SELECT m.title FROM item as i, meta_product as m, orders as o WHERE o.companyname = ${user.companyname} AND o.type = OUTGOING AND o.id = i.orderid AND m.id = i.metaid GROUP BY m.title HAVING COUNT(i.id)>= 10 AND COUNT(i.id) < 50`;
-      const high = await sql`SELECT m.title FROM item as i, meta_product as m, orders as o WHERE o.companyname = ${user.companyname} AND o.type = OUTGOING AND o.id = i.orderid AND m.id = i.metaid GROUP BY m.title HAVING COUNT(i.id) >= 50`;
+      const low = await sql`SELECT m.title FROM item as i, meta_product as m, orders as o WHERE o.companyname = ${dummyUser.companyname} AND o.type = 'OUTGOING' AND o.id = i.orderid AND m.id = i.metaid GROUP BY m.title HAVING COUNT(i.id) < 10`;
+      const med = await sql`SELECT m.title FROM item as i, meta_product as m, orders as o WHERE o.companyname = ${dummyUser.companyname} AND o.type = 'OUTGOING' AND o.id = i.orderid AND m.id = i.metaid GROUP BY m.title HAVING COUNT(i.id)>= 10 AND COUNT(i.id) < 50`;
+      const high = await sql`SELECT m.title FROM item as i, meta_product as m, orders as o WHERE o.companyname = ${dummyUser.companyname} AND o.type = 'OUTGOING AND o.id = i.orderid AND m.id = i.metaid GROUP BY m.title HAVING COUNT(i.id) >= 50`;
       // console.log('Data fetch complete after 3 seconds.');
       const fetcheddata = [low.rows, med.rows, high.rows];
       return fetcheddata;
@@ -112,6 +116,10 @@ export async function fetchBestSellersData(user: any) {
 }
 
 export async function fetchSalesPrediction(user: any) {
+  const dummyUser = {
+    userId: 51,
+    companyname: "Mzeeijco",
+  };
   /*
    Should return an array of objects in the following format:
       [
@@ -147,9 +155,53 @@ export async function fetchSalesPrediction(user: any) {
         },
       ];
    */
+
+      try {
+        const data = await sql`SELECT o.id, o.createdat, COUNT(i.id)
+        FROM orders as o, item as i
+        WHERE o.type = 'OUTGOING' AND o.id = i.orderid  
+        GROUP BY o.id, o.createdat
+        ORDER BY o.createdat ASC
+        `;
+        // console.log('Data fetch complete after 3 seconds.');
+        
+        //python ML model
+        const python = spawn('python', ['src/lib/salespredic.py']);
+
+        // Send data to Python script
+        python.stdin.write(JSON.stringify(data));
+        python.stdin.end();
+
+// Handle output
+python.stdout.on('data', (data) => {
+    console.log(`stdout: ${data}`);
+});
+
+python.stderr.on('data', (data) => {
+    console.error(`stderr: ${data}`);
+});
+
+python.on('close', (code) => {
+    console.log(`child process exited with code ${code}`);
+});
+
+
+
+
+        return data.rows;
+      } catch (error) {
+        console.error("Database Error:", error);
+        throw new Error("Failed to Sales Prediction.");
+      }
+
+
 }
 
 export async function fetchRestockPoints(user: any) {
+  const dummyUser = {
+    userId: 51,
+    companyname: "Mzeeijco",
+  };
   /*
    Should return an array of objects in the following format:
       [
@@ -164,9 +216,52 @@ export async function fetchRestockPoints(user: any) {
         },
       ];
    */
+      try {
+        const data = await sql`SELECT o.id, o.createdat, COUNT(i.id)
+        FROM orders as o, item as i
+        WHERE o.type = 'OUTGOING' AND o.id = i.orderid  
+        GROUP BY o.id, o.createdat
+        ORDER BY o.createdat ASC
+        `;
+        // console.log('Data fetch complete after 3 seconds.');
+        
+        //python ML model
+        const python = spawn('python', ['src/lib/salespredic.py']);
+
+        // Send data to Python script
+        python.stdin.write(JSON.stringify(data));
+        python.stdin.end();
+
+// Handle output
+python.stdout.on('data', (data) => {
+    console.log(`stdout: ${data}`);
+});
+
+python.stderr.on('data', (data) => {
+    console.error(`stderr: ${data}`);
+});
+
+python.on('close', (code) => {
+    console.log(`child process exited with code ${code}`);
+});
+
+
+
+
+        return data.rows;
+      } catch (error) {
+        console.error("Database Error:", error);
+        throw new Error("Failed to Sales Prediction.");
+      }
+
+
 }
 
 export async function fetchPredictiveAnalysis(user: any) {
+  const dummyUser = {
+    userId: 51,
+    companyname: "Mzeeijco",
+  };
   /*
    Should return an array of objects in the following format:
       [
@@ -203,6 +298,10 @@ export async function fetchPredictiveAnalysis(user: any) {
 }
 
 export async function fetchInventoryTableData(user: any) {
+  const dummyUser = {
+    userId: 51,
+    companyname: "Betaco",
+  };
   /*
    Should return an array of objects in the following format:
       [
@@ -221,9 +320,32 @@ export async function fetchInventoryTableData(user: any) {
        ...
       ];
    */
+      /* const data = await sql`SELECT m.id, m.title, m.companyname, m.sku, m.upc, m.price, m.stockstatus, m.estimatedexp, s.name, COUNT(i.id)
+      FROM   Meta_product as m, supplier as s ,item as i
+      WHERE m.companyname = ${user.companyname} AND i.metaid = m.id AND s.id = m.supplierid
+      GROUP BY m.id, m.title, m.companyname, s.name, m.sku, m.upc, m.price, m.stockstatus, m.estimatedexp
+      `; */
+      try {
+        const data = await sql`SELECT DISTINCT m.id, m.title, m.companyname, m.sku, m.upc, m.price, m.stockstatus, m.estimatedexp,  COUNT(i.id)
+      FROM   Meta_product as m, supplier as s ,item as i
+      WHERE m.companyname = ${dummyUser.companyname} AND i.metaid = m.id 
+      GROUP BY m.id, m.title, m.companyname, s.name, m.sku, m.upc, m.price, m.stockstatus, m.estimatedexp
+      `;
+        return data.rows;
+      } catch (error) {
+        console.error("Database Error:", error);
+        throw new Error("Failed to fetchInventoryTableData.");
+      }
+
+
 }
 
+
 export async function fetchInvoicesTableData(user: any) {
+  const dummyUser = {
+    userId: 51,
+    companyname: "Mzeeijco",
+  };
   /*
    Should return an array of objects in the following format:
       [
@@ -238,6 +360,17 @@ export async function fetchInvoicesTableData(user: any) {
        ...
       ];
    */
+      try {
+        const data = await sql`SELECT i.id, o.destinationcompany, i.tax, i.subtotal, i.total, o.status, i.createdat
+      FROM   orders as o, invoice as i
+      WHERE o.companyname = ${dummyUser.companyname} AND i.orderid = o.id 
+      GROUP BY i.id, o.destinationcompany, i.tax, i.subtotal, i.total, o.status, i.createdat
+      `;
+        return data.rows;
+      } catch (error) {
+        console.error("Database Error:", error);
+        throw new Error("Failed to fetchInvoicesTableData.");
+      }
 }
 
 // end new data-fetching functions
