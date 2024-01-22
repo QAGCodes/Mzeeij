@@ -13,7 +13,7 @@ import {
 
 import SalesPredicition from "@/components/dashboardComps/SalesPrediction";
 import RestockPoint from "@/components/dashboardComps/RestockPoint";
-import PredictiveAnalysis from "@/components/dashboardComps/PredictiveAnalysis";
+import SalesPerProductGraph from "@/components/dashboardComps/SalesPerProductGraph";
 
 const GraphsTabs = ({ data }: { data: any }) => {
   return (
@@ -36,7 +36,7 @@ const GraphsTabs = ({ data }: { data: any }) => {
             <RestockPoint data={data[1]} />
           </TabPanel>
           <TabPanel className="">
-            <PredictiveAnalysis data={data[2]} />
+            <SalesPerProductGraph data={data[2]} />
           </TabPanel>
         </TabPanels>
       </TabGroup>

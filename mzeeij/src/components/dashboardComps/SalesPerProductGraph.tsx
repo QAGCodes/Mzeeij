@@ -34,7 +34,7 @@ const chartdata = [
 const valueFormatter = (number: any) =>
   `$${new Intl.NumberFormat("us").format(number).toString()}`;
 
-const PredictiveAnalysis = ({ data }: { data?: Array<Object> }) => (
+const SalesPerProductGraph = ({ data }: { data?: Array<Object> }) => (
   <Card>
     <Title>Number of species threatened with extinction (2021)</Title>
     <Subtitle>
@@ -53,4 +53,4 @@ const PredictiveAnalysis = ({ data }: { data?: Array<Object> }) => (
   </Card>
 );
 
-export default PredictiveAnalysis;
+export default SalesPerProductGraph;
