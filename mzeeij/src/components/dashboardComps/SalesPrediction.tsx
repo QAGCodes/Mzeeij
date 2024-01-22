@@ -32,7 +32,8 @@ const chartdata = [
 const valueFormatter = (number: number) =>
   `$${new Intl.NumberFormat("us").format(number).toString()}`;
 
-const SalesPredicition = ({ data }: { data: Array<Object> }) => {
+const SalesPredicition = ({ data }: { data: any }) => {
+  console.log("SALES: ", data);
   return (
     <div className="flex-col flex overflow-auto">
       <LineChart

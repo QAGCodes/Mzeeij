@@ -19,7 +19,6 @@ import {
 import Image from "next/image";
 
 const BestSeller = ({ data }: { data: any }) => {
-  console.log(data);
   return (
     <Card
       className="h-full w-full flex-col flex overflow-auto"

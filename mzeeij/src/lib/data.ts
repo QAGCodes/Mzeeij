@@ -179,10 +179,10 @@ export async function fetchSalesPrediction(user: any) {
     // console.log('Data fetch complete after 3 seconds.');
 
     //python ML model
-    const python = spawn("python", ["src/lib/salespredic.py"]);
+    const python = spawn("wsl", ["/usr/bin/python3", "src/lib/salespredic.py"]);
 
     // Send data to Python script
-    python.stdin.write(JSON.stringify(data));
+    python.stdin.write(JSON.stringify(data.rows));
     python.stdin.end();
 
     // Handle output
@@ -234,10 +234,10 @@ export async function fetchRestockPoints(user: any) {
     // console.log('Data fetch complete after 3 seconds.');
 
     //python ML model
-    const python = spawn("python", ["src/lib/salespredic.py"]);
+    const python = spawn("wsl", ["/usr/bin/python3", "src/lib/salespredic.py"]);
 
     // Send data to Python script
-    python.stdin.write(JSON.stringify(data));
+    python.stdin.write(JSON.stringify(data.rows));
     python.stdin.end();
 
     // Handle output

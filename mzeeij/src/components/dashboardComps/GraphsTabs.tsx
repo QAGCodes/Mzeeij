@@ -15,7 +15,7 @@ import SalesPredicition from "@/components/dashboardComps/SalesPrediction";
 import RestockPoint from "@/components/dashboardComps/RestockPoint";
 import PredictiveAnalysis from "@/components/dashboardComps/PredictiveAnalysis";
 
-const GraphsTabs = ({ data }: { data?: any }) => {
+const GraphsTabs = ({ data }: { data: any }) => {
   return (
     <Card
       className="w-full flex-col flex overflow-auto pt-1 pb-0 h-full"
