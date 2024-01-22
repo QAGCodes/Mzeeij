@@ -173,7 +173,7 @@ export async function fetchSalesPrediction(user: any) {
     const data = await sql`SELECT o.id, o.createdat, COUNT(i.id)
         FROM orders as o, item as i
         WHERE o.type = 'OUTGOING' AND o.id = i.orderid  
-        GROUP BY  o.createdat
+        GROUP BY  o.id, o.createdat
         ORDER BY o.createdat ASC
         `;
     // console.log('Data fetch complete after 3 seconds.');
