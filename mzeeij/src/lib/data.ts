@@ -108,11 +108,11 @@ export async function fetchBestSellersData(user: any) {
 
   try {
     const low =
-      await sql`SELECT m.title, m.imageurl FROM item as i, meta_product as m, orders as o WHERE o.companyname = ${dummyUser.companyname} AND o.type = 'OUTGOING' AND o.id = i.orderid AND m.id = i.metaid GROUP BY m.title, m.imageurl HAVING COUNT(i.id) < 10`;
+      await sql`SELECT m.title, m.imageurl FROM item as i, meta_product as m, orders as o WHERE o.companyname = ${dummyUser.companyname} AND o.type = 'OUTGOING' AND o.id = i.orderid AND m.id = i.metaid GROUP BY m.title, m.imageurl HAVING COUNT(i.id) < 3 ORDER BY COUNT(i.id) ASC LIMIT 3`;
     const med =
-      await sql`SELECT m.title, m.imageurl FROM item as i, meta_product as m, orders as o WHERE o.companyname = ${dummyUser.companyname} AND o.type = 'OUTGOING' AND o.id = i.orderid AND m.id = i.metaid GROUP BY m.title, m.imageurl HAVING COUNT(i.id)>= 10 AND COUNT(i.id) < 50`;
+      await sql`SELECT m.title, m.imageurl FROM item as i, meta_product as m, orders as o WHERE o.companyname = ${dummyUser.companyname} AND o.type = 'OUTGOING' AND o.id = i.orderid AND m.id = i.metaid GROUP BY m.title, m.imageurl HAVING COUNT(i.id)>= 3 AND COUNT(i.id) < 5 ORDER BY COUNT(i.id) DESC LIMIT 3`;
     const high =
-      await sql`SELECT m.title, m.imageurl FROM item as i, meta_product as m, orders as o WHERE o.companyname = ${dummyUser.companyname} AND o.type = 'OUTGOING' AND o.id = i.orderid AND m.id = i.metaid GROUP BY m.title, m.imageurl HAVING COUNT(i.id) >= 50`;
+      await sql`SELECT m.title, m.imageurl FROM item as i, meta_product as m, orders as o WHERE o.companyname = ${dummyUser.companyname} AND o.type = 'OUTGOING' AND o.id = i.orderid AND m.id = i.metaid GROUP BY m.title, m.imageurl HAVING COUNT(i.id) >= 5 ORDER BY COUNT(i.id) DESC LIMIT 3`;
     // console.log('Data fetch complete after 3 seconds.');
     const data = [low.rows, med.rows, high.rows];
     const result = data.map((array) =>
@@ -170,33 +170,37 @@ export async function fetchSalesPrediction(user: any) {
    */
 
   try {
-    const data = await sql`SELECT o.id, o.createdat, COUNT(i.id)
+    const data = await sql`SELECT o.createdat, COUNT(i.id)
         FROM orders as o, item as i
         WHERE o.type = 'OUTGOING' AND o.id = i.orderid  
-        GROUP BY  o.id, o.createdat
+        GROUP BY o.createdat
         ORDER BY o.createdat ASC
         `;
     // console.log('Data fetch complete after 3 seconds.');
 
     //python ML model
-    const python = spawn("wsl", ["/usr/bin/python3", "src/lib/salespredic.py"]);
+    const python = spawn('python', ['src/lib/salespredic.py']);
 
     // Send data to Python script
     python.stdin.write(JSON.stringify(data.rows));
     python.stdin.end();
 
     // Handle output
-    python.stdout.on("data", (data) => {
-      console.log(`stdout: ${data}`);
-    });
+    let result = '';
+python.stdout.on('data', (data) => {
+  result += data.toString();
+});
+
+python.on('close', (code) => {
+  console.log(`child process exited with code ${code}`);
+  const df = JSON.parse(result);
+  console.log(df);
+});
 
     python.stderr.on("data", (data) => {
       console.error(`stderr: ${data}`);
     });
 
-    python.on("close", (code) => {
-      console.log(`child process exited with code ${code}`);
-    });
 
     return data.rows;
   } catch (error) {

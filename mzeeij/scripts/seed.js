@@ -233,7 +233,7 @@ async function main() {
     // await seedSupplierCompany(client);
 
 
-     await addimagecolumn(client);
+     //await addimagecolumn(client);
      await addimageurl(client);
 
     await client.sql`COMMIT;`;
