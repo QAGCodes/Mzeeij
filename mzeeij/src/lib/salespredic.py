@@ -7,7 +7,7 @@ from sklearn.metrics import mean_squared_error
 from dateutil.parser import parse
 
 data = json.load(sys.stdin)
-
+#TODO: CONVERT DATAFRAME FORMAT to {date, prediction, actual}
 
 # Convert data to DataFrame
 df = pd.DataFrame(data)

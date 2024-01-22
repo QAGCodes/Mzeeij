@@ -157,10 +157,10 @@ export async function fetchSalesPrediction(user: any) {
    */
 
       try {
-        const data = await sql`SELECT o.id, o.createdat, COUNT(i.id)
+        const data = await sql`SELECT o.createdat, COUNT(i.id)
         FROM orders as o, item as i
         WHERE o.type = 'OUTGOING' AND o.id = i.orderid  
-        GROUP BY o.id, o.createdat
+        GROUP BY  o.createdat
         ORDER BY o.createdat ASC
         `;
         // console.log('Data fetch complete after 3 seconds.');
@@ -169,7 +169,7 @@ export async function fetchSalesPrediction(user: any) {
         const python = spawn('python', ['src/lib/salespredic.py']);
 
         // Send data to Python script
-        python.stdin.write(JSON.stringify(data));
+        python.stdin.write(JSON.stringify(data.rows));
         python.stdin.end();
 
 // Handle output
@@ -186,9 +186,39 @@ python.on('close', (code) => {
 });
 
 
+// Rename 'oldKey' to 'newKey' in all objects
+const datarenamed = data.rows.map(obj => ({
+  ...obj,
+  date: obj.createdat,
+  predicition: -1,
+  actual: obj.count,
+}));
+datarenamed.forEach(obj => {delete obj.count, delete obj.createdat});
+
+//console.log(data);  // Output: [{ newKey: 'value1' }, { newKey: 'value2' }, { newKey: 'value3' }]
+
+const data2 = [
+  {
+    date : "2024-02-01",
+    predicition : 3.2,
+    actual :  -1,
+  },
+
+  {
+    date : "2024-03-01",
+    predicition: 3.8,
+    actual :  -1,
+  },
+  {
+    date : "2024-04-01",
+    predicition : 4,
+    actual :  -1,
+  },
+]
 
 
-        return data.rows;
+
+        return [datarenamed, data2];
       } catch (error) {
         console.error("Database Error:", error);
         throw new Error("Failed to Sales Prediction.");
