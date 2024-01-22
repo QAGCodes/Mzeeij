@@ -1,6 +1,5 @@
 "use client";
 
-import { Revenue } from "@/lib/definitions";
 import { Card, DonutChart, Title } from "@tremor/react";
 
 const valueFormatter = (number: number) =>
@@ -18,7 +17,7 @@ const OrderByRegion = ({ data }: any) => {
         className="mt-6 h-full"
         data={data}
         category="sales"
-        index="name"
+        index="regionName"
         valueFormatter={valueFormatter}
       />
     </Card>

@@ -18,7 +18,8 @@ import {
 } from "@heroicons/react/solid";
 import Image from "next/image";
 
-const BestSeller = ({ data }: { data?: any }) => {
+const BestSeller = ({ data }: { data: any }) => {
+  console.log(data);
   return (
     <Card
       className="h-full w-full flex-col flex overflow-auto"
@@ -38,7 +39,7 @@ const BestSeller = ({ data }: { data?: any }) => {
               {data[0].map((item: any, index: any) => (
                 <Image
                   key={item.name} // Prefer using a unique identifier from your data
-                  src={item.imgUrl}
+                  src={item.imgUrl || "/next.svg"}
                   alt={item.name}
                   height={100}
                   width={100}

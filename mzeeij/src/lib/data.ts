@@ -1,7 +1,7 @@
 import { sql } from "@vercel/postgres";
 import { SimpleStats, Counts, Revenue, BestSeller } from "./definitions";
 import { unstable_noStore as noStore } from "next/cache";
-import { spawn } from 'child_process';
+import { spawn } from "child_process";
 // start new data-fetching functions
 
 /*
@@ -35,10 +35,11 @@ export async function fetchStatisticsCardData(user: any) {
       await sql`SELECT COUNT(*) FROM orders as o WHERE o.companyname = ${dummyUser.companyname} AND o.type = 'RETURN'`;
     console.log("Data fetch complete after 3 seconds.");
     const fetcheddata = {
-      itemCount: itemCount.rows[0],
-      orderNum: orderNum.rows[0],
-      returnNum: returnNum.rows[0],
+      itemCount: itemCount.rows[0].count,
+      orderNum: orderNum.rows[0].count,
+      returnNum: returnNum.rows[0].count,
     };
+
     return fetcheddata;
   } catch (error) {
     console.error("Database Error:", error);
@@ -57,7 +58,6 @@ export async function fetchSalesByRegion(user: any) {
       {
         regionName: string, // region name
         Sales: number, // The total number of orders of the region
-        returnNum: number // The total number of returns of the region
       },
       .
       .
@@ -65,18 +65,22 @@ export async function fetchSalesByRegion(user: any) {
     ]
   */
 
-    try {
-      const data = await sql`SELECT o.region, COUNT(*) 
+  try {
+    const data = await sql`SELECT o.region, COUNT(*) 
       FROM orders as o
       WHERE o.companyname = ${dummyUser.companyname} AND o.type = 'OUTGOING'
       GROUP BY o.region
       ORDER BY o.region`;
-      // console.log('Data fetch complete after 3 seconds.');
-      return data.rows;
-    } catch (error) {
-      console.error("Database Error:", error);
-      throw new Error("Failed to fetch sales by region data.");
-    }
+    // console.log('Data fetch complete after 3 seconds.');
+    const result = data.rows.map((row) => ({
+      regionName: row.region,
+      sales: parseInt(row.count, 10),
+    }));
+    return result;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch sales by region data.");
+  }
 }
 
 export async function fetchBestSellersData(user: any) {
@@ -102,17 +106,26 @@ export async function fetchBestSellersData(user: any) {
     the third should return the items that had sales >= 500
   */
 
-    try {
-      const low = await sql`SELECT m.title FROM item as i, meta_product as m, orders as o WHERE o.companyname = ${dummyUser.companyname} AND o.type = 'OUTGOING' AND o.id = i.orderid AND m.id = i.metaid GROUP BY m.title HAVING COUNT(i.id) < 10`;
-      const med = await sql`SELECT m.title FROM item as i, meta_product as m, orders as o WHERE o.companyname = ${dummyUser.companyname} AND o.type = 'OUTGOING' AND o.id = i.orderid AND m.id = i.metaid GROUP BY m.title HAVING COUNT(i.id)>= 10 AND COUNT(i.id) < 50`;
-      const high = await sql`SELECT m.title FROM item as i, meta_product as m, orders as o WHERE o.companyname = ${dummyUser.companyname} AND o.type = 'OUTGOING AND o.id = i.orderid AND m.id = i.metaid GROUP BY m.title HAVING COUNT(i.id) >= 50`;
-      // console.log('Data fetch complete after 3 seconds.');
-      const fetcheddata = [low.rows, med.rows, high.rows];
-      return fetcheddata;
-    } catch (error) {
-      console.error("Database Error:", error);
-      throw new Error("Failed to fetch best sellers data.");
-    }
+  try {
+    const low =
+      await sql`SELECT m.title FROM item as i, meta_product as m, orders as o WHERE o.companyname = ${dummyUser.companyname} AND o.type = 'OUTGOING' AND o.id = i.orderid AND m.id = i.metaid GROUP BY m.title HAVING COUNT(i.id) < 10`;
+    const med =
+      await sql`SELECT m.title FROM item as i, meta_product as m, orders as o WHERE o.companyname = ${dummyUser.companyname} AND o.type = 'OUTGOING' AND o.id = i.orderid AND m.id = i.metaid GROUP BY m.title HAVING COUNT(i.id)>= 10 AND COUNT(i.id) < 50`;
+    const high =
+      await sql`SELECT m.title FROM item as i, meta_product as m, orders as o WHERE o.companyname = ${dummyUser.companyname} AND o.type = 'OUTGOING' AND o.id = i.orderid AND m.id = i.metaid GROUP BY m.title HAVING COUNT(i.id) >= 50`;
+    // console.log('Data fetch complete after 3 seconds.');
+    const data = [low.rows, med.rows, high.rows];
+    const result = data.map((array) =>
+      array.map((row) => ({
+        // imgUrl: row.imgUrl,
+        name: row.title,
+      }))
+    );
+    return result;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch best sellers data.");
+  }
 }
 
 export async function fetchSalesPrediction(user: any) {
@@ -156,75 +169,40 @@ export async function fetchSalesPrediction(user: any) {
       ];
    */
 
-      try {
-        const data = await sql`SELECT o.createdat, COUNT(i.id)
+  try {
+    const data = await sql`SELECT o.id, o.createdat, COUNT(i.id)
         FROM orders as o, item as i
         WHERE o.type = 'OUTGOING' AND o.id = i.orderid  
         GROUP BY  o.createdat
         ORDER BY o.createdat ASC
         `;
-        // console.log('Data fetch complete after 3 seconds.');
-        
-        //python ML model
-        const python = spawn('python', ['src/lib/salespredic.py']);
+    // console.log('Data fetch complete after 3 seconds.');
 
-        // Send data to Python script
-        python.stdin.write(JSON.stringify(data.rows));
-        python.stdin.end();
+    //python ML model
+    const python = spawn("python", ["src/lib/salespredic.py"]);
 
-// Handle output
-python.stdout.on('data', (data) => {
-    console.log(`stdout: ${data}`);
-});
+    // Send data to Python script
+    python.stdin.write(JSON.stringify(data));
+    python.stdin.end();
 
-python.stderr.on('data', (data) => {
-    console.error(`stderr: ${data}`);
-});
+    // Handle output
+    python.stdout.on("data", (data) => {
+      console.log(`stdout: ${data}`);
+    });
 
-python.on('close', (code) => {
-    console.log(`child process exited with code ${code}`);
-});
+    python.stderr.on("data", (data) => {
+      console.error(`stderr: ${data}`);
+    });
 
+    python.on("close", (code) => {
+      console.log(`child process exited with code ${code}`);
+    });
 
-// Rename 'oldKey' to 'newKey' in all objects
-const datarenamed = data.rows.map(obj => ({
-  ...obj,
-  date: obj.createdat,
-  predicition: -1,
-  actual: obj.count,
-}));
-datarenamed.forEach(obj => {delete obj.count, delete obj.createdat});
-
-//console.log(data);  // Output: [{ newKey: 'value1' }, { newKey: 'value2' }, { newKey: 'value3' }]
-
-const data2 = [
-  {
-    date : "2024-02-01",
-    predicition : 3.2,
-    actual :  -1,
-  },
-
-  {
-    date : "2024-03-01",
-    predicition: 3.8,
-    actual :  -1,
-  },
-  {
-    date : "2024-04-01",
-    predicition : 4,
-    actual :  -1,
-  },
-]
-
-
-
-        return [datarenamed, data2];
-      } catch (error) {
-        console.error("Database Error:", error);
-        throw new Error("Failed to Sales Prediction.");
-      }
-
-
+    return data.rows;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to Sales Prediction.");
+  }
 }
 
 export async function fetchRestockPoints(user: any) {
@@ -246,45 +224,40 @@ export async function fetchRestockPoints(user: any) {
         },
       ];
    */
-      try {
-        const data = await sql`SELECT o.id, o.createdat, COUNT(i.id)
+  try {
+    const data = await sql`SELECT o.id, o.createdat, COUNT(i.id)
         FROM orders as o, item as i
         WHERE o.type = 'OUTGOING' AND o.id = i.orderid  
         GROUP BY o.id, o.createdat
         ORDER BY o.createdat ASC
         `;
-        // console.log('Data fetch complete after 3 seconds.');
-        
-        //python ML model
-        const python = spawn('python', ['src/lib/salespredic.py']);
+    // console.log('Data fetch complete after 3 seconds.');
 
-        // Send data to Python script
-        python.stdin.write(JSON.stringify(data));
-        python.stdin.end();
+    //python ML model
+    const python = spawn("python", ["src/lib/salespredic.py"]);
 
-// Handle output
-python.stdout.on('data', (data) => {
-    console.log(`stdout: ${data}`);
-});
+    // Send data to Python script
+    python.stdin.write(JSON.stringify(data));
+    python.stdin.end();
 
-python.stderr.on('data', (data) => {
-    console.error(`stderr: ${data}`);
-});
+    // Handle output
+    python.stdout.on("data", (data) => {
+      console.log(`stdout: ${data}`);
+    });
 
-python.on('close', (code) => {
-    console.log(`child process exited with code ${code}`);
-});
+    python.stderr.on("data", (data) => {
+      console.error(`stderr: ${data}`);
+    });
 
+    python.on("close", (code) => {
+      console.log(`child process exited with code ${code}`);
+    });
 
-
-
-        return data.rows;
-      } catch (error) {
-        console.error("Database Error:", error);
-        throw new Error("Failed to Sales Prediction.");
-      }
-
-
+    return data.rows;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to Sales Prediction.");
+  }
 }
 
 export async function fetchPredictiveAnalysis(user: any) {
@@ -350,26 +323,24 @@ export async function fetchInventoryTableData(user: any) {
        ...
       ];
    */
-      /* const data = await sql`SELECT m.id, m.title, m.companyname, m.sku, m.upc, m.price, m.stockstatus, m.estimatedexp, s.name, COUNT(i.id)
+  /* const data = await sql`SELECT m.id, m.title, m.companyname, m.sku, m.upc, m.price, m.stockstatus, m.estimatedexp, s.name, COUNT(i.id)
       FROM   Meta_product as m, supplier as s ,item as i
       WHERE m.companyname = ${user.companyname} AND i.metaid = m.id AND s.id = m.supplierid
       GROUP BY m.id, m.title, m.companyname, s.name, m.sku, m.upc, m.price, m.stockstatus, m.estimatedexp
       `; */
-      try {
-        const data = await sql`SELECT DISTINCT m.id, m.title, m.companyname, m.sku, m.upc, m.price, m.stockstatus, m.estimatedexp,  COUNT(i.id)
+  try {
+    const data =
+      await sql`SELECT DISTINCT m.id, m.title, m.companyname, m.sku, m.upc, m.price, m.stockstatus, m.estimatedexp,  COUNT(i.id)
       FROM   Meta_product as m, supplier as s ,item as i
       WHERE m.companyname = ${dummyUser.companyname} AND i.metaid = m.id 
       GROUP BY m.id, m.title, m.companyname, s.name, m.sku, m.upc, m.price, m.stockstatus, m.estimatedexp
       `;
-        return data.rows;
-      } catch (error) {
-        console.error("Database Error:", error);
-        throw new Error("Failed to fetchInventoryTableData.");
-      }
-
-
+    return data.rows;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetchInventoryTableData.");
+  }
 }
-
 
 export async function fetchInvoicesTableData(user: any) {
   const dummyUser = {
@@ -390,17 +361,18 @@ export async function fetchInvoicesTableData(user: any) {
        ...
       ];
    */
-      try {
-        const data = await sql`SELECT i.id, o.destinationcompany, i.tax, i.subtotal, i.total, o.status, i.createdat
+  try {
+    const data =
+      await sql`SELECT i.id, o.destinationcompany, i.tax, i.subtotal, i.total, o.status, i.createdat
       FROM   orders as o, invoice as i
       WHERE o.companyname = ${dummyUser.companyname} AND i.orderid = o.id 
       GROUP BY i.id, o.destinationcompany, i.tax, i.subtotal, i.total, o.status, i.createdat
       `;
-        return data.rows;
-      } catch (error) {
-        console.error("Database Error:", error);
-        throw new Error("Failed to fetchInvoicesTableData.");
-      }
+    return data.rows;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetchInvoicesTableData.");
+  }
 }
 
 // end new data-fetching functions
