@@ -156,11 +156,7 @@ function generateFakeData() {
   for (let i = 0; i < 10; i++) {
     data.images.push({
       metaproductid: i+1,
-      url: faker.image.url({
-        width: 640,
-        height: 480,
-       
-      }),
+      url: faker.image.urlLoremFlickr({ category: 'nature' }),
     });
   }
 
