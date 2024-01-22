@@ -1,3 +1,7 @@
+
+// TODO : CHECK NEW SCHEMA BEFORE RUNNING SEEDER
+
+
 const { faker } = require("@faker-js/faker");
 
 module.exports = generateFakeData;
@@ -12,6 +16,7 @@ function generateFakeData() {
     SupplierCompany: [],
     orders: [],
     invoice: [],
+    images: [],
   };
 
   data.company.push({
@@ -145,6 +150,17 @@ function generateFakeData() {
       discount: faker.commerce.price(),
       grandtotal: faker.commerce.price(),
       createdat: faker.date.past(),
+    });
+  }
+
+  for (let i = 0; i < 10; i++) {
+    data.images.push({
+      metaproductid: i+1,
+      url: faker.image.url({
+        width: 640,
+        height: 480,
+       
+      }),
     });
   }
 

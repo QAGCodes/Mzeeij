@@ -64,6 +64,7 @@ model meta_product {
   updatedat  DateTime?   @db.Timestamp(6)
   estimatedexp  DateTime? //shelf time
   stockstatus   StockStatus @default(IN_STOCK)
+  imageurl  String? @default("")
   item       item[]
 }
 
@@ -104,10 +105,9 @@ enum OutgoingStatus {
 }
 
 enum OrderStatus {
-  PENDING
-  PAID
-  UNPAID
-  COMPLETE
+  PREPARING
+  OUTFORDELIVERY
+  DILEVERED
 }
 model orders {
   id                  Int         @id @default(autoincrement())
@@ -120,11 +120,17 @@ model orders {
   region              String
   address             String
   type                OutgoingStatus // TRUE FALSE RETURN
-  status              OrderStatus         @default(PENDING)           
+  status              OrderStatus         @default(PREPARING)           
   createdat           DateTime    @db.Timestamp(6)
   invoice            invoice?
 }
 
+enum invoiceStatus {
+  PENDING
+  PAID
+  UNPAID
+  COMPLETE
+}
 model invoice {
   id                  Int         @id @default(autoincrement())
   orderid              Int       @unique
@@ -138,6 +144,7 @@ model invoice {
   discount            Float       @default(0) @db.Real
   grandtotal          Float       @default(0) @db.Real
   createdat           DateTime    @db.Timestamp(6)
+  invoicestatus       invoiceStatus         @default(PENDING)
 }
 
 

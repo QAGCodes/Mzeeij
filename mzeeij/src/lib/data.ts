@@ -108,16 +108,16 @@ export async function fetchBestSellersData(user: any) {
 
   try {
     const low =
-      await sql`SELECT m.title FROM item as i, meta_product as m, orders as o WHERE o.companyname = ${dummyUser.companyname} AND o.type = 'OUTGOING' AND o.id = i.orderid AND m.id = i.metaid GROUP BY m.title HAVING COUNT(i.id) < 10`;
+      await sql`SELECT m.title, m.imageurl FROM item as i, meta_product as m, orders as o WHERE o.companyname = ${dummyUser.companyname} AND o.type = 'OUTGOING' AND o.id = i.orderid AND m.id = i.metaid GROUP BY m.title, m.imageurl HAVING COUNT(i.id) < 10`;
     const med =
-      await sql`SELECT m.title FROM item as i, meta_product as m, orders as o WHERE o.companyname = ${dummyUser.companyname} AND o.type = 'OUTGOING' AND o.id = i.orderid AND m.id = i.metaid GROUP BY m.title HAVING COUNT(i.id)>= 10 AND COUNT(i.id) < 50`;
+      await sql`SELECT m.title, m.imageurl FROM item as i, meta_product as m, orders as o WHERE o.companyname = ${dummyUser.companyname} AND o.type = 'OUTGOING' AND o.id = i.orderid AND m.id = i.metaid GROUP BY m.title, m.imageurl HAVING COUNT(i.id)>= 10 AND COUNT(i.id) < 50`;
     const high =
-      await sql`SELECT m.title FROM item as i, meta_product as m, orders as o WHERE o.companyname = ${dummyUser.companyname} AND o.type = 'OUTGOING' AND o.id = i.orderid AND m.id = i.metaid GROUP BY m.title HAVING COUNT(i.id) >= 50`;
+      await sql`SELECT m.title, m.imageurl FROM item as i, meta_product as m, orders as o WHERE o.companyname = ${dummyUser.companyname} AND o.type = 'OUTGOING' AND o.id = i.orderid AND m.id = i.metaid GROUP BY m.title, m.imageurl HAVING COUNT(i.id) >= 50`;
     // console.log('Data fetch complete after 3 seconds.');
     const data = [low.rows, med.rows, high.rows];
     const result = data.map((array) =>
       array.map((row) => ({
-        // imgUrl: row.imgUrl,
+         imgUrl: row.imageurl,
         name: row.title,
       }))
     );

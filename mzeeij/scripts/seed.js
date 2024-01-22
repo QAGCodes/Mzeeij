@@ -162,6 +162,41 @@ async function seedInvoice(client) {
   }
 }
 
+async function addimagecolumn(client) {
+  try {
+  await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+
+  await client.sql`ALTER TABLE Meta_product ADD COLUMN imageurl TEXT DEFAULT ''`;
+  console.log(`Seeded new column imageurl in Meta_product`);
+
+} catch (error) {
+  console.error("Error seeding invoice:", error);
+  throw error;
+}
+}
+
+async function addimageurl(client) {
+try{
+  await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+
+  const insertedimage= await Promise.all(
+    data.images.map(
+      (image) => client.sql`
+                  UPDATE meta_product 
+                  SET imageurl = ${image.url}
+                  WHERE id = ${image.metaproductid};
+              `
+    )
+  );
+}
+catch (error) {
+  console.error("Error seeding invoice:", error);
+  throw error;
+}
+}
+
+
+
 async function main() {
   const client = await db.connect();
 
@@ -188,14 +223,18 @@ async function main() {
 
     await client.sql`BEGIN;`;
 
-    await seedCompany(client);
-    await seedSupplier(client);
-    await seedUsers(client);
-    await seedMetaProduct(client);
-    await seedOrders(client);
-    await seedItem(client);
-    await seedInvoice(client);
-    await seedSupplierCompany(client);
+    // await seedCompany(client);
+    // await seedSupplier(client);
+    // await seedUsers(client);
+    // await seedMetaProduct(client);
+    // await seedOrders(client);
+    // await seedItem(client);
+    // await seedInvoice(client);
+    // await seedSupplierCompany(client);
+
+
+     await addimagecolumn(client);
+     await addimageurl(client);
 
     await client.sql`COMMIT;`;
   } catch (error) {
