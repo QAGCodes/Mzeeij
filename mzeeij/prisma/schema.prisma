@@ -103,11 +103,14 @@ enum OutgoingStatus {
   INCOMING
   RETURN
 }
-
+//TODO : CHECK STATUS THAT MAKES SENSE
 enum OrderStatus {
+  RECIEVED
+  REJECTED
+  ACCEPTED
   PREPARING
   OUTFORDELIVERY
-  DILEVERED
+  DELIVERED
 }
 model orders {
   id                  Int         @id @default(autoincrement())

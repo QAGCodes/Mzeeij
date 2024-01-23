@@ -178,21 +178,39 @@ async function addimagecolumn(client) {
 async function addimageurl(client) {
 try{
   await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
-
-  const insertedimage= await Promise.all(
-    data.images.map(
-      (image) => client.sql`
+for ( i = 1; i < 11; i++) {
+  await client.sql`
                   UPDATE meta_product 
-                  SET imageurl = ${image.url}
-                  WHERE id = ${image.metaproductid};
-              `
-    )
-  );
+                  SET imageurl = 'https://upload.wikimedia.org/wikipedia/commons/2/29/HP_New_Logo_2D.svg'
+                  WHERE id = ${i};
+              `;
+}
 }
 catch (error) {
   console.error("Error seeding invoice:", error);
   throw error;
 }
+}
+
+
+async function seedoutOrders(client) {
+  try {
+    await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+    // Insert data into the "orders" table
+    const insertedOrders = await Promise.all(
+      data.mzoutgoing.map(
+        (order) => client.sql`
+                    INSERT INTO orders (CompanyName, userid, destinationcompany, region, address, type, status, createdat)
+                    VALUES (${order.CompanyName}, ${order.userid}, ${order.destinationcompany}, ${order.region}, ${order.address} ,${order.type}, ${order.status}, ${order.createdat});
+                `
+      )
+    );
+
+    console.log(`Seeded ${insertedOrders.length} orders for mzeeijco`);
+  } catch (error) {
+    console.error("Error seeding orders:", error);
+    throw error;
+  }
 }
 
 
@@ -234,7 +252,9 @@ async function main() {
 
 
      //await addimagecolumn(client);
-     //await addimageurl(client);
+     await addimageurl(client);
+
+     //await seedoutOrders(client);
 
     await client.sql`COMMIT;`;
   } catch (error) {

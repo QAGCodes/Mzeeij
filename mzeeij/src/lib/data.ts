@@ -48,6 +48,7 @@ export async function fetchStatisticsCardData(user: any) {
 }
 
 export async function fetchSalesByRegion(user: any) {
+  noStore();
   const dummyUser = {
     userId: 51,
     companyname: "Mzeeijco",
