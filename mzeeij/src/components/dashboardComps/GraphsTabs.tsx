@@ -26,7 +26,7 @@ const GraphsTabs = ({ data }: { data: any }) => {
         <TabList className="">
           <Tab>Sales Predicition</Tab>
           <Tab>Restock Point</Tab>
-          <Tab>Predictive Analysis</Tab>
+          <Tab>Sales per product</Tab>
         </TabList>
         <TabPanels className="">
           <TabPanel className="">

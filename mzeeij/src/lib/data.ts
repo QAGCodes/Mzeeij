@@ -48,6 +48,7 @@ export async function fetchStatisticsCardData(user: any) {
 }
 
 export async function fetchSalesByRegion(user: any) {
+  noStore();
   const dummyUser = {
     userId: 51,
     companyname: "Mzeeijco",
@@ -133,41 +134,41 @@ export async function fetchSalesPrediction(user: any) {
     userId: 51,
     companyname: "Mzeeijco",
   };
-  /*
-   Should return an array of objects in the following format:
+  
+   //Should return an array of objects in the following format:
       [
         {
           date: "Jan 22",
-          predicitions: 2890,
+          predicitions: -1,
           actual: 2338,
         },
         {
           date: "Feb 22",
-          SemiAnalysis: 2756,
+          predicitions: -1,
           actual: 2103,
         },
         {
           date: "Mar 22",
-          SemiAnalysis: 3322,
+          predicitions: -1,
           actual: 2194,
         },
         {
           date: "Apr 22",
-          SemiAnalysis: 3470,
+          predicitions: -1,
           actual: 2108,
         },
         {
           date: "May 22",
-          SemiAnalysis: 3475,
-          actual: 1812,
+          predicitions: 3475,
+          actual: -1,
         },
         {
           date: "Jun 22",
-          SemiAnalysis: 3129,
-          actual: 1726,
+          predicitions: 3129,
+          actual: -1,
         },
       ];
-   */
+   
 
   try {
     const data = await sql`SELECT o.createdat, COUNT(i.id)
@@ -178,28 +179,28 @@ export async function fetchSalesPrediction(user: any) {
         `;
     // console.log('Data fetch complete after 3 seconds.');
 
-    //python ML model
-    const python = spawn('python', ['src/lib/salespredic.py']);
+//     //python ML model
+//     const python = spawn('python', ['src/lib/salespredic.py']);
 
-    // Send data to Python script
-    python.stdin.write(JSON.stringify(data.rows));
-    python.stdin.end();
+//     // Send data to Python script
+//     python.stdin.write(JSON.stringify(data.rows));
+//     python.stdin.end();
 
-    // Handle output
-    let result = '';
-python.stdout.on('data', (data) => {
-  result += data.toString();
-});
+//     // Handle output
+//     let result = '';
+// python.stdout.on('data', (data) => {
+//   result += data.toString();
+// });
 
-python.on('close', (code) => {
-  console.log(`child process exited with code ${code}`);
-  const df = JSON.parse(result);
-  console.log(df);
-});
+// python.on('close', (code) => {
+//   console.log(`child process exited with code ${code}`);
+//   const df = JSON.parse(result);
+//   console.log(df);
+// });
 
-    python.stderr.on("data", (data) => {
-      console.error(`stderr: ${data}`);
-    });
+//     python.stderr.on("data", (data) => {
+//       console.error(`stderr: ${data}`);
+//     });
 
 
     return data.rows;
@@ -238,26 +239,26 @@ export async function fetchRestockPoints(user: any) {
     // console.log('Data fetch complete after 3 seconds.');
 
     //python ML model
-    const python = spawn("wsl", ["/usr/bin/python3", "src/lib/salespredic.py"]);
+    // const python = spawn("wsl", ["/usr/bin/python3", "src/lib/salespredic.py"]);
 
-    // Send data to Python script
-    python.stdin.write(JSON.stringify(data.rows));
-    python.stdin.end();
+    // // Send data to Python script
+    // python.stdin.write(JSON.stringify(data.rows));
+    // python.stdin.end();
 
-    // Handle output
-    python.stdout.on("data", (data) => {
-      console.log(`stdout: ${data}`);
-    });
+    // // Handle output
+    // python.stdout.on("data", (data) => {
+    //   console.log(`stdout: ${data}`);
+    // });
 
-    python.stderr.on("data", (data) => {
-      console.error(`stderr: ${data}`);
-    });
+    // python.stderr.on("data", (data) => {
+    //   console.error(`stderr: ${data}`);
+    // });
 
-    python.on("close", (code) => {
-      console.log(`child process exited with code ${code}`);
-    });
+    // python.on("close", (code) => {
+    //   console.log(`child process exited with code ${code}`);
+    // });
 
-    return data.rows;
+   // return data.rows;
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to Sales Prediction.");

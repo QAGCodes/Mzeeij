@@ -1,15 +1,15 @@
-// import React from "react";
+import React from "react";
 
-// import { fetchInvoicesTableData } from "@/lib/data";
+import { fetchSalesByRegion } from "@/lib/data";
 
-// const page = async () => {
-//   const user = {
-//     userId: 1,
-//     companyName: "Mzeeij",
-//   };
-//   console.log(await fetchInvoicesTableData(user));
+const page = async () => {
+  const user = {
+    userId: 1,
+    companyName: "Mzeeijco",
+  };
+  console.log(await fetchSalesByRegion(user));
 
-//   return <div>page</div>;
-// };
+  return <div>page</div>;
+};
 
-// export default page;
+export default page;

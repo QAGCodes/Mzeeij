@@ -12,7 +12,7 @@ const OrderByRegion = ({ data }: any) => {
       decoration="top"
       decorationColor="indigo"
     >
-      <Title>Sales</Title>
+      <Title>Orders by region</Title>
       <DonutChart
         className="mt-6 h-full"
         data={data}

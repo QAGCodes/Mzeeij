@@ -17,6 +17,7 @@ function generateFakeData() {
     orders: [],
     invoice: [],
     images: [],
+    mzoutgoing: [],
   };
 
   data.company.push({
@@ -157,6 +158,24 @@ function generateFakeData() {
     data.images.push({
       metaproductid: i+1,
       url: faker.image.urlLoremFlickr({ category: 'nature' }),
+    });
+  }
+// starts from 101 ends at 400
+  for (let i = 0; i < 300; i++) {
+    data.mzoutgoing.push({
+      CompanyName: "Mzeeijco",
+      userid: faker.number.int({ min: 1, max: 5 }),
+      type: "OUTGOING",
+      status: faker.helpers.arrayElement([
+        "PENDING",
+        "PAID",
+        "UNPAID",
+        "COMPLETE",
+      ]),
+      createdat: faker.date.past(),
+      region: faker.helpers.arrayElement(["Jeddah", "Riyadh", "Dammam"]),
+      destinationcompany: faker.company.name(),
+      address: faker.location.streetAddress(),
     });
   }
 
