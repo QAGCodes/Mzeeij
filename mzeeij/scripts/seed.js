@@ -234,7 +234,7 @@ async function main() {
 
 
      //await addimagecolumn(client);
-     await addimageurl(client);
+     //await addimageurl(client);
 
     await client.sql`COMMIT;`;
   } catch (error) {

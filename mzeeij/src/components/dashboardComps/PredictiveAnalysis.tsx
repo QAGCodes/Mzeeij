@@ -2,32 +2,32 @@ import { BarChart, Card, Title, Subtitle } from "@tremor/react";
 
 const chartdata = [
   {
-    name: "Amphibians",
-    "Number of threatened species": 2488,
+    name: "Electronics",
+    "Sales": 2488,
   },
   {
-    name: "Birds",
-    "Number of threatened species": 1445,
+    name: "Furniture",
+    "Sales": 1445,
   },
   {
-    name: "Crustaceans",
-    "Number of threatened species": 743,
+    name: "Grocery",
+    "Sales": 743,
   },
   {
-    name: "Ferns",
-    "Number of threatened species": 281,
+    name: "Tools",
+    "Sales": 281,
   },
   {
-    name: "Arachnids",
-    "Number of threatened species": 251,
+    name: "Farming",
+    "Sales": 251,
   },
   {
-    name: "Corals",
-    "Number of threatened species": 232,
+    name: "Household supplies",
+    "Sales": 232,
   },
   {
-    name: "Algae",
-    "Number of threatened species": 98,
+    name: "Clothing",
+    "Sales": 98,
   },
 ];
 
@@ -36,16 +36,15 @@ const valueFormatter = (number: any) =>
 
 const PredictiveAnalysis = ({ data }: { data?: Array<Object> }) => (
   <Card>
-    <Title>Number of species threatened with extinction (2021)</Title>
+    <Title>Sales per product viscal year (2021)</Title>
     <Subtitle>
-      The IUCN Red List has assessed only a small share of the total known
-      species in the world.
+      These are the most profitable products in the last 12 months
     </Subtitle>
     <BarChart
       className=""
       data={chartdata} // data={data}
       index="name" // index="Product Name"
-      categories={["Number of threatened species"]} // categories={["Product Sales"]}
+      categories={["Sales"]} // categories={["Product Sales"]}
       colors={["blue"]}
       valueFormatter={valueFormatter}
       yAxisWidth={60}
