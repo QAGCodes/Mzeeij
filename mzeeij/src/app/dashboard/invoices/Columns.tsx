@@ -18,25 +18,25 @@ import {
 import { OutgoingStatus, OrderStatus } from "@prisma/client";
 
 const StatusCellBadge = ({ value }: any) => {
-  if (value === OrderStatus.UNPAID) {
+  if (value === "Unpaid") {
     return (
       <Badge className="bg-red-200 text-red-900 hover:bg-red-200/70">
         Unpaid
       </Badge>
     );
-  } else if (value === OrderStatus.PENDING) {
+  } else if (value === "Pending") {
     return (
       <Badge className="bg-yellow-200 text-yellow-900 hover:bg-yellow-200/70">
         Pending
       </Badge>
     );
-  } else if (value === OrderStatus.PAID) {
+  } else if (value === "Paid") {
     return (
       <Badge className="bg-green-200 text-green-900 hover:bg-green-200/70">
         Paid
       </Badge>
     );
-  } else if (value === OrderStatus.COMPLETE) {
+  } else if (value === "Complete") {
     return (
       <Badge className="bg-gray-200 text-gray-500 hover:bg-gray-200/70">
         Complete

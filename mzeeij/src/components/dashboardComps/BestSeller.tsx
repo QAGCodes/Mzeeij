@@ -42,6 +42,7 @@ const BestSeller = ({ data }: { data: any }) => {
                   alt={item.name}
                   height={100}
                   width={100}
+                  className="m-3"
                 />
               ))}
             </div>
@@ -51,10 +52,13 @@ const BestSeller = ({ data }: { data: any }) => {
               {data[1].map((item: any, index: any) => (
                 <Image
                   key={item.name} // Prefer using a unique identifier from your data
-                  src={item.imgUrl}
+                  src={
+                    "https://fonts.gstatic.com/s/i/productlogos/googleg/v6/24px.svg"
+                  }
                   alt={item.name}
                   height={100}
                   width={100}
+                  className="m-3"
                 />
               ))}
             </div>
@@ -64,10 +68,13 @@ const BestSeller = ({ data }: { data: any }) => {
               {data[2].map((item: any, index: any) => (
                 <Image
                   key={item.name} // Prefer using a unique identifier from your data
-                  src={item.imgUrl}
+                  src={
+                    "https://upload.wikimedia.org/wikipedia/commons/4/4a/Amazon_icon.svg"
+                  }
                   alt={item.name}
                   height={100}
                   width={100}
+                  className="m-3"
                 />
               ))}
             </div>

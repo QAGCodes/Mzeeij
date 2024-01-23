@@ -118,7 +118,7 @@ export async function fetchBestSellersData(user: any) {
     const data = [low.rows, med.rows, high.rows];
     const result = data.map((array) =>
       array.map((row) => ({
-         imgUrl: row.imageurl,
+        imgUrl: row.imageurl,
         name: row.title,
       }))
     );
@@ -134,80 +134,73 @@ export async function fetchSalesPrediction(user: any) {
     userId: 51,
     companyname: "Mzeeijco",
   };
-  
-   //Should return an array of objects in the following format:
-      [
-        {
-          date: "Jan 22",
-          predicitions: -1,
-          actual: 2338,
-        },
-        {
-          date: "Feb 22",
-          predicitions: -1,
-          actual: 2103,
-        },
-        {
-          date: "Mar 22",
-          predicitions: -1,
-          actual: 2194,
-        },
-        {
-          date: "Apr 22",
-          predicitions: -1,
-          actual: 2108,
-        },
-        {
-          date: "May 22",
-          predicitions: 3475,
-          actual: -1,
-        },
-        {
-          date: "Jun 22",
-          predicitions: 3129,
-          actual: -1,
-        },
-      ];
-   
 
-  try {
-    const data = await sql`SELECT o.createdat, COUNT(i.id)
-        FROM orders as o, item as i
-        WHERE o.type = 'OUTGOING' AND o.id = i.orderid  
-        GROUP BY o.createdat
-        ORDER BY o.createdat ASC
-        `;
-    // console.log('Data fetch complete after 3 seconds.');
+  //Should return an array of objects in the following format:
+  const dummy_result = [
+    {
+      date: "Jan 22",
+      actual: 2338,
+    },
+    {
+      date: "Feb 22",
+      actual: 1800,
+    },
+    {
+      date: "Mar 22",
+      predicitions: 2194,
+      actual: 2194,
+    },
+    {
+      date: "Apr 22",
+      predicitions: 1500,
+    },
+    {
+      date: "May 22",
+      predicitions: 3475,
+    },
+    {
+      date: "Jun 22",
+      predicitions: 3129,
+    },
+  ];
 
-//     //python ML model
-//     const python = spawn('python', ['src/lib/salespredic.py']);
+  // try {
+  //   const data = await sql`SELECT o.createdat, COUNT(i.id)
+  //       FROM orders as o, item as i
+  //       WHERE o.type = 'OUTGOING' AND o.id = i.orderid
+  //       GROUP BY o.createdat
+  //       ORDER BY o.createdat ASC
+  //       `;
+  // console.log('Data fetch complete after 3 seconds.');
 
-//     // Send data to Python script
-//     python.stdin.write(JSON.stringify(data.rows));
-//     python.stdin.end();
+  //     //python ML model
+  //     const python = spawn('python', ['src/lib/salespredic.py']);
 
-//     // Handle output
-//     let result = '';
-// python.stdout.on('data', (data) => {
-//   result += data.toString();
-// });
+  //     // Send data to Python script
+  //     python.stdin.write(JSON.stringify(data.rows));
+  //     python.stdin.end();
 
-// python.on('close', (code) => {
-//   console.log(`child process exited with code ${code}`);
-//   const df = JSON.parse(result);
-//   console.log(df);
-// });
+  //     // Handle output
+  //     let result = '';
+  // python.stdout.on('data', (data) => {
+  //   result += data.toString();
+  // });
 
-//     python.stderr.on("data", (data) => {
-//       console.error(`stderr: ${data}`);
-//     });
+  // python.on('close', (code) => {
+  //   console.log(`child process exited with code ${code}`);
+  //   const df = JSON.parse(result);
+  //   console.log(df);
+  // });
 
+  //     python.stderr.on("data", (data) => {
+  //       console.error(`stderr: ${data}`);
+  //     });
 
-    return data.rows;
-  } catch (error) {
-    console.error("Database Error:", error);
-    throw new Error("Failed to Sales Prediction.");
-  }
+  return dummy_result;
+  // } catch (error) {
+  //   console.error("Database Error:", error);
+  //   throw new Error("Failed to Sales Prediction.");
+  // }
 }
 
 export async function fetchRestockPoints(user: any) {
@@ -258,7 +251,7 @@ export async function fetchRestockPoints(user: any) {
     //   console.log(`child process exited with code ${code}`);
     // });
 
-   // return data.rows;
+    return data.rows;
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to Sales Prediction.");

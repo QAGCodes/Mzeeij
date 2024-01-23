@@ -48,7 +48,7 @@ const StatusCellBadge = ({ value }: any) => {
         Accepted
       </Badge>
     );
-  } else if (value === "Rejected") {
+  } else if (value === "Returned") {
     return (
       <Badge className="bg-red-200 text-red-900 hover:bg-red-200/70">
         Rejected
