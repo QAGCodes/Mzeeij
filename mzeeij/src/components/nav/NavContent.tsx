@@ -17,6 +17,11 @@ export default function NavContent() {
           Dashboard
         </Button>
       </Link>
+      <Link href={"/dashboard/orders"} className="w-full">
+        <Button variant={"ghost"} className="w-full p-0 text-start">
+          Orders
+        </Button>
+      </Link>
       <Link href={"/dashboard/inventory"} className="w-full">
         <Button variant={"ghost"} className="w-full p-0 text-start">
           Inventory
@@ -30,6 +35,11 @@ export default function NavContent() {
       <Link href={"/dashboard/dataInsertion"} className="w-full">
         <Button variant={"ghost"} className="w-full p-0 text-start">
           Data Insertion
+        </Button>
+      </Link>
+      <Link href={"/dashboard/contact"} className="w-full">
+        <Button variant={"ghost"} className="w-full p-0 text-start">
+          Contact Us
         </Button>
       </Link>
     </div>
