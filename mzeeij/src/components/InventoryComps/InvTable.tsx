@@ -75,14 +75,6 @@ export function InvTable<TData, TValue>({
   return (
     <div className="box-border overflow-y-scroll mx-4">
       <div className="flex items-center mb-3">
-        <Input
-          placeholder="Filter status..."
-          value={(table.getColumn("status")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("status")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">

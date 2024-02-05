@@ -7,7 +7,7 @@ import { Separator } from "@/components/ui/separator";
 
 import { SimpleStats } from "@/lib/definitions";
 
-const SimpleStatisticsCard = ({data}: {data: SimpleStats}) => {
+const SimpleStatisticsCard = ({ data }: { data: any }) => {
   return (
     <Card
       className="h-full w-full flex-col flex justify-evenly gap-1"
@@ -16,7 +16,7 @@ const SimpleStatisticsCard = ({data}: {data: SimpleStats}) => {
     >
       <Title>Statistics</Title>
       <Text>Item Count</Text>
-      <Metric>{data.itemNum}</Metric>
+      <Metric>{data.itemCount}</Metric>
       <Separator></Separator>
       <Text>Number of Orders</Text>
       <Metric>{data.orderNum}</Metric>

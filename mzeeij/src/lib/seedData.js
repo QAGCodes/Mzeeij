@@ -1,92 +1,181 @@
+
+// TODO : CHECK NEW SCHEMA BEFORE RUNNING SEEDER
+
+
 const { faker } = require("@faker-js/faker");
 
+module.exports = generateFakeData;
 function generateFakeData() {
   const data = {
-    role: [],
-    supplier: [],
-    users: [],
-    orders: [],
-    product: [],
-    inventory: [],
-    orderItem: [],
-    category: [],
     admin: [],
+    users: [],
+    company: [],
+    Meta_product: [],
+    item: [],
+    supplier: [],
+    SupplierCompany: [],
+    orders: [],
+    invoice: [],
+    images: [],
+    mzoutgoing: [],
   };
 
-  for (let i = 0; i < 10; i++) {
-    data.role.push({
-      name: faker.person.jobTitle(),
-    });
+  data.company.push({
+    CompanyName: "Mzeeijco",
+    CRnum: faker.string.uuid(),
+    registeredat: faker.date.past(),
+  });
 
+  data.company.push({
+    CompanyName: "Alphaco",
+    CRnum: faker.string.uuid(),
+    registeredat: faker.date.past(),
+  });
+
+  data.company.push({
+    CompanyName: "Betaco",
+    CRnum: faker.string.uuid(),
+    registeredat: faker.date.past(),
+  });
+
+  for (let i = 0; i < 5; i++) {
+    data.users.push({
+      CompanyName: faker.helpers.arrayElement([
+        "Mzeeijco",
+        "Alphaco",
+        "Betaco",
+      ]),
+      firstname: faker.person.firstName(),
+      lastname: faker.person.lastName(),
+      username: faker.internet.userName(),
+      mobile: faker.phone.number(),
+      email: faker.internet.email(),
+      passwordhash: faker.internet.password(),
+      registeredat: faker.date.past(),
+      role: faker.person.jobTitle(),
+    });
+  }
+
+  for (let i = 0; i < 10; i++) {
+    data.Meta_product.push({
+      CompanyName: faker.helpers.arrayElement([
+        "Mzeeijco",
+        "Alphaco",
+        "Betaco",
+      ]),
+      supplierid: faker.datatype.boolean()
+        ? faker.number.int({ min: 1, max: 7 })
+        : null,
+      title: faker.commerce.productName(),
+      summary: faker.commerce.productDescription(),
+      sku: faker.string.uuid(),
+      upc: faker.string.uuid(),
+      price: faker.commerce.price(),
+      createdat: faker.date.past(),
+      updatedat: faker.date.recent(),
+      estimatedExp: faker.date.future(),
+      StockStatus: faker.helpers.arrayElement([
+        "IN_STOCK",
+        "OUT_OF_STOCK",
+        "RESTOCK_SOON",
+        "COMING_SOON",
+        "DISCONTINUED",
+      ]),
+    });
+  }
+
+  for (let i = 0; i < 500; i++) {
+    data.item.push({
+      Metaid: faker.number.int({ min: 1, max: 10 }),
+      orderid: faker.datatype.boolean()
+        ? faker.number.int({ min: 1, max: 100 })
+        : null,
+      insertedat: faker.date.past(),
+      removedat: faker.date.future(),
+      location: faker.helpers.arrayElement(["Jeddah", "Riyadh", "Dammam"]),
+      Expiredate: faker.date.future(),
+    });
+  }
+
+  for (let i = 0; i < 10; i++) {
     data.supplier.push({
       name: faker.company.name(),
-      contact: faker.phone.number(),
-      address: faker.location.streetAddress(false),
+      phonenumber: faker.phone.number(),
+      address: faker.location.streetAddress(),
+      email: faker.internet.email(),
+    });
+  }
+
+  for (let i = 0; i < 7; i++) {
+    data.SupplierCompany.push({
+      supplierId: faker.number.int({ min: 1, max: 7 }),
+      companyName: faker.helpers.arrayElement([
+        "Mzeeijco",
+        "Alphaco",
+        "Betaco",
+      ]),
     });
   }
 
   for (let i = 0; i < 100; i++) {
-    data.users.push({
-      roleId: faker.number.int({ min: 1, max: 9 }),
-      firstName: faker.person.firstName(),
-      lastName: faker.person.lastName(),
-      username: faker.internet.userName(),
-      mobile: faker.phone.number(),
-      email: faker.internet.email(),
-      passwordHash: faker.internet.password(),
-      registeredAt: faker.date.past(),
-    });
-
-    data.product.push({
-      supplierId: faker.number.int({ min: 1, max: 10 }),
-      orderId: faker.number.int({ min: 1, max: 100 }),
-      title: faker.commerce.productName(),
-      summary: faker.commerce.productDescription(),
-      type: faker.number.int({ min: 0, max: 1 }),
-      sku: faker.string.uuid(),
-      createdAt: faker.date.past(),
-      updatedAt: faker.date.recent(),
-      content: faker.lorem.paragraph(),
-    });
-
     data.orders.push({
-      userId: faker.number.int({ min: 1, max: 100 }),
-      type: faker.number.int({ min: 0, max: 1 }),
-      status: faker.number.int({ min: 0, max: 1 }),
-      subTotal: faker.commerce.price(),
-      MetaProductDiscount: faker.commerce.price(),
+      CompanyName: faker.helpers.arrayElement([
+        "Mzeeijco",
+        "Alphaco",
+        "Betaco",
+      ]),
+      userid: faker.number.int({ min: 1, max: 5 }),
+      type: faker.helpers.arrayElement(["OUTGOING", "INCOMING", "RETURN"]),
+      status: faker.helpers.arrayElement([
+        "PENDING",
+        "PAID",
+        "UNPAID",
+        "COMPLETE",
+      ]),
+      createdat: faker.date.past(),
+      region: faker.helpers.arrayElement(["Jeddah", "Riyadh", "Dammam"]),
+      destinationcompany: faker.company.name(),
+      address: faker.location.streetAddress(),
+    });
+  }
+
+  for (let i = 0; i < 100; i++) {
+    data.invoice.push({
+      orderid: i + 1,
+      subtotal: faker.commerce.price(),
+      metaproductdiscount: faker.commerce.price(),
       tax: faker.commerce.price(),
       shipping: faker.commerce.price(),
       total: faker.commerce.price(),
-      promo: faker.word.noun(),
+      promo: faker.word.words(),
       discount: faker.commerce.price(),
-      grandTotal: faker.commerce.price(),
-      createdAt: faker.date.past(),
-    });
-
-    data.inventory.push({
-      productId: faker.number.int({ min: 1, max: 100 }),
-      quantity: faker.number.int({ min: 1, max: 100 }),
-    });
-
-    data.orderItem.push({
-      orderId: faker.number.int({ min: 1, max: 100 }),
-      productId: faker.number.int({ min: 1, max: 100 }),
-      quantity: faker.number.int({ min: 1, max: 100 }),
-    });
-
-    data.category.push({
-      productId: faker.number.int({ min: 1, max: 100 }),
-      title: faker.commerce.productName(),
-      metaTitle: faker.commerce.productName(),
-      slug: faker.internet.userName(),
-      content: faker.lorem.paragraph(),
+      grandtotal: faker.commerce.price(),
+      createdat: faker.date.past(),
     });
   }
-  for (let i = 0; i < 5; i++) {
-    data.admin.push({
-      userId: faker.number.int({ min: 1, max: 100 }),
-      accessLevel: faker.number.int({ min: 1, max: 10 }),
+
+  for (let i = 0; i < 10; i++) {
+    data.images.push({
+      metaproductid: i+1,
+      url: faker.image.urlLoremFlickr({ category: 'nature' }),
+    });
+  }
+// starts from 101 ends at 400
+  for (let i = 0; i < 300; i++) {
+    data.mzoutgoing.push({
+      CompanyName: "Mzeeijco",
+      userid: faker.number.int({ min: 1, max: 5 }),
+      type: "OUTGOING",
+      status: faker.helpers.arrayElement([
+        "PENDING",
+        "PAID",
+        "UNPAID",
+        "COMPLETE",
+      ]),
+      createdat: faker.date.past(),
+      region: faker.helpers.arrayElement(["Jeddah", "Riyadh", "Dammam"]),
+      destinationcompany: faker.company.name(),
+      address: faker.location.streetAddress(),
     });
   }
 

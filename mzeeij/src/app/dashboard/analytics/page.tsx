@@ -3,16 +3,33 @@ import DashHeader from "@/components/dashboardComps/DashHeader";
 import SimpleStatisticsCard from "@/components/dashboardComps/SimpleStatisticsCard";
 import OrderByRegion from "@/components/dashboardComps/OrderByRegion";
 import BestSeller from "@/components/dashboardComps/BestSeller";
-import MyTabs from "@/components/misc/MyTabs";
+import GraphsTabs from "@/components/dashboardComps/GraphsTabs";
 import {
-  fetchSimpleStats,
-  fetchOrderByRegion,
-  fetchBestSellers,
+  fetchStatisticsCardData,
+  fetchSalesByRegion,
+  fetchBestSellersData,
+  fetchSalesPrediction,
+  fetchRestockPoints,
+  fetchPredictiveAnalysis,
 } from "@/lib/data";
 
 const AnalyticsPage = async () => {
-  const simpleStatsData = await fetchSimpleStats();
-  const orderByRegionData = await fetchOrderByRegion();
+  // Check for a session
+  // If there is a session, then we will have an object containg the user data.
+
+  const simpleStatsData = await fetchStatisticsCardData({});
+  const orderByRegionData = await fetchSalesByRegion({});
+  const bestSellerData = await fetchBestSellersData({});
+  const salesPredicitionData = await fetchSalesPrediction({});
+  const restockPointData = await fetchRestockPoints({});
+  const predicitiveAnalysisData = await fetchPredictiveAnalysis({});
+  const graphsData = [
+    salesPredicitionData,
+    restockPointData,
+    predicitiveAnalysisData,
+  ];
+
+  // If there is no session, then we will redirect to the login page.
 
   return (
     <div className="grid dashboard-grid gap-2 justify-around mx-3 h-full">
@@ -26,10 +43,10 @@ const AnalyticsPage = async () => {
         <OrderByRegion data={orderByRegionData} />
       </div>
       <div className="flex row-span-3">
-        <BestSeller />
+        <BestSeller data={bestSellerData} />
       </div>
       <div className="flex row-span-5 col-span-3">
-        <MyTabs />
+        <GraphsTabs data={graphsData} />
       </div>
     </div>
   );

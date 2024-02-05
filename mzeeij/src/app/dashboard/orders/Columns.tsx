@@ -18,28 +18,40 @@ import {
 import { OutgoingStatus, OrderStatus } from "@prisma/client";
 
 const StatusCellBadge = ({ value }: any) => {
-  if (value === "Unpaid") {
-    return (
-      <Badge className="bg-red-200 text-red-900 hover:bg-red-200/70">
-        Unpaid
-      </Badge>
-    );
-  } else if (value === "Pending") {
+  if (value === "Preparing") {
     return (
       <Badge className="bg-yellow-200 text-yellow-900 hover:bg-yellow-200/70">
-        Pending
+        Preparing
       </Badge>
     );
-  } else if (value === "Paid") {
+  } else if (value === "Out for Delivery") {
+    return (
+      <Badge className="bg-orange-200 text-orange-900 hover:bg-orange-200/70">
+        Out for Delivery
+      </Badge>
+    );
+  } else if (value === "Delivered") {
+    return (
+      <Badge className="bg-gray-200 text-gray-900 hover:bg-gray-200/70">
+        Delivered
+      </Badge>
+    );
+  } else if (value === "Recieved") {
+    return (
+      <Badge className="bg-blue-200 text-blue-900 hover:bg-blue-200/70">
+        Recieved
+      </Badge>
+    );
+  } else if (value === "Accepted") {
     return (
       <Badge className="bg-green-200 text-green-900 hover:bg-green-200/70">
-        Paid
+        Accepted
       </Badge>
     );
-  } else if (value === "Complete") {
+  } else if (value === "Returned") {
     return (
-      <Badge className="bg-gray-200 text-gray-500 hover:bg-gray-200/70">
-        Complete
+      <Badge className="bg-red-200 text-red-900 hover:bg-red-200/70">
+        Rejected
       </Badge>
     );
   }
@@ -75,43 +87,77 @@ export const columns: ColumnDef<any>[] = [
     },
   },
   {
-    accessorKey: "companyname",
+    accessorKey: "fromCompany",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Company Name
+          Source Company
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
   },
   {
-    accessorKey: "total",
+    accessorKey: "toCompany",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Total Amount
+          Destination Company
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
-    cell: ({ row }) => {
-      const unitprice = parseFloat(row.getValue("total"));
-      const formatted = new Intl.NumberFormat("de-DE", {
-        style: "currency",
-        currency: "SAR",
-      }).format(unitprice);
-      return <div className="text-center">{formatted}</div>;
+  },
+  {
+    accessorKey: "saleRegion",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Sale Region
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
     },
   },
   {
-    accessorKey: "orderstatus",
+    accessorKey: "address",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Order Address
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "type",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Type
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "status",
     header: ({ column }) => {
       return (
         <Button
@@ -124,7 +170,7 @@ export const columns: ColumnDef<any>[] = [
       );
     },
     cell: ({ row }) => {
-      return <StatusCellBadge value={row.getValue("orderstatus")} />;
+      return <StatusCellBadge value={row.getValue("status")} />;
     },
   },
 ];
