@@ -20,6 +20,8 @@ module.exports = {
     current: "currentColor",
     extend: {
       colors: {
+        "mzeeij-green": "#5db024",
+        "mzeeij-blue": "#11418b",
         tremor: {
           brand: {
             faint: "#eff6ff", // blue-50

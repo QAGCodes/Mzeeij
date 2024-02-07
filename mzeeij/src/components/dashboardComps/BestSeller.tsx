@@ -28,9 +28,24 @@ const BestSeller = ({ data }: { data: any }) => {
       <Title>Best Sellers</Title>
       <TabGroup className="h-full flex flex-col">
         <TabList className="mt-8 ">
-          <Tab icon={TrendingDownIcon}>Low</Tab>
-          <Tab icon={ArrowRightIcon}>Medium</Tab>
-          <Tab icon={TrendingUpIcon}>High</Tab>
+          <Tab
+            icon={TrendingDownIcon}
+            className="text-red-600 hover:text-red-600"
+          >
+            Low
+          </Tab>
+          <Tab
+            icon={ArrowRightIcon}
+            className="text-orange-400 hover:text-orange-400"
+          >
+            Medium
+          </Tab>
+          <Tab
+            icon={TrendingUpIcon}
+            className="text-green-500 hover:text-green-500"
+          >
+            High
+          </Tab>
         </TabList>
         <TabPanels className="box-border h-full">
           <TabPanel className="h-full">

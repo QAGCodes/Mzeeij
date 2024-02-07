@@ -81,5 +81,9 @@
 }
 
 .red-outline {
-  outline: 5px solid red;
+  outline: 1px solid red;
+}
+
+.nav-outline {
+  border-right: 2px solid grey;
 }
