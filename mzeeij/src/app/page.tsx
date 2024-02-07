@@ -7,11 +7,18 @@ import { Card } from "@/components/ui/card";
 export default function Home() {
   return (
     <div className="flex flex-col justify-center items-center h-screen w-screen">
-      <Card className="bg-white flex flex-col justify-center items-center w-[20rem] h-[20rem]">
-        <Image src={"/One8_logo.svg"} width={200} height={200} alt="hi"></Image>
-        <Link href={"/login"} className="bg-slate-400 rounded p-2">
-          Login
-        </Link>
+      <Card className="bg-white flex flex-col justify-around items-center w-[40rem] h-[40rem]">
+        <Image
+          src={"/logo/nolines-cropped/logo.svg"}
+          width={500}
+          height={500}
+          alt="One8 Logo"
+        ></Image>
+        <Button className="bg-mzeeij-green rounded p-2 w-10/12">
+          <Link href={"/login"} className="w-full h-full">
+            Login
+          </Link>
+        </Button>
       </Card>
     </div>
   );
