@@ -18,7 +18,7 @@ const SideNav = () => {
   };
 
   return (
-    <div id="navbar" className="text-white flex flex-col w-[15vw] nav-outline">
+    <div id="navbar" className="text-white flex flex-col w-[15vw]">
       <div
         id="header"
         className="flex flex-col h-[10vh] items-center justify-center my-6"
