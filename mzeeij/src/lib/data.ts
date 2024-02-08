@@ -109,17 +109,18 @@ export async function fetchBestSellersData(user: any) {
 
   try {
     const low =
-      await sql`SELECT m.title, m.imageurl FROM item as i, meta_product as m, orders as o WHERE o.companyname = ${dummyUser.companyname} AND o.type = 'OUTGOING' AND o.id = i.orderid AND m.id = i.metaid GROUP BY m.title, m.imageurl HAVING COUNT(i.id) < 3 ORDER BY COUNT(i.id) ASC LIMIT 3`;
+      await sql`SELECT m.title, m.imageurl, COUNT(i.id) FROM item as i, meta_product as m, orders as o WHERE o.companyname = ${dummyUser.companyname} AND o.type = 'OUTGOING' AND o.id = i.orderid AND m.id = i.metaid GROUP BY m.title, m.imageurl HAVING COUNT(i.id) < 3 ORDER BY COUNT(i.id) ASC LIMIT 3`;
     const med =
-      await sql`SELECT m.title, m.imageurl FROM item as i, meta_product as m, orders as o WHERE o.companyname = ${dummyUser.companyname} AND o.type = 'OUTGOING' AND o.id = i.orderid AND m.id = i.metaid GROUP BY m.title, m.imageurl HAVING COUNT(i.id)>= 3 AND COUNT(i.id) < 5 ORDER BY COUNT(i.id) DESC LIMIT 3`;
+      await sql`SELECT m.title, m.imageurl, COUNT(i.id) FROM item as i, meta_product as m, orders as o WHERE o.companyname = ${dummyUser.companyname} AND o.type = 'OUTGOING' AND o.id = i.orderid AND m.id = i.metaid GROUP BY m.title, m.imageurl HAVING COUNT(i.id)>= 3 AND COUNT(i.id) < 5 ORDER BY COUNT(i.id) DESC LIMIT 3`;
     const high =
-      await sql`SELECT m.title, m.imageurl FROM item as i, meta_product as m, orders as o WHERE o.companyname = ${dummyUser.companyname} AND o.type = 'OUTGOING' AND o.id = i.orderid AND m.id = i.metaid GROUP BY m.title, m.imageurl HAVING COUNT(i.id) >= 5 ORDER BY COUNT(i.id) DESC LIMIT 3`;
+      await sql`SELECT m.title, m.imageurl, COUNT(i.id) FROM item as i, meta_product as m, orders as o WHERE o.companyname = ${dummyUser.companyname} AND o.type = 'OUTGOING' AND o.id = i.orderid AND m.id = i.metaid GROUP BY m.title, m.imageurl HAVING COUNT(i.id) >= 5 ORDER BY COUNT(i.id) DESC LIMIT 3`;
     // console.log('Data fetch complete after 3 seconds.');
     const data = [low.rows, med.rows, high.rows];
     const result = data.map((array) =>
       array.map((row) => ({
         imgUrl: row.imageurl,
         name: row.title,
+        totalSales: row.count,
       }))
     );
     return result;
@@ -129,7 +130,7 @@ export async function fetchBestSellersData(user: any) {
   }
 }
 
-export async function fetchSalesPrediction(user: any) {
+export async function fetchSalesPerProduct(user: any) {
   const dummyUser = {
     userId: 51,
     companyname: "Mzeeijco",
@@ -258,74 +259,12 @@ export async function fetchRestockPoints(user: any) {
   }
 }
 
-export async function fetchPredictiveAnalysis(user: any) {
-  const dummyUser = {
-    userId: 51,
-    companyname: "Mzeeijco",
-  };
-  /*
-   Should return an array of objects in the following format:
-      [
-          {
-            name: "Amphibians",
-            "Number of threatened species": 2488,
-          },
-          {
-            name: "Birds",
-            "Number of threatened species": 1445,
-          },
-          {
-            name: "Crustaceans",
-            "Number of threatened species": 743,
-          },
-          {
-            name: "Ferns",
-            "Number of threatened species": 281,
-          },
-          {
-            name: "Arachnids",
-            "Number of threatened species": 251,
-          },
-          {
-            name: "Corals",
-            "Number of threatened species": 232,
-          },
-          {
-            name: "Algae",
-            "Number of threatened species": 98,
-          },
-        ];
-   */
-}
-
 export async function fetchInventoryTableData(user: any) {
   const dummyUser = {
     userId: 51,
     companyname: "Betaco",
   };
-  /*
-   Should return an array of objects in the following format:
-      [
-        {
-          Id
-          Product Name
-          Company / Manufacturer Name
-          Supplier Name
-          SKU
-          UPC
-          Item Price
-          Item Quantity
-          Stock Status
-          Expiry Date
-        },
-       ...
-      ];
-   */
-  /* const data = await sql`SELECT m.id, m.title, m.companyname, m.sku, m.upc, m.price, m.stockstatus, m.estimatedexp, s.name, COUNT(i.id)
-      FROM   Meta_product as m, supplier as s ,item as i
-      WHERE m.companyname = ${user.companyname} AND i.metaid = m.id AND s.id = m.supplierid
-      GROUP BY m.id, m.title, m.companyname, s.name, m.sku, m.upc, m.price, m.stockstatus, m.estimatedexp
-      `; */
+
   try {
     const data =
       await sql`SELECT DISTINCT m.id, m.title, m.companyname, m.sku, m.upc, m.price, m.stockstatus, m.estimatedexp,  COUNT(i.id)
@@ -345,20 +284,7 @@ export async function fetchInvoicesTableData(user: any) {
     userId: 51,
     companyname: "Mzeeijco",
   };
-  /*
-   Should return an array of objects in the following format:
-      [
-        {
-          Id
-          All money stuff (tax, subtotal, etc…)
-          Created at
-          Company Name sold to / bought from 
-          Order status
-          Created At
-        },
-       ...
-      ];
-   */
+
   try {
     const data =
       await sql`SELECT i.id, o.destinationcompany, i.tax, i.subtotal, i.total, o.status, i.createdat
@@ -438,244 +364,148 @@ limit 5
   }
 }
 
-export async function fetchBestSellers() {
-  noStore();
-  try {
-    //TODO: data should contain a data
-    const low = (
-      await sql<BestSeller>`SELECT imgUrl FROM items where orders less than 200`
-    ).rows;
-    const med = (
-      await sql<BestSeller>`SELECT imgUrl FROM item where orders between 200 and 300`
-    ).rows;
-    const high = (
-      await sql<BestSeller>`SELECT imgUrl FROM item where orders greater than 300`
-    ).rows;
-
-    const data: BestSeller[][] = [low, med, high];
-
-    return data;
-  } catch (error) {
-    console.error("Database Error:", error);
-    throw new Error("Failed to fetch revenue data.");
-  }
-}
-
-// export async function fetchOrderByRegion() {
-//   noStore()
+// export async function fetchBestSellers() {
+//   noStore();
 //   try {
+//     //TODO: data should contain a data
+//     const low = (
+//       await sql<BestSeller>`SELECT imgUrl FROM items where orders less than 200`
+//     ).rows;
+//     const med = (
+//       await sql<BestSeller>`SELECT imgUrl FROM item where orders between 200 and 300`
+//     ).rows;
+//     const high = (
+//       await sql<BestSeller>`SELECT imgUrl FROM item where orders greater than 300`
+//     ).rows;
 
-//     const orderNum = await sql<Counts>`SELECT * FROM `;
-//     const returnNum = await sql<Counts>`SELECT COUNT(*) FROM users`;
-//     const itemNum = await sql<Counts>`SELECT COUNT(*) FROM invoices`;
-
-//     const data: SimpleStats = {
-//       orderNum: orderNum.rows[0].count,
-//       returnNum: returnNum.rows[0].count,
-//       itemNum: itemNum.rows[0].count
-//     }
+//     const data: BestSeller[][] = [low, med, high];
 
 //     return data;
 //   } catch (error) {
-//     console.error('Database Error:', error);
-//     throw new Error('Failed to fetch revenue data.');
+//     console.error("Database Error:", error);
+//     throw new Error("Failed to fetch revenue data.");
 //   }
 // }
 
-// export async function fetchLatestInvoices() {
-//   try {
-//     const data = await sql<LatestInvoiceRaw>`
-//       SELECT invoices.amount, customers.name, customers.image_url, customers.email, invoices.id
-//       FROM invoices
-//       JOIN customers ON invoices.customer_id = customers.id
-//       ORDER BY invoices.date DESC
-//       LIMIT 5`;
 
-//     const latestInvoices = data.rows.map((invoice) => ({
-//       ...invoice,
-//       amount: formatCurrency(invoice.amount),
-//     }));
-//     return latestInvoices;
-//   } catch (error) {
-//     console.error('Database Error:', error);
-//     throw new Error('Failed to fetch the latest invoices.');
-//   }
-// }
+export async function restockPointSplit() {
+  noStore();
+  countMax()
+  const dummyUser = {
+    userId: 51,
+    companyname: "Mzeeijco",
+  };
+  //data should be returned this way
+const dummy_data =  [
+{
+  metaId: 1,
+},
+{
+  metaId: 2,
+}
 
-// export async function fetchCardData() {
-//   try {
-//     // You can probably combine these into a single SQL query
-//     // However, we are intentionally splitting them to demonstrate
-//     // how to initialize multiple queries in parallel with JS.
-//     const invoiceCountPromise = sql`SELECT COUNT(*) FROM invoices`;
-//     const customerCountPromise = sql`SELECT COUNT(*) FROM customers`;
-//     const invoiceStatusPromise = sql`SELECT
-//          SUM(CASE WHEN status = 'paid' THEN amount ELSE 0 END) AS "paid",
-//          SUM(CASE WHEN status = 'pending' THEN amount ELSE 0 END) AS "pending"
-//          FROM invoices`;
+]
+let currCount_redline = []
+try {
+  //TODO: data should contain a data
+  for (let i = 0; i < dummy_data.length; i++) {
+   currCount_redline.push(
+    await sql`SELECT  m.redline, COUNT(i.id), m.maxcount
+    FROM item as i, meta_product as m 
+    where m.companyname = ${dummyUser.companyname} AND m.id = ${dummy_data[i].metaId} AND m.id = i.metaid`
+   )
+  }
+  
 
-//     const data = await Promise.all([
-//       invoiceCountPromise,
-//       customerCountPromise,
-//       invoiceStatusPromise,
-//     ]);
+  return currCount_redline;
+} catch (error) {
+  console.error("Database Error:", error);
+  throw new Error("Failed to fetch revenue data.");
+}
+}
 
-//     const numberOfInvoices = Number(data[0].rows[0].count ?? '0');
-//     const numberOfCustomers = Number(data[1].rows[0].count ?? '0');
-//     const totalPaidInvoices = formatCurrency(data[2].rows[0].paid ?? '0');
-//     const totalPendingInvoices = formatCurrency(data[2].rows[0].pending ?? '0');
+export async function countMax() {
+  noStore();
 
-//     return {
-//       numberOfCustomers,
-//       numberOfInvoices,
-//       totalPaidInvoices,
-//       totalPendingInvoices,
-//     };
-//   } catch (error) {
-//     console.error('Database Error:', error);
-//     throw new Error('Failed to fetch card data.');
-//   }
-// }
+  const dummyUser = {
+    userId: 51,
+    companyname: "Mzeeijco",
+  };
 
-// const ITEMS_PER_PAGE = 6;
-// export async function fetchFilteredInvoices(
-//   query: string,
-//   currentPage: number,
-// ) {
-//   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+  try {
+    const numMeta = await sql`SELECT meta_product.id, COUNT(*) FROM meta_product WHERE companyname = ${dummyUser.companyname}`;
+    for (let i = 0; i < numMeta.rows[0].count; i++) {
+      
+    const data = await sql`SELECT m.maxcount, COUNT(i.id)
+    FROM item as i, meta_product as m 
+    where m.companyname = ${dummyUser.companyname} AND m.id = i.metaid AND m.id = ${numMeta.rows[i].id}`;
 
-//   try {
-//     const invoices = await sql<InvoicesTable>`
-//       SELECT
-//         invoices.id,
-//         invoices.amount,
-//         invoices.date,
-//         invoices.status,
-//         customers.name,
-//         customers.email,
-//         customers.image_url
-//       FROM invoices
-//       JOIN customers ON invoices.customer_id = customers.id
-//       WHERE
-//         customers.name ILIKE ${`%${query}%`} OR
-//         customers.email ILIKE ${`%${query}%`} OR
-//         invoices.amount::text ILIKE ${`%${query}%`} OR
-//         invoices.date::text ILIKE ${`%${query}%`} OR
-//         invoices.status ILIKE ${`%${query}%`}
-//       ORDER BY invoices.date DESC
-//       LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
-//     `;
+    if (data.rows[0].count > data.rows[0].maxcount) {
+      await sql`UPDATE meta_product
+      SET maxcount = ${data.rows[0].count}
+      where id = ${numMeta.rows[i].id}`;
 
-//     return invoices.rows;
-//   } catch (error) {
-//     console.error('Database Error:', error);
-//     throw new Error('Failed to fetch invoices.');
-//   }
-// }
+    }
+  }
+    return ;
+  } catch (error) { 
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch revenue data.");
+  }
 
-// export async function fetchInvoicesPages(query: string) {
-//   try {
-//     const count = await sql`SELECT COUNT(*)
-//     FROM invoices
-//     JOIN customers ON invoices.customer_id = customers.id
-//     WHERE
-//       customers.name ILIKE ${`%${query}%`} OR
-//       customers.email ILIKE ${`%${query}%`} OR
-//       invoices.amount::text ILIKE ${`%${query}%`} OR
-//       invoices.date::text ILIKE ${`%${query}%`} OR
-//       invoices.status ILIKE ${`%${query}%`}
-//   `;
+}
 
-//     const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
-//     return totalPages;
-//   } catch (error) {
-//     console.error('Database Error:', error);
-//     throw new Error('Failed to fetch total number of invoices.');
-//   }
-// }
+export async function postManual() {
+  noStore();
 
-// export async function fetchInvoiceById(id: string) {
-//   try {
-//     const data = await sql<InvoiceForm>`
-//       SELECT
-//         invoices.id,
-//         invoices.customer_id,
-//         invoices.amount,
-//         invoices.status
-//       FROM invoices
-//       WHERE invoices.id = ${id};
-//     `;
+}
 
-//     const invoice = data.rows.map((invoice) => ({
-//       ...invoice,
-//       // Convert amount from cents to dollars
-//       amount: invoice.amount / 100,
-//     }));
 
-//     return invoice[0];
-//   } catch (error) {
-//     console.error('Database Error:', error);
-//     throw new Error('Failed to fetch invoice.');
-//   }
-// }
+/*
+* clientAddUser(user, newUserInfo) will recieve the information of the new user
+* to be created in following format:
+* 
+* const newUserInfo = {
+*  firstname:    String
+*  lastname:     String
+*  username:     String 
+*  mobile:       String
+*  email:        String
+*  password:     String // THIS PASSWORD IS NOT THE HASHED PASSOWORD. Hashing should be done in the function itself using bcrypt functions.
+*  role:         String
+* }
+*
+* The company name for which the user will belong should be found in the user object.
+*/
 
-// export async function fetchCustomers() {
-//   try {
-//     const data = await sql<CustomerField>`
-//       SELECT
-//         id,
-//         name
-//       FROM customers
-//       ORDER BY name ASC
-//     `;
+//async function clientAddUser(user, newUserInfo);
 
-//     const customers = data.rows;
-//     return customers;
-//   } catch (err) {
-//     console.error('Database Error:', err);
-//     throw new Error('Failed to fetch all customers.');
-//   }
-// }
+/*
+* clientEditUser(user, editUserInfo) will recieve the information of the user
+* to be edited in following format: (fields that the user did not change will have an empty string value)
+* 
+* const editUserInfo = {
+*  firstname:    String
+*  lastname:     String
+*  username:     String 
+*  mobile:       String
+*  email:        String
+*  password:     String // THIS PASSWORD IS NOT THE HASHED PASSOWORD. Hashing should be done in the function itself using bcrypt functions.
+*  role:         String
+* }
+*/
 
-// export async function fetchFilteredCustomers(query: string) {
-//   try {
-//     const data = await sql<CustomersTable>`
-// 		SELECT
-// 		  customers.id,
-// 		  customers.name,
-// 		  customers.email,
-// 		  customers.image_url,
-// 		  COUNT(invoices.id) AS total_invoices,
-// 		  SUM(CASE WHEN invoices.status = 'pending' THEN invoices.amount ELSE 0 END) AS total_pending,
-// 		  SUM(CASE WHEN invoices.status = 'paid' THEN invoices.amount ELSE 0 END) AS total_paid
-// 		FROM customers
-// 		LEFT JOIN invoices ON customers.id = invoices.customer_id
-// 		WHERE
-// 		  customers.name ILIKE ${`%${query}%`} OR
-//         customers.email ILIKE ${`%${query}%`}
-// 		GROUP BY customers.id, customers.name, customers.email, customers.image_url
-// 		ORDER BY customers.name ASC
-// 	  `;
+//async function clientEditUser(user, editUserInfo);
 
-//     const customers = data.rows.map((customer) => ({
-//       ...customer,
-//       total_pending: formatCurrency(customer.total_pending),
-//       total_paid: formatCurrency(customer.total_paid),
-//     }));
 
-//     return customers;
-//   } catch (err) {
-//     console.error('Database Error:', err);
-//     throw new Error('Failed to fetch customer table.');
-//   }
-// }
+/*
+* clientDeleteUser(user, deleteUserInfo) will recieve the information of the user
+* to be deleted in following format: (fields that the user did not change will have an empty string value)
+* 
+* const deleteUserInfo = {
+*  id:           String // If it is possible. username below is there in case the ID is not fetched or the user only knows the username
+*  username:     String 
+* }
+*/
 
-// export async function getUser(email: string) {
-//   try {
-//     const user = await sql`SELECT * FROM users WHERE email=${email}`;
-//     return user.rows[0] as User;
-//   } catch (error) {
-//     console.error('Failed to fetch user:', error);
-//     throw new Error('Failed to fetch user.');
-//   }
-// }
+//async function clientDeleteUser(user, deleteUserInfo);

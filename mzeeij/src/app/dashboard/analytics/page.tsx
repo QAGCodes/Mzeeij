@@ -8,9 +8,9 @@ import {
   fetchStatisticsCardData,
   fetchSalesByRegion,
   fetchBestSellersData,
-  fetchSalesPrediction,
+  fetchSalesPerProduct,
   fetchRestockPoints,
-  fetchPredictiveAnalysis,
+//  fetchPredictiveAnalysis,
 } from "@/lib/data";
 
 const AnalyticsPage = async () => {
@@ -20,13 +20,13 @@ const AnalyticsPage = async () => {
   const simpleStatsData = await fetchStatisticsCardData({});
   const orderByRegionData = await fetchSalesByRegion({});
   const bestSellerData = await fetchBestSellersData({});
-  const salesPredicitionData = await fetchSalesPrediction({});
+  const SalesPerProduct = await fetchSalesPerProduct({});
   const restockPointData = await fetchRestockPoints({});
-  const predicitiveAnalysisData = await fetchPredictiveAnalysis({});
+  //const predicitiveAnalysisData = await fetchPredictiveAnalysis({});
   const graphsData = [
-    salesPredicitionData,
+    SalesPerProduct,
     restockPointData,
-    predicitiveAnalysisData,
+    //predicitiveAnalysisData,
   ];
 
   // If there is no session, then we will redirect to the login page.

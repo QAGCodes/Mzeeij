@@ -66,6 +66,8 @@ model meta_product {
   stockstatus   StockStatus @default(IN_STOCK)
   imageurl  String? @default("")
   item       item[]
+  maxcount Int?
+  redline Int?
 }
 
 model item {
