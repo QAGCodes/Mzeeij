@@ -57,6 +57,11 @@ const SideNav = () => {
             Data Insertion
           </Button>
         </Link>
+        <Link href={"/dashboard/adminPanel"} className="w-full">
+          <Button variant={"ghost"} className="w-full p-0 text-start">
+            Admin Panel
+          </Button>
+        </Link>
         <Link href={"/dashboard/contact"} className="w-full">
           <Button variant={"ghost"} className="w-full p-0 text-start">
             Contact Us
@@ -64,14 +69,6 @@ const SideNav = () => {
         </Link>
       </div>
       <div id="footer" className="flex flex-col justify-end flex-grow">
-        {/* <div className="justify-start">
-        <Link href="/settings">
-          <Button className="gap-4 text-white" variant={"link"}>
-            <GearIcon />
-            Settings
-          </Button>
-        </Link>
-      </div> */}
         <Separator className="bg-gray-600 w-full justify-start"></Separator>
         <div className="flex flex-row justify-around my-3">
           <Avatar>
@@ -94,3 +91,14 @@ const SideNav = () => {
 };
 
 export default SideNav;
+
+/* 
+    <div className="justify-start">
+      <Link href="/settings">
+        <Button className="gap-4 text-white" variant={"link"}>
+          <GearIcon />
+          Settings
+        </Button>
+      </Link>
+    </div> 
+*/

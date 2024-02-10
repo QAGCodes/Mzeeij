@@ -83,7 +83,7 @@ const Login = () => {
             }}
             asChild
           >
-            <Link href={"/admin"}>Admin</Link>
+            <Link href={"/systemAdmin"}>Admin</Link>
           </Button>
           <Button className="bg-mzeeij-green" onClick={handleSubmit}>
             Sign In
