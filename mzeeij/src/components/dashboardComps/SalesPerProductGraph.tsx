@@ -3,31 +3,31 @@ import { BarChart, Card, Title, Subtitle } from "@tremor/react";
 const chartdata = [
   {
     name: "Electronics",
-    "Sales": 2488,
+    Sales: 2488,
   },
   {
     name: "Furniture",
-    "Sales": 1445,
+    Sales: 1445,
   },
   {
     name: "Grocery",
-    "Sales": 743,
+    Sales: 743,
   },
   {
     name: "Tools",
-    "Sales": 281,
+    Sales: 281,
   },
   {
     name: "Farming",
-    "Sales": 251,
+    Sales: 251,
   },
   {
     name: "Household supplies",
-    "Sales": 232,
+    Sales: 232,
   },
   {
     name: "Clothing",
-    "Sales": 98,
+    Sales: 98,
   },
 ];
 
@@ -42,8 +42,8 @@ const SalesPerProductGraph = ({ data }: { data?: Array<Object> }) => (
     </Subtitle>
     <BarChart
       className=""
-      data={chartdata} // data={data}
-      index="name" // index="Product Name"
+      data={chartdata} // replace chartdata with data
+      index="name" // replace "name" with "categoryName"
       categories={["Sales"]} // categories={["Product Sales"]}
       colors={["blue"]}
       valueFormatter={valueFormatter}

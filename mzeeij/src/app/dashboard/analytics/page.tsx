@@ -22,7 +22,7 @@ const AnalyticsPage = async () => {
   const bestSellerData = await fetchBestSellersData({});
   const salesPredicitionData = await fetchSalesPrediction({});
   const restockPointData = await fetchRestockPoints({});
-  const predicitiveAnalysisData = await fetchPredictiveAnalysis({});
+  const predicitiveAnalysisData = await fetchPredictiveAnalysis({}); //TODO: rename to fetchSalesPerProduct
   const graphsData = [
     salesPredicitionData,
     restockPointData,
