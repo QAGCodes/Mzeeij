@@ -4,20 +4,7 @@ import { unstable_noStore as noStore } from "next/cache";
 import { spawn } from "child_process";
 // start new data-fetching functions
 
-/*
-  const user = {
-    userId: number,
-    companyName: string,
-  }
-*/
-
-export async function fetchStatisticsCardData(user: any) {
-  const dummyUser = {
-    userId: 51,
-    companyname: "Mzeeijco",
-  };
-
-  // This function should return an object with the following structure:
+// This function should return an object with the following structure:
   /*
     {
       itemCount: number, // The total number of items in the inventory
@@ -25,6 +12,11 @@ export async function fetchStatisticsCardData(user: any) {
       returnNum: number // The total number of returns
     }
   */
+export async function fetchStatisticsCardData(user: any) {
+  const dummyUser = {
+    userId: 51,
+    companyname: "Mzeeijco",
+  };
 
   try {
     const itemCount =
@@ -46,14 +38,7 @@ export async function fetchStatisticsCardData(user: any) {
     throw new Error("Failed to fetch statistical card data.");
   }
 }
-
-export async function fetchSalesByRegion(user: any) {
-  noStore();
-  const dummyUser = {
-    userId: 51,
-    companyname: "Mzeeijco",
-  };
-  // This function should return an array of objects with the following structure:
+ // This function should return an array of objects with the following structure:
   /*
     [
       {
@@ -65,6 +50,12 @@ export async function fetchSalesByRegion(user: any) {
       .
     ]
   */
+export async function fetchSalesByRegion(user: any) {
+  noStore();
+  const dummyUser = {
+    userId: 51,
+    companyname: "Mzeeijco",
+  };
 
   try {
     const data = await sql`SELECT o.region, COUNT(*) 
@@ -84,12 +75,7 @@ export async function fetchSalesByRegion(user: any) {
   }
 }
 
-export async function fetchBestSellersData(user: any) {
-  const dummyUser = {
-    userId: 51,
-    companyname: "Mzeeijco",
-  };
-  // This function should return 3 arrays of objects with the following structure:
+// This function should return 3 arrays of objects with the following structure:
   /*
     [
       {
@@ -106,6 +92,12 @@ export async function fetchBestSellersData(user: any) {
     the second should return the items that had [100-500) sales
     the third should return the items that had sales >= 500
   */
+export async function fetchBestSellersData(user: any) {
+  const dummyUser = {
+    userId: 51,
+    companyname: "Mzeeijco",
+  };
+  
 
   try {
     const low =
@@ -204,60 +196,6 @@ export async function fetchSalesPerProduct(user: any) {
   // }
 }
 
-export async function fetchRestockPoints(user: any) {
-  const dummyUser = {
-    userId: 51,
-    companyname: "Mzeeijco",
-  };
-  /*
-   Should return an array of objects in the following format:
-      [
-        {
-          date: "Jan 23",
-          "Distance Running": 167,
-          "Road Cycling": 145,
-          "Open Water Swimming": 135,
-          "Hatha Yoga": 115,
-          "Street Basketball": 150,
-          ... // each item except for date will represent a line on the graph
-        },
-      ];
-   */
-  try {
-    const data = await sql`SELECT o.id, o.createdat, COUNT(i.id)
-        FROM orders as o, item as i
-        WHERE o.type = 'OUTGOING' AND o.id = i.orderid  
-        GROUP BY o.id, o.createdat
-        ORDER BY o.createdat ASC
-        `;
-    // console.log('Data fetch complete after 3 seconds.');
-
-    //python ML model
-    // const python = spawn("wsl", ["/usr/bin/python3", "src/lib/salespredic.py"]);
-
-    // // Send data to Python script
-    // python.stdin.write(JSON.stringify(data.rows));
-    // python.stdin.end();
-
-    // // Handle output
-    // python.stdout.on("data", (data) => {
-    //   console.log(`stdout: ${data}`);
-    // });
-
-    // python.stderr.on("data", (data) => {
-    //   console.error(`stderr: ${data}`);
-    // });
-
-    // python.on("close", (code) => {
-    //   console.log(`child process exited with code ${code}`);
-    // });
-
-    return data.rows;
-  } catch (error) {
-    console.error("Database Error:", error);
-    throw new Error("Failed to Sales Prediction.");
-  }
-}
 
 export async function fetchInventoryTableData(user: any) {
   const dummyUser = {
@@ -388,7 +326,7 @@ limit 5
 // }
 
 
-export async function restockPointSplit() {
+export async function restockPointSplit(user: any, data: any) {
   noStore();
   countMax()
   const dummyUser = {
@@ -477,8 +415,34 @@ export async function postManual() {
 *
 * The company name for which the user will belong should be found in the user object.
 */
+async function clientAddUser(user: any, newUserInfo: any){
+  
+  const dummy_user = {
+    userId: 51,
+    companyname: "Mzeeijco",
+  };
 
-//async function clientAddUser(user, newUserInfo);
+  const newUserInfo1 = {
+    firstname: "Alsayed",
+  lastname: "Majed",
+  companyname: dummy_user.companyname,
+  username: "AlsayedMajed",
+  mobile:  "697",
+  email:   "alsayed@dummy.com",
+  passwordhash: "test", // THIS PASSWORD IS NOT THE HASHED PASSOWORD. Hashing should be done in the function itself using bcrypt functions.
+ role: null,
+  }
+
+
+  try {
+    const data = await sql`INSERT INTO users (firstname, lastname, companyname, username, mobile, email, passwordhash, role) 
+    VALUES (${newUserInfo1.firstname}, ${newUserInfo1.lastname}, ${newUserInfo1.companyname}, ${newUserInfo1.username}, ${newUserInfo1.mobile}, ${newUserInfo1.email}, ${newUserInfo1.passwordhash}, ${newUserInfo1.role})`;
+    return data;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch revenue data.");
+  }
+}
 
 /*
 * clientEditUser(user, editUserInfo) will recieve the information of the user
@@ -495,7 +459,9 @@ export async function postManual() {
 * }
 */
 
-//async function clientEditUser(user, editUserInfo);
+async function clientEditUser(user: any, editUserInfo: any){
+
+}
 
 
 /*
@@ -508,4 +474,24 @@ export async function postManual() {
 * }
 */
 
-//async function clientDeleteUser(user, deleteUserInfo);
+async function clientDeleteUser(user: any, deleteUserInfo: any){
+  const dummy_user = { 
+    userId: 51,
+    companyname: "Mzeeijco",
+  };
+  const deleteUserInfo1 = {
+    id: 51,
+    username: "AlsayedMajed",
+  };
+  if (dummy_user.userId == deleteUserInfo1.id) {
+    return "error: cannot delete the user that is currently logged in";
+  }
+
+  try {
+    const data = await sql`DELETE FROM users WHERE id = ${deleteUserInfo1.id} `;
+    return data;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch revenue data.");
+  }
+}

@@ -9,7 +9,7 @@ import {
   fetchSalesByRegion,
   fetchBestSellersData,
   fetchSalesPerProduct,
-  fetchRestockPoints,
+  restockPointSplit,
 //  fetchPredictiveAnalysis,
 } from "@/lib/data";
 
@@ -21,7 +21,7 @@ const AnalyticsPage = async () => {
   const orderByRegionData = await fetchSalesByRegion({});
   const bestSellerData = await fetchBestSellersData({});
   const SalesPerProduct = await fetchSalesPerProduct({});
-  const restockPointData = await fetchRestockPoints({});
+  const restockPointData = await restockPointSplit({},{});
   //const predicitiveAnalysisData = await fetchPredictiveAnalysis({});
   const graphsData = [
     SalesPerProduct,

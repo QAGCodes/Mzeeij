@@ -17,11 +17,11 @@ model admin {
 model users {
   id           Int      @id @default(autoincrement())
   companyname  String
-  firstname    String?
-  lastname     String?
-  username     String?  @unique
-  mobile       String?  @unique
-  email        String?  @unique
+  firstname    String
+  lastname     String
+  username     String  @unique
+  mobile       String  @unique
+  email        String  @unique
   passwordhash String
   registeredat DateTime @db.Timestamp(6)
   role         String?
