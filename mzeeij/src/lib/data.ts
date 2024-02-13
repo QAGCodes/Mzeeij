@@ -12,6 +12,28 @@ import { spawn } from "child_process";
       returnNum: number // The total number of returns
     }
   */
+
+
+
+//functions that can be found in the data.ts file
+//fetching functions:
+//fetchStatisticsCardData(user: any)
+//fetchSalesByRegion(user: any)
+//fetchBestSellersData(user: any)
+//fetchSalesPerProduct(user: any)
+//fetchInventoryTableData(user: any)
+//fetchInvoicesTableData(user: any)
+
+//TODO: check and edit these functions:
+//fetchRevenue()
+//fetchSimpleStats()
+
+//functions for client side operations:
+//clientAddItem()
+//clientAddUser(user: any, newUserInfo: any)
+//clientEditUser(user: any, editUserInfo: any)
+//clientDeleteUser(user: any, deleteUserInfo: any)
+
 export async function fetchStatisticsCardData(user: any) {
   const dummyUser = {
     userId: 51,
@@ -302,28 +324,6 @@ limit 5
   }
 }
 
-// export async function fetchBestSellers() {
-//   noStore();
-//   try {
-//     //TODO: data should contain a data
-//     const low = (
-//       await sql<BestSeller>`SELECT imgUrl FROM items where orders less than 200`
-//     ).rows;
-//     const med = (
-//       await sql<BestSeller>`SELECT imgUrl FROM item where orders between 200 and 300`
-//     ).rows;
-//     const high = (
-//       await sql<BestSeller>`SELECT imgUrl FROM item where orders greater than 300`
-//     ).rows;
-
-//     const data: BestSeller[][] = [low, med, high];
-
-//     return data;
-//   } catch (error) {
-//     console.error("Database Error:", error);
-//     throw new Error("Failed to fetch revenue data.");
-//   }
-// }
 
 
 export async function restockPointSplit(user: any, data: any) {
@@ -393,7 +393,7 @@ export async function countMax() {
 
 }
 
-export async function postManual() {
+export async function clientAddItem() {
   noStore();
 
 }
@@ -460,10 +460,36 @@ async function clientAddUser(user: any, newUserInfo: any){
 */
 
 async function clientEditUser(user: any, editUserInfo: any){
-
+const dummy_user = {
+  userId: 51,
+  companyname: "Mzeeijco",
+};
+const editUserInfo1 = {
+  id: 12,
+  username: "AlsayedMajed2",
+  mobile:  "697",
 }
 
 
+// Function to generate the SET clause of the SQL query
+const generateSetClause = (userInfo: any) => {
+  return Object.entries(userInfo)
+    .filter(([key, value]) => value !== "" && key !== 'id')
+    .map(([key, value]) => `${key} = ${value}`)
+    .join(' AND ');
+}
+
+try {
+  const data = await sql`UPDATE users SET  ${generateSetClause(editUserInfo)} WHERE id = ${editUserInfo.id} `;
+  return data;
+
+
+}
+ catch (error) { 
+  console.error("Database Error:", error);
+  throw new Error("Failed to fetch revenue data.");
+}
+}
 /*
 * clientDeleteUser(user, deleteUserInfo) will recieve the information of the user
 * to be deleted in following format: (fields that the user did not change will have an empty string value)
