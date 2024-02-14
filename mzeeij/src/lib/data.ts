@@ -393,8 +393,35 @@ export async function countMax() {
 
 }
 
-export async function clientAddItem() {
+export async function clientAddMetaProduct(user: any, newItem: any) {
   noStore();
+
+  const dummyUser = {
+    userId: 51,
+    companyname: "Mzeeijco",
+  };
+
+ const dummy_metaproduct = {
+  title: "test",
+  sku: "test",
+  upc: "test",
+  price: 10,
+  estimatedexp: "2023-03-03",
+  redline: 10,
+  maxcount: 10,
+  stockstatus: "COMING_SOON",
+  }
+  
+  try {
+    const data = await sql`INSERT INTO meta_product (title, companyname, sku, upc, price, stockstatus, estimatedexp, redline, maxcount) 
+    VALUES (${dummy_metaproduct.title}, ${dummyUser.companyname}, ${dummy_metaproduct.sku}, ${dummy_metaproduct.upc}, ${dummy_metaproduct.price}, ${dummy_metaproduct.stockstatus}, ${dummy_metaproduct.estimatedexp}, ${dummy_metaproduct.redline}, ${dummy_metaproduct.maxcount})`;
+    return data;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch revenue data.");
+  
+
+ }
 
 }
 

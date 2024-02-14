@@ -58,7 +58,7 @@ model meta_product {
   title      String
   summary    String?
   sku        String? //not universal compnay specific
-  upc        String? //universal product code
+  upc        String //universal product code
   price      Float
   createdat  DateTime    @db.Timestamp(6)
   updatedat  DateTime?   @db.Timestamp(6)
