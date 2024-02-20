@@ -67,7 +67,7 @@ export default function DataPage() {
               </div>
             </CardContent>
             <CardFooter>
-              <Button>Insert into Inventory</Button>
+              <Button className="bg-mzeeij-green">Insert into Inventory</Button>
             </CardFooter>
           </Card>
         </TabsContent>
@@ -88,7 +88,7 @@ export default function DataPage() {
               </div>
             </CardContent>
             <CardFooter>
-              <Button>Insert into Inventory</Button>
+              <Button className="bg-mzeeij-green">Insert into Inventory</Button>
             </CardFooter>
           </Card>
         </TabsContent>

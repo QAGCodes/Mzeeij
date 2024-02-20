@@ -5,15 +5,13 @@ import { spawn } from "child_process";
 // start new data-fetching functions
 
 // This function should return an object with the following structure:
-  /*
+/*
     {
       itemCount: number, // The total number of items in the inventory
       orderNum: number, // The total number of orders
       returnNum: number // The total number of returns
     }
   */
-
-
 
 //functions that can be found in the data.ts file
 //fetching functions:
@@ -60,8 +58,8 @@ export async function fetchStatisticsCardData(user: any) {
     throw new Error("Failed to fetch statistical card data.");
   }
 }
- // This function should return an array of objects with the following structure:
-  /*
+// This function should return an array of objects with the following structure:
+/*
     [
       {
         regionName: string, // region name
@@ -98,7 +96,7 @@ export async function fetchSalesByRegion(user: any) {
 }
 
 // This function should return 3 arrays of objects with the following structure:
-  /*
+/*
     [
       {
         imgUrl: string, // The total number of items in the inventory
@@ -119,7 +117,6 @@ export async function fetchBestSellersData(user: any) {
     userId: 51,
     companyname: "Mzeeijco",
   };
-  
 
   try {
     const low =
@@ -144,7 +141,7 @@ export async function fetchBestSellersData(user: any) {
   }
 }
 
-export async function fetchSalesPerProduct(user: any) {
+export async function fetchSalesPrediction(user: any) {
   const dummyUser = {
     userId: 51,
     companyname: "Mzeeijco",
@@ -217,7 +214,6 @@ export async function fetchSalesPerProduct(user: any) {
   //   throw new Error("Failed to Sales Prediction.");
   // }
 }
-
 
 export async function fetchInventoryTableData(user: any) {
   const dummyUser = {
@@ -324,42 +320,69 @@ limit 5
   }
 }
 
+export async function fetchRestockPointDummy() {
+  let currCount_redline = [
+    {
+      name: "Product A",
+      redline: 20,
+      count: 10,
+      maxcount: 40,
+    },
+    {
+      name: "Product B",
+      redline: 250,
+      count: 280,
+      maxcount: 500,
+    },
+    {
+      name: "Product C",
+      redline: 40,
+      count: 50,
+      maxcount: 100,
+    },
+    {
+      name: "Product D",
+      redline: 80,
+      count: 180,
+      maxcount: 200,
+    },
+  ];
 
+  return currCount_redline;
+}
 
 export async function restockPointSplit(user: any, data: any) {
   noStore();
-  countMax()
+  countMax();
   const dummyUser = {
     userId: 51,
     companyname: "Mzeeijco",
   };
   //data should be returned this way
-const dummy_data =  [
-{
-  metaId: 1,
-},
-{
-  metaId: 2,
-}
-
-]
-let currCount_redline = []
-try {
-  //TODO: data should contain a data
-  for (let i = 0; i < dummy_data.length; i++) {
-   currCount_redline.push(
-    await sql`SELECT  m.redline, COUNT(i.id), m.maxcount
+  const dummy_data = [
+    {
+      metaId: 1,
+    },
+    {
+      metaId: 2,
+    },
+  ];
+  let currCount_redline = [];
+  try {
+    //TODO: data should contain a data
+    for (let i = 0; i < dummy_data.length; i++) {
+      currCount_redline.push(
+        await sql`SELECT  m.redline, COUNT(i.id), m.maxcount
     FROM item as i, meta_product as m 
     where m.companyname = ${dummyUser.companyname} AND m.id = ${dummy_data[i].metaId} AND m.id = i.metaid`
-   )
-  }
-  
+      );
+    }
 
-  return currCount_redline;
-} catch (error) {
-  console.error("Database Error:", error);
-  throw new Error("Failed to fetch revenue data.");
-}
+    return currCount_redline;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch restockPointSplit data.");
+  }
 }
 
 export async function countMax() {
@@ -371,26 +394,24 @@ export async function countMax() {
   };
 
   try {
-    const numMeta = await sql`SELECT meta_product.id, COUNT(*) FROM meta_product WHERE companyname = ${dummyUser.companyname}`;
+    const numMeta =
+      await sql`SELECT meta_product.id, COUNT(*) FROM meta_product WHERE companyname = ${dummyUser.companyname}`;
     for (let i = 0; i < numMeta.rows[0].count; i++) {
-      
-    const data = await sql`SELECT m.maxcount, COUNT(i.id)
+      const data = await sql`SELECT m.maxcount, COUNT(i.id)
     FROM item as i, meta_product as m 
     where m.companyname = ${dummyUser.companyname} AND m.id = i.metaid AND m.id = ${numMeta.rows[i].id}`;
 
-    if (data.rows[0].count > data.rows[0].maxcount) {
-      await sql`UPDATE meta_product
+      if (data.rows[0].count > data.rows[0].maxcount) {
+        await sql`UPDATE meta_product
       SET maxcount = ${data.rows[0].count}
       where id = ${numMeta.rows[i].id}`;
-
+      }
     }
-  }
-    return ;
-  } catch (error) { 
+    return;
+  } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch revenue data.");
   }
-
 }
 
 export async function clientAddMetaProduct(user: any, newItem: any) {
@@ -401,49 +422,45 @@ export async function clientAddMetaProduct(user: any, newItem: any) {
     companyname: "Mzeeijco",
   };
 
- const dummy_metaproduct = {
-  title: "test",
-  sku: "test",
-  upc: "test",
-  price: 10,
-  estimatedexp: "2023-03-03",
-  redline: 10,
-  maxcount: 10,
-  stockstatus: "COMING_SOON",
-  }
-  
+  const dummy_metaproduct = {
+    title: "test",
+    sku: "test",
+    upc: "test",
+    price: 10,
+    estimatedexp: "2023-03-03",
+    redline: 10,
+    maxcount: 10,
+    stockstatus: "COMING_SOON",
+  };
+
   try {
-    const data = await sql`INSERT INTO meta_product (title, companyname, sku, upc, price, stockstatus, estimatedexp, redline, maxcount) 
+    const data =
+      await sql`INSERT INTO meta_product (title, companyname, sku, upc, price, stockstatus, estimatedexp, redline, maxcount) 
     VALUES (${dummy_metaproduct.title}, ${dummyUser.companyname}, ${dummy_metaproduct.sku}, ${dummy_metaproduct.upc}, ${dummy_metaproduct.price}, ${dummy_metaproduct.stockstatus}, ${dummy_metaproduct.estimatedexp}, ${dummy_metaproduct.redline}, ${dummy_metaproduct.maxcount})`;
     return data;
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch revenue data.");
-  
-
- }
-
+  }
 }
 
-
 /*
-* clientAddUser(user, newUserInfo) will recieve the information of the new user
-* to be created in following format:
-* 
-* const newUserInfo = {
-*  firstname:    String
-*  lastname:     String
-*  username:     String 
-*  mobile:       String
-*  email:        String
-*  password:     String // THIS PASSWORD IS NOT THE HASHED PASSOWORD. Hashing should be done in the function itself using bcrypt functions.
-*  role:         String
-* }
-*
-* The company name for which the user will belong should be found in the user object.
-*/
-async function clientAddUser(user: any, newUserInfo: any){
-  
+ * clientAddUser(user, newUserInfo) will recieve the information of the new user
+ * to be created in following format:
+ *
+ * const newUserInfo = {
+ *  firstname:    String
+ *  lastname:     String
+ *  username:     String
+ *  mobile:       String
+ *  email:        String
+ *  password:     String // THIS PASSWORD IS NOT THE HASHED PASSOWORD. Hashing should be done in the function itself using bcrypt functions.
+ *  role:         String
+ * }
+ *
+ * The company name for which the user will belong should be found in the user object.
+ */
+async function clientAddUser(user: any, newUserInfo: any) {
   const dummy_user = {
     userId: 51,
     companyname: "Mzeeijco",
@@ -451,18 +468,18 @@ async function clientAddUser(user: any, newUserInfo: any){
 
   const newUserInfo1 = {
     firstname: "Alsayed",
-  lastname: "Majed",
-  companyname: dummy_user.companyname,
-  username: "AlsayedMajed",
-  mobile:  "697",
-  email:   "alsayed@dummy.com",
-  passwordhash: "test", // THIS PASSWORD IS NOT THE HASHED PASSOWORD. Hashing should be done in the function itself using bcrypt functions.
- role: null,
-  }
-
+    lastname: "Majed",
+    companyname: dummy_user.companyname,
+    username: "AlsayedMajed",
+    mobile: "697",
+    email: "alsayed@dummy.com",
+    passwordhash: "test", // THIS PASSWORD IS NOT THE HASHED PASSOWORD. Hashing should be done in the function itself using bcrypt functions.
+    role: null,
+  };
 
   try {
-    const data = await sql`INSERT INTO users (firstname, lastname, companyname, username, mobile, email, passwordhash, role) 
+    const data =
+      await sql`INSERT INTO users (firstname, lastname, companyname, username, mobile, email, passwordhash, role) 
     VALUES (${newUserInfo1.firstname}, ${newUserInfo1.lastname}, ${newUserInfo1.companyname}, ${newUserInfo1.username}, ${newUserInfo1.mobile}, ${newUserInfo1.email}, ${newUserInfo1.passwordhash}, ${newUserInfo1.role})`;
     return data;
   } catch (error) {
@@ -472,63 +489,61 @@ async function clientAddUser(user: any, newUserInfo: any){
 }
 
 /*
-* clientEditUser(user, editUserInfo) will recieve the information of the user
-* to be edited in following format: (fields that the user did not change will have an empty string value)
-* 
-* const editUserInfo = {
-*  firstname:    String
-*  lastname:     String
-*  username:     String 
-*  mobile:       String
-*  email:        String
-*  password:     String // THIS PASSWORD IS NOT THE HASHED PASSOWORD. Hashing should be done in the function itself using bcrypt functions.
-*  role:         String
-* }
-*/
+ * clientEditUser(user, editUserInfo) will recieve the information of the user
+ * to be edited in following format: (fields that the user did not change will have an empty string value)
+ *
+ * const editUserInfo = {
+ *  firstname:    String
+ *  lastname:     String
+ *  username:     String
+ *  mobile:       String
+ *  email:        String
+ *  password:     String // THIS PASSWORD IS NOT THE HASHED PASSOWORD. Hashing should be done in the function itself using bcrypt functions.
+ *  role:         String
+ * }
+ */
 
-async function clientEditUser(user: any, editUserInfo: any){
-const dummy_user = {
-  userId: 51,
-  companyname: "Mzeeijco",
-};
-const editUserInfo1 = {
-  id: 12,
-  username: "AlsayedMajed2",
-  mobile:  "697",
-}
+async function clientEditUser(user: any, editUserInfo: any) {
+  const dummy_user = {
+    userId: 51,
+    companyname: "Mzeeijco",
+  };
+  const editUserInfo1 = {
+    id: 12,
+    username: "AlsayedMajed2",
+    mobile: "697",
+  };
 
+  // Function to generate the SET clause of the SQL query
+  const generateSetClause = (userInfo: any) => {
+    return Object.entries(userInfo)
+      .filter(([key, value]) => value !== "" && key !== "id")
+      .map(([key, value]) => `${key} = ${value}`)
+      .join(" AND ");
+  };
 
-// Function to generate the SET clause of the SQL query
-const generateSetClause = (userInfo: any) => {
-  return Object.entries(userInfo)
-    .filter(([key, value]) => value !== "" && key !== 'id')
-    .map(([key, value]) => `${key} = ${value}`)
-    .join(' AND ');
-}
-
-try {
-  const data = await sql`UPDATE users SET  ${generateSetClause(editUserInfo)} WHERE id = ${editUserInfo.id} `;
-  return data;
-
-
-}
- catch (error) { 
-  console.error("Database Error:", error);
-  throw new Error("Failed to fetch revenue data.");
-}
+  try {
+    const data = await sql`UPDATE users SET  ${generateSetClause(
+      editUserInfo
+    )} WHERE id = ${editUserInfo.id} `;
+    return data;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch revenue data.");
+  }
 }
 /*
-* clientDeleteUser(user, deleteUserInfo) will recieve the information of the user
-* to be deleted in following format: (fields that the user did not change will have an empty string value)
-* 
-* const deleteUserInfo = {
-*  id:           String // If it is possible. username below is there in case the ID is not fetched or the user only knows the username
-*  username:     String 
-* }
-*/
+ * clientDeleteUser(user, deleteUserInfo) will recieve the information of the user
+ * to be deleted in following format: (fields that the user did not change will have an empty string value)
+ *
+ * const deleteUserInfo = {
+ *  id:           String // If it is possible. username below is there in case the ID is not fetched or the user only knows the username
+ *  username:     String
+ * }
+ */
 
-async function clientDeleteUser(user: any, deleteUserInfo: any){
-  const dummy_user = { 
+async function clientDeleteUser(user: any, deleteUserInfo: any) {
+  const dummy_user = {
     userId: 51,
     companyname: "Mzeeijco",
   };

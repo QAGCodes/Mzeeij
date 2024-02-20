@@ -74,7 +74,7 @@ const AdminPage = () => {
 
   return (
     <Card
-      className="box-border max-w-[99%] max-h-[90vh] m-auto p-4 flex-col flex text-black"
+      className="box-border  m-auto p-4 flex-col flex text-black"
       decoration="top"
       decorationColor="indigo"
     >

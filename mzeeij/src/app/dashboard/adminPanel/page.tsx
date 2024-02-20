@@ -158,7 +158,7 @@ const AdminPage = () => {
                   onInput={(event) => handleChange(event, "create", "role")}
                 />
               </label>
-              <Button className="mt-3" type="submit">
+              <Button className="bg-mzeeij-green mt-3" type="submit">
                 Create User
               </Button>
             </form>
@@ -217,7 +217,7 @@ const AdminPage = () => {
                   onInput={(event) => handleChange(event, "edit", "role")}
                 />
               </label>
-              <Button className="mt-3" type="submit">
+              <Button className="bg-mzeeij-green mt-3" type="submit">
                 Edit User
               </Button>
             </form>
@@ -241,7 +241,7 @@ const AdminPage = () => {
                   onInput={(event) => handleChange(event, "delete", "username")}
                 />
               </label>
-              <Button className="mt-3" type="submit">
+              <Button className="bg-mzeeij-green mt-3" type="submit">
                 Delete User
               </Button>
             </form>

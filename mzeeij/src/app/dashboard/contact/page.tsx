@@ -40,7 +40,7 @@ const ContactUsPage = () => {
           </div>
         </CardContent>
         <CardFooter>
-          <Button>Submit Request</Button>
+          <Button className="bg-mzeeij-green mt-3">Submit Request</Button>
         </CardFooter>
       </Card>
       <Card className="m-4">
