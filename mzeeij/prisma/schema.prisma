@@ -17,11 +17,11 @@ model admin {
 model users {
   id           Int      @id @default(autoincrement())
   companyname  String
-  firstname    String?
-  lastname     String?
-  username     String?  @unique
-  mobile       String?  @unique
-  email        String?  @unique
+  firstname    String
+  lastname     String
+  username     String  @unique
+  mobile       String  @unique
+  email        String  @unique
   passwordhash String
   registeredat DateTime @db.Timestamp(6)
   role         String?
@@ -58,7 +58,7 @@ model meta_product {
   title      String
   summary    String?
   sku        String? //not universal compnay specific
-  upc        String? //universal product code
+  upc        String //universal product code
   price      Float
   createdat  DateTime    @db.Timestamp(6)
   updatedat  DateTime?   @db.Timestamp(6)
@@ -66,6 +66,8 @@ model meta_product {
   stockstatus   StockStatus @default(IN_STOCK)
   imageurl  String? @default("")
   item       item[]
+  maxcount Int?
+  redline Int?
 }
 
 model item {
