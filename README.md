@@ -1,4 +1,4 @@
-# One8's Inventory Managment System (IMS)
+# Inventory Managment System (IMS)
 
 I have built this project alongside my colleague Ali Alfarhan. You can directly checkout and interact with a demo of the web app [Here!](https://mzeeij.vercel.app)
 
