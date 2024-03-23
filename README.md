@@ -1,10 +1,11 @@
-# Project Name
+# One8's Inventory Managment System (IMS)
 
-One8 Inventory Managment System (IMS)
+I have built this project alongside my colleague Ali Alfarhan for our client, Mzeeij. You can directly checkout the website on the link found on the sidebar. 
+
+# Note
+All information below is meant for getting new developers up to speed on what the project structure is about.
 
 ## Project Structure
-
-Almost all relevant files are in the src directory.
 
 ### Outside src
 
@@ -30,7 +31,7 @@ Make sure that you have the latest version of node.js installed. You can downloa
 
 ## Usage
 
-Explain how to run the Next.js app in development mode.
+run `npm run dev` and access the link printed on the console.
 
 1. Start the development server: `npm run dev`
 2. Open your browser and navigate to `http://localhost:3000` to view the app.
