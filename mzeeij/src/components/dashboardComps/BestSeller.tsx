@@ -26,8 +26,8 @@ const BestSeller = ({ data }: { data: any }) => {
       decorationColor="indigo"
     >
       <Title>Best Sellers</Title>
-      <TabGroup className="h-full flex flex-col">
-        <TabList className="mt-8 ">
+      <TabGroup className="h-full w-full flex flex-col">
+        <TabList>
           <Tab icon={TrendingDownIcon} className="text-red-600">
             Low
           </Tab>
@@ -38,21 +38,20 @@ const BestSeller = ({ data }: { data: any }) => {
             High
           </Tab>
         </TabList>
-        <TabPanels className="box-border h-full">
+        <TabPanels className="h-full">
           <TabPanel className="h-full">
             <div className="flex flex-row overflow-auto h-full gap-5">
               {data[0].map((item: any, index: any) => (
                 <div
                   key={index}
-                  className="flex flex-col justify-center items-center text-start m-2 bestseller-card"
+                  className="flex flex-col justify-center items-center m-2 p-1 bestseller-card h-fit"
                 >
                   <Image
                     key={item.name} // Prefer using a unique identifier from your data
                     src={item.imgUrl || "/next.svg"}
                     alt={item.name}
-                    height={100}
-                    width={100}
-                    className="m-3"
+                    height={50}
+                    width={50}
                   />
                   <p>Predicted: {item.nextMonthPredicitions || "99"}$</p>
                   <p>Actual: {item.totalSales || "99"}$</p>
@@ -65,7 +64,7 @@ const BestSeller = ({ data }: { data: any }) => {
               {data[1].map((item: any, index: any) => (
                 <div
                   key={index}
-                  className="flex flex-col justify-center items-center text-start m-2 bestseller-card"
+                  className="flex flex-col justify-center items-center text-start m-2 p-1 bestseller-card h-fit"
                 >
                   <Image
                     key={item.name} // Prefer using a unique identifier from your data
@@ -74,9 +73,8 @@ const BestSeller = ({ data }: { data: any }) => {
                       "/next.svg"
                     }
                     alt={item.name}
-                    height={100}
-                    width={100}
-                    className="m-3"
+                    height={50}
+                    width={50}
                   />
                   <p>Predicted: {item.nextMonthPredicitions || "99"}$</p>
                   <p>Actual: {item.totalSales || "99"}$</p>
@@ -89,7 +87,7 @@ const BestSeller = ({ data }: { data: any }) => {
               {data[2].map((item: any, index: any) => (
                 <div
                   key={index}
-                  className="flex flex-col justify-center items-center text-start m-2 bestseller-card"
+                  className="flex flex-col justify-center items-center text-start m-2 p-1 bestseller-card h-fit"
                 >
                   <Image
                     key={item.name} // Prefer using a unique identifier from your data
@@ -98,9 +96,8 @@ const BestSeller = ({ data }: { data: any }) => {
                       "/next.svg"
                     }
                     alt={item.name}
-                    height={100}
-                    width={100}
-                    className="m-3"
+                    height={50}
+                    width={50}
                   />
                   <p>Predicted: {item.nextMonthPredicitions || "99"}$</p>
                   <p>Actual: {item.totalSales || "99"}$</p>

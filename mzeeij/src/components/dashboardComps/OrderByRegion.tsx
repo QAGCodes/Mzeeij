@@ -8,13 +8,13 @@ const valueFormatter = (number: number) =>
 const OrderByRegion = ({ data }: any) => {
   return (
     <Card
-      className="h-full w-full flex-col flex  gap-1"
+      className="h-full w-full flex-col flex justify-evenly gap-1"
       decoration="top"
       decorationColor="indigo"
     >
       <Title>Orders by Region</Title>
       <DonutChart
-        className="mt-6 h-full"
+        className="mt-6"
         data={data}
         category="sales"
         index="regionName"
