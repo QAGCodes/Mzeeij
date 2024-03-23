@@ -6,8 +6,8 @@ import { Card } from "@/components/ui/card";
 
 export default function Home() {
   return (
-    <div className="flex flex-col justify-center items-center h-screen w-screen">
-      <Card className="bg-white flex flex-col justify-around items-center w-[40rem] h-[40rem]">
+    <div className="flex justify-center items-center h-screen w-screen">
+      <Card className="bg-white flex flex-col justify-around items-center w-1/2 h-[80%]">
         <Image
           src={"/logo/nolines-cropped/logo.svg"}
           width={500}
