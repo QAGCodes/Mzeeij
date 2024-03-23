@@ -32,8 +32,11 @@ const AnalyticsPage = async () => {
 
   return (
     <div className="grid dashboard-grid gap-2 justify-around mx-3 h-full">
-      <div className="col-span-3">
-        <DashHeader />
+      <div className="flex flex-col ml-6 mt-3 col-span-3">
+        <text className="font-normal text-xl">Welcome back, Qusai</text>
+        <text className="font-light text-md">
+          Track, manage and forecast your orders.
+        </text>
       </div>
       <div className="flex row-span-3">
         <SimpleStatisticsCard data={simpleStatsData} />

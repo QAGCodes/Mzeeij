@@ -14,15 +14,17 @@ const SimpleStatisticsCard = ({ data }: { data: any }) => {
       decoration="top"
       decorationColor="indigo"
     >
-      <Title>Statistics</Title>
-      <Text>Item Count</Text>
-      <Metric>{data.itemCount}</Metric>
-      <Separator></Separator>
-      <Text>Number of Orders</Text>
-      <Metric>{data.orderNum}</Metric>
-      <Separator></Separator>
-      <Text>Number of Returns</Text>
-      <Metric>{data.returnNum}</Metric>
+      <div>
+        <Title>Statistics</Title>
+        <Text>Item Count</Text>
+        <Metric>{data.itemCount}</Metric>
+        <Separator></Separator>
+        <Text>Number of Orders</Text>
+        <Metric>{data.orderNum}</Metric>
+        <Separator></Separator>
+        <Text>Number of Returns</Text>
+        <Metric>{data.returnNum}</Metric>
+      </div>
     </Card>
   );
 };
