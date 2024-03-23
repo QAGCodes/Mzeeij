@@ -1,8 +1,11 @@
 # One8's Inventory Managment System (IMS)
 
-I have built this project alongside my colleague Ali Alfarhan for our client, Mzeeij. You can directly checkout the website on the link found on the sidebar. 
+I have built this project alongside my colleague Ali Alfarhan for our client, Mzeeij. You can directly checkout and interact with the web app [Here](https://www.mzeeij.vercel.app)
+
+![Image of Dashboard](mzeeij-dashboard.png)
 
 # Note
+
 All information below is meant for getting new developers up to speed on what the project structure is about.
 
 ## Project Structure
