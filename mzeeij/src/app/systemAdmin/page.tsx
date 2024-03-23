@@ -73,246 +73,254 @@ const AdminPage = () => {
   };
 
   return (
-    <Card
-      className="box-border  m-auto p-4 flex-col flex text-black"
-      decoration="top"
-      decorationColor="indigo"
-    >
-      <Title>User Operations</Title>
-      <TabGroup>
-        <TabList className="mt-8">
-          <Tab icon={UserAddIcon}>Create Users</Tab>
-          <Tab icon={UserCircleIcon}>Edit Users</Tab>
-          <Tab icon={UserRemoveIcon}>Delete Users</Tab>
-        </TabList>
-        <TabPanels>
-          <TabPanel>
-            <form
-              onSubmit={handleSubmit}
-              className="text-black flex flex-col items-start"
-            >
-              <label>
-                ID:
-                <Input
-                  type="number"
-                  onChange={(e) =>
-                    setAddUser({
-                      ...addUser,
-                      id: e.target.value ? parseInt(e.target.value) : -1,
-                    })
-                  }
-                />
-              </label>
-              <label>
-                Role ID:
-                <Input
-                  type="number"
-                  onChange={(e) =>
-                    setAddUser({
-                      ...addUser,
-                      roleid: e.target.value ? parseInt(e.target.value) : -1,
-                    })
-                  }
-                />
-              </label>
-              <label>
-                First Name:
-                <Input
-                  type="text"
-                  value={addUser?.firstname || ""}
-                  onChange={(e) =>
-                    setAddUser({ ...addUser, firstname: e.target.value })
-                  }
-                />
-              </label>
-              <label>
-                Last Name:
-                <Input
-                  type="text"
-                  value={addUser?.lastname || ""}
-                  onChange={(e) =>
-                    setAddUser({ ...addUser, lastname: e.target.value })
-                  }
-                />
-              </label>
-              <label>
-                Username:
-                <Input
-                  type="text"
-                  value={addUser?.username || ""}
-                  onChange={(e) =>
-                    setAddUser({ ...addUser, username: e.target.value })
-                  }
-                />
-              </label>
-              <label>
-                Mobile:
-                <Input
-                  type="text"
-                  value={addUser?.mobile || ""}
-                  onChange={(e) =>
-                    setAddUser({ ...addUser, mobile: e.target.value })
-                  }
-                />
-              </label>
-              <label>
-                Email:
-                <Input
-                  type="text"
-                  value={addUser?.email || ""}
-                  onChange={(e) =>
-                    setAddUser({ ...addUser, email: e.target.value })
-                  }
-                />
-              </label>
-              <label>
-                Password Hash:
-                <Input
-                  type="text"
-                  value={addUser?.passwordhash || ""}
-                  onChange={(e) =>
-                    setAddUser({ ...addUser, passwordhash: e.target.value })
-                  }
-                />
-              </label>
-              <label>
-                Registered At:
-                <Input
-                  type="text"
-                  value={addUser?.registeredat || ""}
-                  onChange={(e) =>
-                    setAddUser({ ...addUser, registeredat: e.target.value })
-                  }
-                />
-              </label>
-              <Button type="submit">Create User</Button>
-            </form>
-          </TabPanel>
-          <TabPanel>
-            <form
-              onSubmit={handleSubmit}
-              className="text-black flex flex-col items-start"
-            >
-              <label>
-                ID:
-                <Input
-                  type="number"
-                  onChange={(e) =>
-                    setAddUser({
-                      ...addUser,
-                      id: e.target.value ? parseInt(e.target.value) : -1,
-                    })
-                  }
-                />
-              </label>
-              <label>
-                Role ID:
-                <Input
-                  type="number"
-                  onChange={(e) =>
-                    setAddUser({
-                      ...addUser,
-                      roleid: e.target.value ? parseInt(e.target.value) : -1,
-                    })
-                  }
-                />
-              </label>
-              <label>
-                First Name:
-                <Input
-                  type="text"
-                  value={addUser?.firstname || ""}
-                  onChange={(e) =>
-                    setAddUser({ ...addUser, firstname: e.target.value })
-                  }
-                />
-              </label>
-              <label>
-                Last Name:
-                <Input
-                  type="text"
-                  value={addUser?.lastname || ""}
-                  onChange={(e) =>
-                    setAddUser({ ...addUser, lastname: e.target.value })
-                  }
-                />
-              </label>
-              <label>
-                Username:
-                <Input
-                  type="text"
-                  value={addUser?.username || ""}
-                  onChange={(e) =>
-                    setAddUser({ ...addUser, username: e.target.value })
-                  }
-                />
-              </label>
-              <label>
-                Mobile:
-                <Input
-                  type="text"
-                  value={addUser?.mobile || ""}
-                  onChange={(e) =>
-                    setAddUser({ ...addUser, mobile: e.target.value })
-                  }
-                />
-              </label>
-              <label>
-                Email:
-                <Input
-                  type="text"
-                  value={addUser?.email || ""}
-                  onChange={(e) =>
-                    setAddUser({ ...addUser, email: e.target.value })
-                  }
-                />
-              </label>
-              <label>
-                Password Hash:
-                <Input
-                  type="text"
-                  value={addUser?.passwordhash || ""}
-                  onChange={(e) =>
-                    setAddUser({ ...addUser, passwordhash: e.target.value })
-                  }
-                />
-              </label>
-              <label>
-                Registered At:
-                <Input
-                  type="text"
-                  value={addUser?.registeredat || ""}
-                  onChange={(e) =>
-                    setAddUser({ ...addUser, registeredat: e.target.value })
-                  }
-                />
-              </label>
-              <Button type="submit">Edit User</Button>
-            </form>
-          </TabPanel>
-          <TabPanel>
-            <form
-              onSubmit={handleSubmit}
-              className="text-black flex flex-col items-start"
-            >
-              <label>
-                ID:
-                <Input
-                  type="number"
-                  onChange={(e) =>
-                    setAddUser({
-                      ...addUser,
-                      id: e.target.value ? parseInt(e.target.value) : -1,
-                    })
-                  }
-                />
-              </label>
-              <Button type="submit">Delete User</Button>
-            </form>
-          </TabPanel>
-        </TabPanels>
-      </TabGroup>
-    </Card>
+    <div className="flex h-screen w-screen justify-center items-center">
+      <Card
+        className="flex flex-col  text-black w-[75%] h-[75%]"
+        decoration="top"
+        decorationColor="indigo"
+      >
+        <Title>User Operations</Title>
+        <TabGroup>
+          <TabList className="mt-2">
+            <Tab icon={UserAddIcon}>Create Users</Tab>
+            <Tab icon={UserCircleIcon}>Edit Users</Tab>
+            <Tab icon={UserRemoveIcon}>Delete Users</Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel>
+              <form
+                onSubmit={handleSubmit}
+                className="h-72 text-black flex flex-col flex-wrap items-start"
+              >
+                <label>
+                  ID:
+                  <Input
+                    type="number"
+                    onChange={(e) =>
+                      setAddUser({
+                        ...addUser,
+                        id: e.target.value ? parseInt(e.target.value) : -1,
+                      })
+                    }
+                  />
+                </label>
+                <label>
+                  Role ID:
+                  <Input
+                    type="number"
+                    onChange={(e) =>
+                      setAddUser({
+                        ...addUser,
+                        roleid: e.target.value ? parseInt(e.target.value) : -1,
+                      })
+                    }
+                  />
+                </label>
+                <label>
+                  First Name:
+                  <Input
+                    type="text"
+                    value={addUser?.firstname || ""}
+                    onChange={(e) =>
+                      setAddUser({ ...addUser, firstname: e.target.value })
+                    }
+                  />
+                </label>
+                <label>
+                  Last Name:
+                  <Input
+                    type="text"
+                    value={addUser?.lastname || ""}
+                    onChange={(e) =>
+                      setAddUser({ ...addUser, lastname: e.target.value })
+                    }
+                  />
+                </label>
+                <label>
+                  Username:
+                  <Input
+                    type="text"
+                    value={addUser?.username || ""}
+                    onChange={(e) =>
+                      setAddUser({ ...addUser, username: e.target.value })
+                    }
+                  />
+                </label>
+                <label>
+                  Mobile:
+                  <Input
+                    type="text"
+                    value={addUser?.mobile || ""}
+                    onChange={(e) =>
+                      setAddUser({ ...addUser, mobile: e.target.value })
+                    }
+                  />
+                </label>
+                <label>
+                  Email:
+                  <Input
+                    type="text"
+                    value={addUser?.email || ""}
+                    onChange={(e) =>
+                      setAddUser({ ...addUser, email: e.target.value })
+                    }
+                  />
+                </label>
+                <label>
+                  Password Hash:
+                  <Input
+                    type="text"
+                    value={addUser?.passwordhash || ""}
+                    onChange={(e) =>
+                      setAddUser({ ...addUser, passwordhash: e.target.value })
+                    }
+                  />
+                </label>
+                <label>
+                  Registered At:
+                  <Input
+                    type="text"
+                    value={addUser?.registeredat || ""}
+                    onChange={(e) =>
+                      setAddUser({ ...addUser, registeredat: e.target.value })
+                    }
+                  />
+                </label>
+                <Button type="submit" className="mt-6">
+                  Create User
+                </Button>
+              </form>
+            </TabPanel>
+            <TabPanel>
+              <form
+                onSubmit={handleSubmit}
+                className="h-72 text-black flex flex-col flex-wrap items-start"
+              >
+                <label>
+                  ID:
+                  <Input
+                    type="number"
+                    onChange={(e) =>
+                      setAddUser({
+                        ...addUser,
+                        id: e.target.value ? parseInt(e.target.value) : -1,
+                      })
+                    }
+                  />
+                </label>
+                <label>
+                  Role ID:
+                  <Input
+                    type="number"
+                    onChange={(e) =>
+                      setAddUser({
+                        ...addUser,
+                        roleid: e.target.value ? parseInt(e.target.value) : -1,
+                      })
+                    }
+                  />
+                </label>
+                <label>
+                  First Name:
+                  <Input
+                    type="text"
+                    value={addUser?.firstname || ""}
+                    onChange={(e) =>
+                      setAddUser({ ...addUser, firstname: e.target.value })
+                    }
+                  />
+                </label>
+                <label>
+                  Last Name:
+                  <Input
+                    type="text"
+                    value={addUser?.lastname || ""}
+                    onChange={(e) =>
+                      setAddUser({ ...addUser, lastname: e.target.value })
+                    }
+                  />
+                </label>
+                <label>
+                  Username:
+                  <Input
+                    type="text"
+                    value={addUser?.username || ""}
+                    onChange={(e) =>
+                      setAddUser({ ...addUser, username: e.target.value })
+                    }
+                  />
+                </label>
+                <label>
+                  Mobile:
+                  <Input
+                    type="text"
+                    value={addUser?.mobile || ""}
+                    onChange={(e) =>
+                      setAddUser({ ...addUser, mobile: e.target.value })
+                    }
+                  />
+                </label>
+                <label>
+                  Email:
+                  <Input
+                    type="text"
+                    value={addUser?.email || ""}
+                    onChange={(e) =>
+                      setAddUser({ ...addUser, email: e.target.value })
+                    }
+                  />
+                </label>
+                <label>
+                  Password Hash:
+                  <Input
+                    type="text"
+                    value={addUser?.passwordhash || ""}
+                    onChange={(e) =>
+                      setAddUser({ ...addUser, passwordhash: e.target.value })
+                    }
+                  />
+                </label>
+                <label>
+                  Registered At:
+                  <Input
+                    type="text"
+                    value={addUser?.registeredat || ""}
+                    onChange={(e) =>
+                      setAddUser({ ...addUser, registeredat: e.target.value })
+                    }
+                  />
+                </label>
+                <Button type="submit" className="mt-6">
+                  Edit User
+                </Button>
+              </form>
+            </TabPanel>
+            <TabPanel>
+              <form
+                onSubmit={handleSubmit}
+                className="text-black flex flex-col items-start"
+              >
+                <label>
+                  ID:
+                  <Input
+                    type="number"
+                    onChange={(e) =>
+                      setAddUser({
+                        ...addUser,
+                        id: e.target.value ? parseInt(e.target.value) : -1,
+                      })
+                    }
+                  />
+                </label>
+                <Button type="submit" className="mt-6">
+                  Delete User
+                </Button>
+              </form>
+            </TabPanel>
+          </TabPanels>
+        </TabGroup>
+      </Card>
+    </div>
   );
 };
 
